@@ -11,7 +11,16 @@
       { "point": [  1,  0, 10 ], "overmap": "sky_island_edge_east" },
       { "point": [ -1,  1, 10 ], "overmap": "sky_island_corner_west" },
       { "point": [  0,  1, 10 ], "overmap": "sky_island_edge_south" },
-      { "point": [  1,  1, 10 ], "overmap": "sky_island_corner_south" }
+      { "point": [  1,  1, 10 ], "overmap": "sky_island_corner_south" },
+      { "point": [ -1, -1,  9 ], "overmap": "sky_island_subcorner_north" },
+      { "point": [  0, -1,  9 ], "overmap": "sky_island_subedge_north" },
+      { "point": [  1, -1,  9 ], "overmap": "sky_island_subcorner_east" },
+      { "point": [ -1,  0,  9 ], "overmap": "sky_island_subedge_west" },
+      { "point": [  0,  0,  9 ], "overmap": "sky_island_subcore" },
+      { "point": [  1,  0,  9 ], "overmap": "sky_island_subedge_east" },
+      { "point": [ -1,  1,  9 ], "overmap": "sky_island_subcorner_west" },
+      { "point": [  0,  1,  9 ], "overmap": "sky_island_subedge_south" },
+      { "point": [  1,  1,  9 ], "overmap": "sky_island_subcorner_south" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 0, -1 ],

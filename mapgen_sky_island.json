@@ -52,6 +52,10 @@
         "X": "f_skyisland_warp_obelisk",
         "V": "f_skyisland_return_obelisk"
       },
+      "items": {
+        "Z": [ { "item": "skyisland_trash_heap", "chance": 100 } ],
+        "Y": [ { "item": "skyisland_starterkit_items", "chance": 100 } ]
+      },
       "place_item": [
         { "item": "skyisland_warp_remote", "x": 11, "y": 19, "amount": 1 },
         { "item": "skyisland_return_remote", "x": 13, "y": 19, "amount": 1 }

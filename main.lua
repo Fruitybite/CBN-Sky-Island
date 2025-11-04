@@ -7,12 +7,19 @@ local storage = game.mod_storage[game.current_mod]
 -- Constants
 local WARP_SICKNESS_INTERVAL = TimeDuration.from_minutes(5)
 local SICKNESS_STAGES = {
-  { threshold = 7, message = "You feel slightly disoriented from the warp.", intensity = 6 },
-  { threshold = 8, message = "The warp sickness is getting worse!", intensity = 5 },
-  { threshold = 9, message = "You feel very ill from prolonged warping.", intensity = 4 },
-  { threshold = 10, message = "Your body is struggling to maintain cohesion!", intensity = 3 },
-  { threshold = 11, message = "WARNING: Disintegration imminent!", intensity = 2 },
-  { threshold = 12, message = "YOU ARE DISINTEGRATING!", intensity = 1 }
+  { threshold = 1, message = "Your body shivers slightly as a warp pulse passes through it. Warp sickness won't set in for another 7 pulses.", intensity = 6 },
+  { threshold = 2, message = "Your body shivers slightly as a warp pulse passes through it. Warp sickness won't set in for another 6 pulses.", intensity = 6 },
+  { threshold = 3, message = "Your body shivers slightly as a warp pulse passes through it. Warp sickness won't set in for another 5 pulses.", intensity = 6 },
+  { threshold = 4, message = "Your body shivers slightly as a warp pulse passes through it. Warp sickness won't set in for another 4 pulses.", intensity = 6 },
+  { threshold = 5, message = "Your body shivers slightly as a warp pulse passes through it. Warp sickness won't set in for another 3 pulses.", intensity = 6 },
+  { threshold = 6, message = "Your body shivers slightly as a warp pulse passes through it. Warp sickness won't set in for another 2 pulses.", intensity = 6 },
+  { threshold = 7, message = "Your body shivers slightly as a warp pulse passes through it. Warp sickness won't set in for another 1 pulse.", intensity = 6 },
+  { threshold = 8, message = "Goosebumps cover your skin as a warp pulse passes through you. You're only one warp pulse from your deadline.", intensity = 6 },
+  { threshold = 9, message = "A warp pulse passing through you twists your blood inside your veins and your eyes pulse in pain. You've overstayed your welcome and need to get home.", intensity = 5 },
+  { threshold = 10, message = "A warp pulse shudders through your head like a localized earthquake and your extremities surge with pain like they're peeling open. You need to get home as soon as possible.", intensity = 4 },
+  { threshold = 11, message = "Another warp pulse rocks through you and your organs wrench themselves over. Existence is fracturing. You need to get home immediately.", intensity = 3 },
+  { threshold = 12, message = "A sickening wet sound rips through you as another warp pulse hits. You can feel your whole body trying to pull itself apart, and if you wait any longer, it just might. If you want to live, you need to get home NOW!", intensity = 2 },
+  { threshold = 13, message = "As the warp pulse hits, you realize there are no words to describe how much trouble you're in. Your body is crumbling to wet paste and your blood is twisting into a viny tangle. All you know is pain.\nYou're not just dying, you're dying horribly.\nIf escape is already near you may survive against all odds, but oblivion is only moments away.", intensity = 1 }
 }
 
 -- Initialize storage defaults (only for new games)
@@ -243,9 +250,10 @@ mod.warp_sickness_tick = function()
 
   gdebug.log_info(string.format("Warp sickness tick: %d", storage.sickness_counter))
 
-  -- Check sickness stages
-  for _, stage in ipairs(SICKNESS_STAGES) do
-    if storage.sickness_counter >= stage.threshold then
+  -- Find the appropriate stage message for this pulse count
+  for i = #SICKNESS_STAGES, 1, -1 do
+    local stage = SICKNESS_STAGES[i]
+    if storage.sickness_counter == stage.threshold then
       gapi.add_msg(stage.message)
 
       -- Apply warp sickness effect (if we have such an effect defined)
@@ -302,9 +310,15 @@ mod.use_warp_obelisk = function(who, item, pos)
     gapi.add_msg("Initiating warp sequence...")
 
     -- Teleport to random nearby location at ground level (z=0)
+    -- Distance matches CDDA short raid: 5-30 OM tiles from home
+    local distance = gapi.rng(5, 30)
+    local angle = gapi.rng(0, 359) * (math.pi / 180)  -- Random angle in radians
+    local dx = math.floor(distance * math.cos(angle))
+    local dy = math.floor(distance * math.sin(angle))
+
     local dest_omt = Tripoint.new(
-      home_omt.x + gapi.rng(-5, 5),
-      home_omt.y + gapi.rng(-5, 5),
+      home_omt.x + dx,
+      home_omt.y + dy,
       0  -- Always teleport to ground level to avoid fall damage
     )
 

@@ -25,9 +25,9 @@
         ".": "t_carpet_red",
         "X": "t_carpet_red"
       },
-      "place_item": [
-        { "item": "skyisland_return_remote", "x": 5, "y": 5, "amount": 1 }
-      ]
+      "furniture": {
+        "X": "f_skyisland_return_obelisk"
+      }
     }
   }
 ]

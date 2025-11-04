@@ -45,5 +45,27 @@
     "entries": [
       { "item": "skyisland_warp_shard", "prob": 100, "count": [ 1, 6 ] }
     ]
+  },
+  {
+    "abstract": "skyisland_fake_item",
+    "type": "GENERIC",
+    "name": { "str": "skyisland fake item" },
+    "description": "Dummy item for Sky Island furniture. If you see this, then something went wrong.",
+    "symbol": "@",
+    "color": "red"
+  },
+  {
+    "id": "skyisland_fake_warp_obelisk",
+    "copy-from": "skyisland_fake_item",
+    "type": "TOOL",
+    "name": { "str": "warp obelisk" },
+    "use_action": "SKYISLAND_WARP_OBELISK"
+  },
+  {
+    "id": "skyisland_fake_return_obelisk",
+    "copy-from": "skyisland_fake_item",
+    "type": "TOOL",
+    "name": { "str": "return obelisk" },
+    "use_action": "SKYISLAND_RETURN_OBELISK"
   }
 ]

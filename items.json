@@ -22,15 +22,28 @@
     "use_action": "SKYISLAND_RETURN_OBELISK"
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "skyisland_warp_shard",
-    "name": { "str": "warp shard" },
-    "description": "A crystalline shard that resonates with warp energy. Used as currency in the Sky Islands system.",
-    "weight": "50 g",
-    "volume": "50 ml",
-    "symbol": "*",
-    "color": "magenta",
+    "category": "other",
+    "name": { "str": "warp shard", "str_pl": "warp shards" },
+    "description": "A small quantity of airy-thin material that resembles flaked obsidian. It glints with a purplish shimmer that seems to stretch beyond itself and into the air. These shards are the currency of your sanctuary island and can be exchanged for valuable upgrades.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "count": 1,
+    "stack_size": 100,
+    "looks_like": "spiral_stone",
     "material": [ "stone" ],
-    "stackable": true
+    "symbol": ",",
+    "flags": [ "UNBREAKABLE" ],
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
+    "type": "item_group",
+    "id": "skyisland_treasure_shards",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "skyisland_warp_shard", "prob": 100, "count": [ 1, 6 ] }
+    ]
   }
 ]

@@ -24,6 +24,50 @@ storage.raids_total = storage.raids_total or 0
 storage.raids_won = storage.raids_won or 0
 storage.raids_lost = storage.raids_lost or 0
 
+-- Mission reward table (mission_name -> shard count)
+-- HACK: We're using mission names instead of mission type IDs because BN's Lua bindings
+-- don't expose mission_type.id. The mission_type class exists in Lua but its 'id' field
+-- is not bound (see catalua_bindings_mission.cpp line 47 comment). We could use
+-- mission:get_type() but can't access .id on it. Using names works but is fragile if
+-- mission names change. Ideally BN should expose mission_type.id or add a method like
+-- mission:get_type_id_str() to make this cleaner.
+local MISSION_REWARDS = {
+  -- MGOAL_KILL_MONSTER_SPEC missions
+  ["RAID: Kill 10 Zombies"] = 1,
+  ["RAID: Kill 50 Zombies"] = 3,
+  ["RAID: Kill 100 Zombies"] = 5,
+  ["RAID: Kill a Mi-Go"] = 3,
+  ["RAID: Kill 3 Nether Creatures"] = 4,
+  ["RAID: Kill 5 Birds"] = 1,
+  ["RAID: Kill 5 Mammals"] = 1,
+
+  -- MGOAL_KILL_MONSTERS (combat) missions
+  ["RAID: Clear zombie cluster"] = 3,
+  ["RAID: Clear zombie horde"] = 4,
+  ["RAID: Clear evolved zombies"] = 4,
+  ["RAID: Clear evolved horde"] = 5,
+  ["RAID: Clear fearsome zombies"] = 5,
+  ["RAID: Clear elite zombies"] = 8,
+  ["RAID: Kill zombie lord"] = 10,
+  ["RAID: Kill zombie superteam"] = 10,
+  ["RAID: Kill zombie leader + swarm"] = 12,
+  ["RAID: Kill horde lord"] = 12,
+  ["RAID: Clear mi-go threat"] = 9,
+  ["RAID: Kill mi-go overlord"] = 12,
+}
+
+-- Helper: Give mission reward
+local function give_mission_reward(player, mission_type_id, count)
+  if count and count > 0 then
+    -- Give warp shards directly using add_item_with_id
+    -- BN requires an itype_id userdata object (string_id<itype>)
+    local shard_id = ItypeId.new("skyisland_warp_shard")
+    player:add_item_with_id(shard_id, count)
+    gapi.add_msg(string.format("You completed a mission and were rewarded with %d warp shard%s.", count, count > 1 and "s" or ""))
+    gdebug.log_info(string.format("Awarded %d warp shards for mission %s", count, mission_type_id))
+  end
+end
+
 -- Helper: Get player position in OMT coordinates
 local function get_player_omt()
   local player = gapi.get_avatar()
@@ -89,19 +133,100 @@ mod.create_extraction_mission = function(center_omt)
   end
 end
 
+-- Create treasure mission
+mod.create_treasure_mission = function(center_omt)
+  local player = gapi.get_avatar()
+  if not player then return end
+
+  -- Pick treasure location 5-10 OMTs away from player spawn
+  local treasure_omt = Tripoint.new(
+    center_omt.x + gapi.rng(-10, 10),
+    center_omt.y + gapi.rng(-10, 10),
+    center_omt.z
+  )
+
+  local player_id = player:getID()
+  local mission_type = MissionTypeIdRaw.new("MISSION_BONUS_TREASURE")
+
+  local new_mission = Mission.reserve_new(mission_type, player_id)
+  if new_mission then
+    new_mission:assign(player)
+    gapi.add_msg("Bonus Mission: Find the warp shards!")
+    gdebug.log_info(string.format("Created treasure mission at: %d, %d, %d", treasure_omt.x, treasure_omt.y, treasure_omt.z))
+  else
+    gdebug.log_error("Failed to create treasure mission!")
+  end
+end
+
 -- Create slaughter mission
 mod.create_slaughter_mission = function()
   local player = gapi.get_avatar()
   if not player then return end
 
+  -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  -- !!! TEMPORARY DEBUG: FORCE KILL_MONSTERS MISSION FOR TESTING             !!!
+  -- !!! REMOVE THIS BEFORE PRODUCTION - SEARCH FOR "TEMPORARY DEBUG"         !!!
+  -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  local DEBUG_FORCE_KILL_MONSTERS = true
+
+  if DEBUG_FORCE_KILL_MONSTERS then
+    gdebug.log_info("!!! TEMPORARY DEBUG: Forcing MISSION_BONUS_KILL_LIGHT for testing !!!")
+    local player_id = player:getID()
+    local mission_type = MissionTypeIdRaw.new("MISSION_BONUS_KILL_LIGHT")
+    local new_mission = Mission.reserve_new(mission_type, player_id)
+    if new_mission then
+      new_mission:assign(player)
+      gapi.add_msg("DEBUG: Mission: Kill the warp-draining zombies!")
+      gdebug.log_info("DEBUG: Created KILL_MONSTERS mission: MISSION_BONUS_KILL_LIGHT")
+    else
+      gdebug.log_error("DEBUG: Failed to create KILL_MONSTERS mission!")
+    end
+    return
+  end
+  -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+  -- Weighted pool of slaughter missions (matching CDDA weights)
+  local slaughter_missions = {
+    { id = "MISSION_SLAUGHTER_ZOMBIES_10", weight = 10, name = "Kill 10 Zombies" },
+    { id = "MISSION_SLAUGHTER_ZOMBIES_50", weight = 20, name = "Kill 50 Zombies" },
+    { id = "MISSION_SLAUGHTER_BIRD", weight = 5, name = "Kill 5 Birds" },
+    { id = "MISSION_SLAUGHTER_MAMMAL", weight = 5, name = "Kill 5 Mammals" },
+    -- TODO: Add harder missions when difficulty system is implemented
+    -- MISSION_SLAUGHTER_ZOMBIES_100, MISSION_SLAUGHTER_MIGO, MISSION_SLAUGHTER_NETHER
+  }
+
+  -- Calculate total weight
+  local total_weight = 0
+  for _, mission in ipairs(slaughter_missions) do
+    total_weight = total_weight + mission.weight
+  end
+
+  -- Select random mission based on weight
+  local roll = gapi.rng(1, total_weight)
+  local selected_mission = nil
+  local current_weight = 0
+
+  for _, mission in ipairs(slaughter_missions) do
+    current_weight = current_weight + mission.weight
+    if roll <= current_weight then
+      selected_mission = mission
+      break
+    end
+  end
+
+  if not selected_mission then
+    gdebug.log_error("Failed to select slaughter mission!")
+    return
+  end
+
   local player_id = player:getID()
-  local mission_type = MissionTypeIdRaw.new("MISSION_SLAUGHTER_ZOMBIES_10")
+  local mission_type = MissionTypeIdRaw.new(selected_mission.id)
 
   local new_mission = Mission.reserve_new(mission_type, player_id)
   if new_mission then
     new_mission:assign(player)
-    gapi.add_msg("Mission: Kill 10 Zombies!")
-    gdebug.log_info("Created slaughter mission: Kill 10 Zombies")
+    gapi.add_msg(string.format("Mission: %s!", selected_mission.name))
+    gdebug.log_info(string.format("Created slaughter mission: %s", selected_mission.name))
   else
     gdebug.log_error("Failed to create slaughter mission!")
   end
@@ -196,6 +321,9 @@ mod.use_warp_obelisk = function(who, item, pos)
     -- Create slaughter mission
     mod.create_slaughter_mission()
 
+    -- Create treasure bonus mission (TODO: make this optional based on upgrades)
+    mod.create_treasure_mission(dest_omt)
+
     -- Start sickness timer
     gapi.add_on_every_x_hook(WARP_SICKNESS_INTERVAL, function()
       return mod.warp_sickness_tick()
@@ -246,7 +374,6 @@ mod.use_return_obelisk = function(who, item, pos)
     local player = gapi.get_avatar()
     if player then
       local missions = player:get_active_missions()
-      local invalid_npc = CharacterId.new()
 
       for _, mission in ipairs(missions) do
         if mission:in_progress() and not mission:has_failed() then
@@ -254,20 +381,32 @@ mod.use_return_obelisk = function(who, item, pos)
 
           -- Only process raid missions (prefixed with "RAID: ")
           if mission_name:sub(1, 6) == "RAID: " then
-            -- Always complete extraction mission (survival = success)
-            -- For other missions, check if goal was actually met
-            if mission_name == "RAID: Reach the exit portal!" then
+            -- Check mission type and handle appropriately
+            if mission_name == "RAID: Reach the exit portal!" or mission_name == "RAID: Find the warp shards!" then
+              -- GO_TO missions: Always complete (survival = success)
               mission:wrap_up()
-              gdebug.log_info("Completed extraction mission (survived)")
-              gapi.add_msg("Mission completed: Extraction")
-            elseif mission:is_complete(invalid_npc) then
-              mission:wrap_up()
-              gdebug.log_info(string.format("Completed mission: %s", mission_name))
+              gdebug.log_info(string.format("Completed mission: %s (GO_TO mission)", mission_name))
               gapi.add_msg(string.format("Mission completed: %s", mission_name))
             else
-              mission:fail()
-              gdebug.log_info(string.format("Failed mission: %s", mission_name))
-              gapi.add_msg(string.format("Mission failed: %s", mission_name))
+              -- KILL missions: Check if goal was actually met
+              local is_complete = mission:is_complete()
+
+              if is_complete then
+                -- Give reward before completing mission
+                -- HACK: Using mission name to look up reward since BN doesn't expose mission_type.id
+                local reward_count = MISSION_REWARDS[mission_name]
+                if reward_count then
+                  give_mission_reward(player, mission_name, reward_count)
+                end
+
+                mission:wrap_up()
+                gdebug.log_info(string.format("Completed mission: %s", mission_name))
+                gapi.add_msg(string.format("Mission completed: %s", mission_name))
+              else
+                mission:fail()
+                gdebug.log_info(string.format("Failed mission: %s", mission_name))
+                gapi.add_msg(string.format("Mission failed: %s", mission_name))
+              end
             end
           end
         end

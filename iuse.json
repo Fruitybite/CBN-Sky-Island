@@ -1,0 +1,12 @@
+[
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_WARP_OBELISK",
+    "name": { "str": "Initiate warp expedition" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_RETURN_OBELISK",
+    "name": { "str": "Return home" }
+  }
+]

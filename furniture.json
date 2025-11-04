@@ -1,0 +1,26 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_skyisland_warp_obelisk",
+    "name": "warp obelisk",
+    "description": "A mysterious floating obelisk that pulses with otherworldly energy. You could examine it to initiate a warp expedition.",
+    "symbol": "O",
+    "color": "cyan",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD" ],
+    "examine_action": "none"
+  },
+  {
+    "type": "furniture",
+    "id": "f_skyisland_return_obelisk",
+    "name": "return obelisk",
+    "description": "A mysterious obelisk that can teleport you back home. Examine it to return to the Sky Island.",
+    "symbol": "O",
+    "color": "light_green",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD" ],
+    "examine_action": "none"
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "skyisland_warp_remote",
+    "name": { "str": "warp remote (PoC)" },
+    "description": "A handheld device that can initiate warp expeditions. This is a proof-of-concept item for testing.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "symbol": "*",
+    "color": "cyan",
+    "use_action": "SKYISLAND_WARP_OBELISK"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skyisland_return_remote",
+    "name": { "str": "return remote (PoC)" },
+    "description": "A handheld device that can teleport you back to your home location. This is a proof-of-concept item for testing.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "symbol": "*",
+    "color": "light_green",
+    "use_action": "SKYISLAND_RETURN_OBELISK"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skyisland_warp_shard",
+    "name": { "str": "warp shard" },
+    "description": "A crystalline shard that resonates with warp energy. Used as currency in the Sky Islands system.",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "symbol": "*",
+    "color": "magenta",
+    "material": [ "stone" ],
+    "stackable": true
+  }
+]

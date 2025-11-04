@@ -1,0 +1,18 @@
+[
+  {
+    "type": "effect_type",
+    "id": "skyisland_resurrection_sickness",
+    "name": [ "Resurrection Sickness" ],
+    "desc": [ "Your body is recovering from death. Your limbs are being forcibly stabilized by mysterious energies." ],
+    "rating": "bad",
+    "max_intensity": 1,
+    "int_dur_factor": "10 s",
+    "max_duration": "10 s",
+    "decay_messages": [
+      [ "Your body has stabilized.", "bad" ]
+    ],
+    "miss_messages": [
+      [ "You feel your body forcibly reconstructing itself!", 3 ]
+    ]
+  }
+]

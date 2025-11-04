@@ -131,36 +131,19 @@
     "warmth": 0,
     "weight": "400 g",
     "volume": "2000 ml",
-    "longest_side": "11 meter",
     "description": "This is a template you shouldn't actually see.",
-    "armor": [
-      {
-        "coverage": 0,
-        "covers": [ "torso" ],
-        "material": [ "alien_resin" ],
-        "material_thickness": 1,
-        "environmental_protection": 0
-      }
-    ]
+    "covers": [ "torso" ],
+    "coverage": 0,
+    "encumbrance": 0,
+    "material_thickness": 1,
+    "environmental_protection": 0
   },
   {
     "type": "ARMOR",
     "id": "skyisland_warphaulbag",
     "name": { "str": "warped hauler's harness", "str_pl": "warped hauler's harnesses" },
     "copy-from": "skyisland_warpbag_base",
-    "description": "A looped pair of shimmering blue-black straps that can be worn over the shoulders like a harness. They can snugly fit a single item of nearly any size in comfort, and any burdens carried here feel twice as light. Ideal for squeezing one more bulky item home through the exit when your hands are already full, or even some container packed full of other items! Just beware you don't break your back doing it.",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "8000 L",
-        "max_contains_weight": "8000 kg",
-        "max_item_length": "10 meter",
-        "weight_multiplier": 0.5,
-        "moves": 2000,
-        "rigid": true,
-        "holster": true
-      }
-    ]
+    "description": "A looped pair of shimmering blue-black straps that can be worn over the shoulders like a harness. They can snugly fit a single item of nearly any size in comfort, and any burdens carried here feel twice as light. Ideal for squeezing one more bulky item home through the exit when your hands are already full, or even some container packed full of other items! Just beware you don't break your back doing it."
   },
   {
     "id": "skyisland_grassbag",
@@ -206,7 +189,7 @@
     "material": [ "alien_resin" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": { "creature_size_capacity": "HUGE" },
+    "properties": [ [ "creature_size_capacity", "HUGE" ] ],
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID", "UNBREAKABLE" ],
     "looks_like": "pet_carrier"

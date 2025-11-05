@@ -275,5 +275,38 @@
     "material": [ "stone" ],
     "symbol": "y",
     "color": "green"
+  },
+  {
+    "id": "skyisland_fakeitem_infinitree",
+    "type": "TOOL",
+    "name": { "str": "nearby infinity tree" },
+    "description": "This is a crafting_pseudo_item. If you have it, something is wrong.",
+    "weight": "70000 g",
+    "volume": "100 L",
+    "material": [ "wood" ],
+    "symbol": "X",
+    "color": "red"
+  },
+  {
+    "id": "skyisland_fakeitem_infinitystone",
+    "type": "TOOL",
+    "name": { "str": "nearby infinity stone" },
+    "description": "This is a crafting_pseudo_item. If you have it, something is wrong.",
+    "weight": "70000 g",
+    "volume": "100 L",
+    "material": [ "stone" ],
+    "symbol": "X",
+    "color": "red"
+  },
+  {
+    "id": "skyisland_fakeitem_infinityore",
+    "type": "TOOL",
+    "name": { "str": "nearby infinity ore" },
+    "description": "This is a crafting_pseudo_item. If you have it, something is wrong.",
+    "weight": "70000 g",
+    "volume": "100 L",
+    "material": [ "steel" ],
+    "symbol": "X",
+    "color": "red"
   }
 ]

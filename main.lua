@@ -427,12 +427,19 @@ mod.use_return_obelisk = function(who, item, pos)
       end
     end
 
+    -- Award material tokens for successful return
+    -- Formula from CDDA: lengthofthisraid * 75 + 50
+    -- Short raid: 50 tokens, Medium: 125 tokens, Long: 200 tokens
+    -- TODO: When raid duration selection is implemented, calculate based on raid length
+    local material_tokens = 50  -- Currently only short raids
+    gapi.spawn_item_at(player:get_location(), "skyisland_material_token", material_tokens)
+    gapi.add_msg(string.format("You've returned home safely! Earned %d material tokens.", material_tokens))
+
     -- Clear away status
     storage.is_away_from_home = false
     storage.sickness_counter = 0
     storage.raids_won = (storage.raids_won or 0) + 1
 
-    gapi.add_msg("You return home safely!")
     gapi.add_msg(string.format(
       "Stats: %d/%d raids completed successfully",
       storage.raids_won,

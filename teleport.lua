@@ -77,19 +77,31 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
   if choice == 1 then
     -- Start quick raid
     gapi.add_msg("Initiating warp sequence...")
+    gapi.add_msg("Searching for suitable raid location...")
 
-    -- Teleport to random location at ground level (z=0)
-    -- Distance: 5-30 OM tiles from home (matching CDDA short raid)
-    local distance = gapi.rng(5, 30)
-    local angle = gapi.rng(0, 359) * (math.pi / 180)  -- Random angle in radians
-    local dx = math.floor(distance * math.cos(angle))
-    local dy = math.floor(distance * math.sin(angle))
+    -- Build search parameters for suitable terrain 200-1200 OMT away
+    local params = OmtFindParams.new()
+    -- Use helper methods to add terrain types to search for
+    params:add_type("house", OtMatchType.CONTAINS)
+    params:add_type("forest", OtMatchType.CONTAINS)
+    params:add_type("field", OtMatchType.CONTAINS)
+    params:set_search_range(200, 1200)  -- Search between 200-1200 OMT from home
 
-    local dest_omt = Tripoint.new(
-      home_omt.x + dx,
-      home_omt.y + dy,
-      0  -- Always teleport to ground level to avoid fall damage
-    )
+    -- Find a random location matching parameters (only searches existing overmaps)
+    -- find_random_existing returns a single tripoint or nil
+    local dest_omt = overmapbuffer.find_random(home_omt, params)
+
+    if dest_omt then
+      gdebug.log_info(string.format("Found raid location at (%d, %d, %d)", dest_omt.x, dest_omt.y, dest_omt.z))
+    else
+      -- Fallback: pick a random point if search failed
+      local distance = gapi.rng(200, 1200)
+      local angle = gapi.rng(0, 359) * (math.pi / 180)
+      local start_x = home_omt.x + math.floor(distance * math.cos(angle))
+      local start_y = home_omt.y + math.floor(distance * math.sin(angle))
+      dest_omt = Tripoint.new(start_x, start_y, 0)
+      gdebug.log_info("No suitable terrain found, using random fallback location")
+    end
 
     teleport_to_omt(dest_omt)
 

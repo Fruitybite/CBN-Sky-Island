@@ -1,0 +1,271 @@
+[
+  {
+    "type": "palette",
+    "id": "skyisland_bunker",
+    "//": "Palette for sky island basement construction",
+    "terrain": {
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      ".": "t_thconc_floor",
+      "*": "t_thconc_floor",
+      "+": "t_door_metal_c",
+      "#": "t_wall_metal",
+      "-": "t_null",
+      "O": "t_null",
+      "x": "t_null",
+      "T": "t_null",
+      "X": "t_thconc_floor"
+    },
+    "furniture": {
+      "X": "f_skyisland_warp_obelisk"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_surface_entrance",
+    "//": "Adds entrance stairs on surface level",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ...          ",
+        "           .>.          ",
+        "           ...          ",
+        "            .           "
+      ],
+      "terrain": {
+        ">": "t_stairs_down",
+        ".": "t_concrete"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_base1",
+    "//": "Adds basement entrance room with warp obelisk",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          #####         ",
+        "          #...#         ",
+        "          #.<.#         ",
+        "          #.X.#         ",
+        "          #####         "
+      ],
+      "palettes": [ "skyisland_bunker" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_skylight",
+    "//": "Adds skylight on surface above basement expansion",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ...          ",
+        "           .*.          ",
+        "           ...          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "*": "t_glass_roof", ".": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_a1",
+    "//": "First basement expansion - cross-shaped corridors with central room",
+    "object": {
+      "rows": [
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "          ##+##         ",
+        "##########....##########",
+        ".........+..*.+.........",
+        "##########....##########",
+        "          ##+##         ",
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "           #.#          ",
+        "            +           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "skyisland_bunker" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_a2",
+    "//": "Second basement expansion - enlarged corridors",
+    "object": {
+      "rows": [
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "        ####+####       ",
+        "        #.......#       ",
+        "xxxxxxx#...---..#xxxxxxx",
+        "-------+-..-O-.-+-------",
+        "xxxxxxx#...---..#xxxxxxx",
+        "        #.......#       ",
+        "        ###x+x###       ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "            T           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "skyisland_bunker" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_a3",
+    "//": "Third basement expansion - larger central room",
+    "object": {
+      "rows": [
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "     #######+#######    ",
+        "     #.............#    ",
+        "     #.............#    ",
+        "     #...-------...#    ",
+        "xxxx#....-------...#xxxx",
+        "----+-...---O---...+----",
+        "xxxx#....-------...#xxxx",
+        "     #...-------...#    ",
+        "     #.............#    ",
+        "     #......-......#    ",
+        "     #######+#######    ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "           x-x          ",
+        "            T           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "skyisland_bunker" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_a4",
+    "//": "Final basement expansion - maximum size room",
+    "object": {
+      "rows": [
+        " ##########+########### ",
+        "##...................## ",
+        "#.....................# ",
+        "#.....................# ",
+        "#....-------------....# ",
+        "#....-------------....# ",
+        "#....-------------....# ",
+        "#....-------------....# ",
+        "+....------O------....+ ",
+        "#....-------------....# ",
+        "#....-------------....# ",
+        "#....-------------....# ",
+        "#....-------------....# ",
+        "#.....................# ",
+        "#..........-..........# ",
+        "##.........-.........## ",
+        " ##########+########### ",
+        "           x-x          ",
+        "           x-x          ",
+        "            T           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "skyisland_bunker" ]
+    }
+  }
+]

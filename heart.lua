@@ -10,6 +10,53 @@ local RANK_THRESHOLDS = {
   { min = 20, max = 999, name = "Master" }
 }
 
+-- Helper: Count items by ID in player inventory
+local function count_items(player, item_id)
+  local total = 0
+  local all_items = player:all_items(false)
+
+  for _, item in ipairs(all_items) do
+    if item:get_type():str() == item_id then
+      -- For stackable items, count charges; otherwise count as 1
+      if item:is_stackable() then
+        total = total + item.charges
+      else
+        total = total + 1
+      end
+    end
+  end
+
+  return total
+end
+
+-- Helper: Remove items by ID from player inventory
+local function remove_items(player, item_id, count)
+  local remaining = count
+  local all_items = player:all_items(false)
+
+  for _, item in ipairs(all_items) do
+    if remaining <= 0 then break end
+
+    if item:get_type():str() == item_id then
+      if item:is_stackable() then
+        local charges_to_remove = math.min(item.charges, remaining)
+        item:mod_charges(-charges_to_remove)
+        remaining = remaining - charges_to_remove
+
+        -- Remove the item if it has no charges left
+        if item.charges <= 0 then
+          player:inv_remove_item(item)
+        end
+      else
+        player:inv_remove_item(item)
+        remaining = remaining - 1
+      end
+    end
+  end
+
+  return remaining == 0  -- Return true if all items were removed
+end
+
 -- Helper: Get current rank based on successful raids
 local function get_rank(raids_won)
   for i, rank in ipairs(RANK_THRESHOLDS) do
@@ -24,17 +71,16 @@ end
 local function heal_player(player, rank, storage)
   if rank > 0 then
     -- Cost: 4 warp shards
-    local has_shards = player:has_item("skyisland_warp_shard", 4)
-    if not has_shards then
+    local shard_count = count_items(player, "skyisland_warp_shard")
+    if shard_count < 4 then
       gapi.add_msg("You need 4 warp shards to heal yourself.")
       return false
     end
     -- Remove shards
-    player:use_item("skyisland_warp_shard", 4)
+    remove_items(player, "skyisland_warp_shard", 4)
   end
 
   -- Full heal
-  -- player
   player:set_all_parts_hp_to_max()
   player:clear_effects()
   gapi.add_msg("You feel refreshed and restored!")
@@ -46,18 +92,21 @@ end
 local function show_main_menu(player, storage)
   local ui = UiList.new()
   ui:title(locale.gettext("Heart of the Island"))
-  ui:add(1, locale.gettext("Services"))
-  ui:add(2, locale.gettext("Information"))
-  ui:add(3, locale.gettext("Rank-Up Challenges"))
-  ui:add(4, locale.gettext("Close"))
+  ui:add(1, locale.gettext("Construction"))
+  ui:add(2, locale.gettext("Services"))
+  ui:add(3, locale.gettext("Information"))
+  ui:add(4, locale.gettext("Rank-Up Challenges"))
+  ui:add(5, locale.gettext("Close"))
 
   local choice = ui:query()
 
   if choice == 1 then
-    return "services"
+    return "construction"
   elseif choice == 2 then
-    return "information"
+    return "services"
   elseif choice == 3 then
+    return "information"
+  elseif choice == 4 then
     return "rankup"
   else
     return "close"
@@ -213,6 +262,180 @@ local function show_information_menu(player, storage)
   end
 end
 
+-- Construction costs
+local CONSTRUCTION_COSTS = {
+  basement = 50,
+  bigroom1 = 75,
+  bigroom2 = 100,
+  bigroom3 = 150,
+  bigroom4 = 200
+}
+
+-- Helper: Run a construction mission
+local function run_construction_mission(player, mission_id)
+  local mission_type = MissionTypeIdRaw.new(mission_id)
+  local player_id = player:getID()
+  local new_mission = Mission.reserve_new(mission_type, player_id)
+
+  if new_mission then
+    new_mission:assign(player)
+    new_mission:wrap_up()
+    return true
+  else
+    gapi.add_msg("ERROR: Failed to create construction mission")
+    return false
+  end
+end
+
+-- Construction menu
+local function show_construction_menu(player, storage)
+  local ui = UiList.new()
+  ui:title(locale.gettext("Island Construction"))
+
+  local has_basement = storage.skyisland_build_base or false
+  local has_bigroom1 = storage.skyisland_build_bigroom1 or false
+  local has_bigroom2 = storage.skyisland_build_bigroom2 or false
+  local has_bigroom3 = storage.skyisland_build_bigroom3 or false
+  local has_bigroom4 = storage.skyisland_build_bigroom4 or false
+
+  local menu_index = 1
+
+  -- Basement
+  if not has_basement then
+    ui:add(menu_index, locale.gettext(string.format("Build Basement (%d Material Tokens)", CONSTRUCTION_COSTS.basement)))
+  else
+    ui:add(menu_index, locale.gettext("Basement - Already Built"))
+  end
+  menu_index = menu_index + 1
+
+  -- Expansion 1 (only available after basement)
+  if has_basement then
+    if not has_bigroom1 then
+      ui:add(menu_index, locale.gettext(string.format("Build Expansion 1 - Corridors (%d Material Tokens)", CONSTRUCTION_COSTS.bigroom1)))
+    else
+      ui:add(menu_index, locale.gettext("Expansion 1 - Already Built"))
+    end
+    menu_index = menu_index + 1
+  end
+
+  -- Expansion 2 (only available after bigroom1)
+  if has_bigroom1 then
+    if not has_bigroom2 then
+      ui:add(menu_index, locale.gettext(string.format("Build Expansion 2 - Central Room (%d Material Tokens)", CONSTRUCTION_COSTS.bigroom2)))
+    else
+      ui:add(menu_index, locale.gettext("Expansion 2 - Already Built"))
+    end
+    menu_index = menu_index + 1
+  end
+
+  -- Expansion 3 (only available after bigroom2)
+  if has_bigroom2 then
+    if not has_bigroom3 then
+      ui:add(menu_index, locale.gettext(string.format("Build Expansion 3 - Large Room (%d Material Tokens)", CONSTRUCTION_COSTS.bigroom3)))
+    else
+      ui:add(menu_index, locale.gettext("Expansion 3 - Already Built"))
+    end
+    menu_index = menu_index + 1
+  end
+
+  -- Expansion 4 (only available after bigroom3)
+  if has_bigroom3 then
+    if not has_bigroom4 then
+      ui:add(menu_index, locale.gettext(string.format("Build Expansion 4 - Maximum Size (%d Material Tokens)", CONSTRUCTION_COSTS.bigroom4)))
+    else
+      ui:add(menu_index, locale.gettext("Expansion 4 - Already Built"))
+    end
+    menu_index = menu_index + 1
+  end
+
+  ui:add(menu_index, locale.gettext("Back"))
+
+  local choice = ui:query()
+  local num_mat_tokens = count_items(player, "skyisland_material_token")
+
+  -- Handle basement
+  if choice == 1 and not has_basement then
+    if num_mat_tokens < CONSTRUCTION_COSTS.basement then
+      gapi.add_msg(string.format("You need %d material tokens to build the basement.", CONSTRUCTION_COSTS.basement))
+      return "construction"
+    end
+    remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.basement)
+    storage.skyisland_build_base = true
+    gapi.add_msg("Construction beginning... The island trembles as new spaces form.")
+    if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BASEMENT") then
+      gapi.add_msg("A basement has been carved into the island's depths!")
+    end
+    return "construction"
+  end
+
+  -- Handle expansion 1
+  local exp1_index = has_basement and 2 or nil
+  if choice == exp1_index and not has_bigroom1 then
+    if num_mat_tokens < CONSTRUCTION_COSTS.bigroom1 then
+      gapi.add_msg(string.format("You need %d material tokens for this expansion.", CONSTRUCTION_COSTS.bigroom1))
+      return "construction"
+    end
+    remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.bigroom1)
+    storage.skyisland_build_bigroom1 = true
+    gapi.add_msg("Expanding the basement...")
+    if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BIGROOM1") then
+      gapi.add_msg("Cross-shaped corridors now extend from the central room! A skylight illuminates from above.")
+    end
+    return "construction"
+  end
+
+  -- Handle expansion 2
+  local exp2_index = has_bigroom1 and (has_basement and 3 or nil) or nil
+  if choice == exp2_index and not has_bigroom2 then
+    if num_mat_tokens < CONSTRUCTION_COSTS.bigroom2 then
+      gapi.add_msg(string.format("You need %d material tokens for this expansion.", CONSTRUCTION_COSTS.bigroom2))
+      return "construction"
+    end
+    remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.bigroom2)
+    storage.skyisland_build_bigroom2 = true
+    gapi.add_msg("Widening the corridors...")
+    if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BIGROOM2") then
+      gapi.add_msg("The corridors have been widened with additional rooms!")
+    end
+    return "construction"
+  end
+
+  -- Handle expansion 3
+  local exp3_index = has_bigroom2 and (has_bigroom1 and (has_basement and 4 or nil) or nil) or nil
+  if choice == exp3_index and not has_bigroom3 then
+    if num_mat_tokens < CONSTRUCTION_COSTS.bigroom3 then
+      gapi.add_msg(string.format("You need %d material tokens for this expansion.", CONSTRUCTION_COSTS.bigroom3))
+      return "construction"
+    end
+    remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.bigroom3)
+    storage.skyisland_build_bigroom3 = true
+    gapi.add_msg("Expanding the central room...")
+    if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BIGROOM3") then
+      gapi.add_msg("The central room has been greatly enlarged!")
+    end
+    return "construction"
+  end
+
+  -- Handle expansion 4
+  local exp4_index = has_bigroom3 and (has_bigroom2 and (has_bigroom1 and (has_basement and 5 or nil) or nil) or nil) or nil
+  if choice == exp4_index and not has_bigroom4 then
+    if num_mat_tokens < CONSTRUCTION_COSTS.bigroom4 then
+      gapi.add_msg(string.format("You need %d material tokens for this expansion.", CONSTRUCTION_COSTS.bigroom4))
+      return "construction"
+    end
+    remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.bigroom4)
+    storage.skyisland_build_bigroom4 = true
+    gapi.add_msg("Final expansion underway...")
+    if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BIGROOM4") then
+      gapi.add_msg("The basement has reached its maximum size! Your sanctuary is complete.")
+    end
+    return "construction"
+  end
+
+  -- Back button is always the last item
+  return "main"
+end
+
 -- Main entry point
 function heart.use_heart(who, item, pos, storage)
   local player = gapi.get_avatar()
@@ -223,6 +446,8 @@ function heart.use_heart(who, item, pos, storage)
   while current_menu ~= "close" do
     if current_menu == "main" then
       current_menu = show_main_menu(player, storage)
+    elseif current_menu == "construction" then
+      current_menu = show_construction_menu(player, storage)
     elseif current_menu == "services" then
       current_menu = show_services_menu(player, storage)
     elseif current_menu == "information" then

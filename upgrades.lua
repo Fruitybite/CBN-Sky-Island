@@ -6,24 +6,25 @@ local upgrades = {}
 -- Upgrade definitions
 -- Maps upgrade key to: storage_field, required_level (current level must equal this), new_level, success_message
 -- DDA has 4 stability upgrades, each adding +1 pulse to grace period (8 -> 9 -> 10 -> 11 -> 12)
+-- We implement 3 levels for now (matching our recipes)
 local UPGRADE_DEFS = {
   stability1 = {
     field = "stability_unlocked",
     required = 0,
     new_level = 1,
-    message = "Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure 1 additional warp pulse (9 total)."
+    message = "Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer. (9 pulses)"
   },
   stability2 = {
     field = "stability_unlocked",
     required = 1,
     new_level = 2,
-    message = "Your warp resistance grows stronger. You can now endure 2 additional warp pulses (10 total)."
+    message = "Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer. (10 pulses)"
   },
   stability3 = {
     field = "stability_unlocked",
     required = 2,
     new_level = 3,
-    message = "Your stability increases further. You can now endure 3 additional warp pulses (11 total)."
+    message = "Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer. (11 pulses)"
   },
   scouting1 = {
     field = "scouting_unlocked",

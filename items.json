@@ -230,7 +230,8 @@
   },
   {
     "id": "skyisland_folded_heart",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "other",
     "name": { "str": "Heartseed" },
     "description": "A whorl of black stone that feels impossibly heavy for its size. Activate this on your island to place the Heart of the Island, the catalyst of future upgrades.",
     "use_action": { "type": "deploy_furn", "furn_type": "f_skyisland_heart" },
@@ -238,11 +239,13 @@
     "weight": "5 g",
     "material": [ "stone" ],
     "symbol": "V",
-    "color": "white"
+    "color": "white",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "skyisland_folded_infinitree",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "other",
     "name": { "str": "infinity tree sapling" },
     "description": "A fragile little wisp of a sapling. Its leaves shake and quiver, shimmering with strange energies. Activate this on your island to place an infinity tree, which can be used as a catalyst to turn material tokens into wooden resources.",
     "use_action": { "type": "deploy_furn", "furn_type": "f_skyisland_infinitree" },
@@ -250,11 +253,13 @@
     "weight": "5 g",
     "material": [ "stone" ],
     "symbol": "y",
-    "color": "green"
+    "color": "green",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "skyisland_folded_infinitystone",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "other",
     "name": { "str": "infinity stone source" },
     "description": "A crackling little cluster of pebbles that spark as they knock together, tumbling about from forces unseen. Activate this on your island to place an infinity stone, which can be used as a catalyst to turn material tokens into stony and earthen resources.",
     "use_action": { "type": "deploy_furn", "furn_type": "f_skyisland_infinitystone" },
@@ -262,11 +267,13 @@
     "weight": "5 g",
     "material": [ "stone" ],
     "symbol": "y",
-    "color": "green"
+    "color": "green",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "skyisland_folded_infinityore",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "other",
     "name": { "str": "infinity ore crucible" },
     "description": "A miniature tangle of metal that resembles a dust bunny made of barbed wire. It twists in upon itself endlessly, folding and unfolding in ways that don't seem possible. Activate this on your island to place an infinity ore, which can be used as a catalyst to turn material tokens into metal resources.",
     "use_action": { "type": "deploy_furn", "furn_type": "f_skyisland_infinityore" },
@@ -274,7 +281,8 @@
     "weight": "5 g",
     "material": [ "stone" ],
     "symbol": "y",
-    "color": "green"
+    "color": "green",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "skyisland_fakeitem_infinitree",

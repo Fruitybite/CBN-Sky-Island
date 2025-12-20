@@ -209,47 +209,68 @@ end
 
 -- Spawn warped animals at home location
 -- Called when player successfully returns home
+-- Note: Uses delayed spawn to ensure map is fully loaded after teleport
 function teleport.spawn_warped_animals(storage)
   if not storage.warped_animals or #storage.warped_animals == 0 then
     return 0
   end
 
-  local player = gapi.get_avatar()
-  if not player then return 0 end
-
-  local player_pos = player:get_pos_ms()
-  local spawned_count = 0
-
-  for _, animal_data in ipairs(storage.warped_animals) do
-    -- Create the monster type ID
-    local mtype_id = MtypeId.new(animal_data.type_id)
-
-    -- Spawn the monster near the player (within 2 tiles)
-    local spawned_monster = gapi.place_monster_around(mtype_id, player_pos, 2)
-
-    if spawned_monster then
-      -- Set the HP to what it was when captured
-      spawned_monster:set_hp(animal_data.hp)
-      -- Make it friendly again
-      spawned_monster:make_friendly()
-
-      spawned_count = spawned_count + 1
-      gdebug.log_info(string.format("Spawned warped animal: %s with HP %d",
-        animal_data.type_id, animal_data.hp))
-    else
-      gdebug.log_info(string.format("Failed to spawn warped animal: %s", animal_data.type_id))
-    end
+  -- Copy the list and clear storage immediately
+  local animals_to_spawn = {}
+  for _, animal in ipairs(storage.warped_animals) do
+    table.insert(animals_to_spawn, animal)
   end
-
-  -- Clear the warped animals list
   storage.warped_animals = {}
 
-  if spawned_count > 0 then
-    gapi.add_msg(string.format("%d warped animal%s arrived at your island!",
-      spawned_count, spawned_count > 1 and "s" or ""))
-  end
+  gdebug.log_info(string.format("Queuing %d animals for delayed spawn", #animals_to_spawn))
 
-  return spawned_count
+  -- Delay spawn by 1 second to let map fully load after teleport
+  gapi.add_on_every_x_hook(TimeDuration.from_seconds(1), function()
+    local player = gapi.get_avatar()
+    if not player then return false end
+
+    local player_pos = player:get_pos_ms()
+    local spawned_count = 0
+
+    gdebug.log_info(string.format("Delayed spawn executing at (%d,%d,%d)",
+      player_pos.x, player_pos.y, player_pos.z))
+
+    for _, animal_data in ipairs(animals_to_spawn) do
+      -- Handle old format "MonsterTypeId[mon_cow]" -> "mon_cow"
+      local type_str = animal_data.type_id
+      local extracted = type_str:match("MonsterTypeId%[(.+)%]")
+      if extracted then
+        type_str = extracted
+      end
+
+      -- Spawn monster near player
+      local mtype_id = MonsterTypeId.new(type_str)
+
+      -- Try place_monster_around for flexible positioning
+      local spawned_monster = gapi.place_monster_around(mtype_id, player_pos, 3)
+
+      if spawned_monster then
+        -- Set the HP to what it was when captured
+        spawned_monster:set_hp(animal_data.hp)
+        -- Make it friendly again
+        spawned_monster:make_friendly()
+
+        spawned_count = spawned_count + 1
+        gdebug.log_info(string.format("Spawned: %s with HP %d", type_str, animal_data.hp))
+      else
+        gdebug.log_info(string.format("FAILED to spawn: %s", type_str))
+      end
+    end
+
+    if spawned_count > 0 then
+      gapi.add_msg(string.format("%d warped animal%s arrived at your island!",
+        spawned_count, spawned_count > 1 and "s" or ""))
+    end
+
+    return false  -- One-shot: stop after first execution
+  end)
+
+  return #animals_to_spawn  -- Return count of queued animals
 end
 
 -- Use warp obelisk - start expedition

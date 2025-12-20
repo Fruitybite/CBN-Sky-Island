@@ -252,9 +252,9 @@ mod.use_animal_teleporter = function(who, item, pos)
     storage.warped_animals = {}
   end
 
-  -- Store the animal data
+  -- Store the animal data (use :str() to get raw ID string)
   table.insert(storage.warped_animals, {
-    type_id = tostring(monster_type),
+    type_id = monster_type:str(),
     hp = monster_hp,
     name = monster_name
   })

@@ -580,5 +580,19 @@
     "flags": [ "TRADER_AVOID", "UNBREAKABLE" ],
     "looks_like": "pet_carrier",
     "use_action": "SKYISLAND_ANIMAL_TELEPORTER"
+  },
+  {
+    "id": "skyisland_warp_focus",
+    "type": "TOOL",
+    "name": { "str": "warp home focus", "str_pl": "warp home foci" },
+    "description": "A small crystalline focus imbued with the power of warp. When activated during an expedition, it can teleport you directly back to your sanctuary island. This item is NOT consumed on use.\n\nBehavior depends on your difficulty settings:\n- Free mode: Works instantly\n- Shard mode: Costs 1 warp shard, cannot use near enemies\n- Other modes: Does not function (use Skyward Beacon or find extraction)",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "looks_like": "spiral_stone",
+    "material": [ "alien_resin" ],
+    "symbol": "*",
+    "flags": [ "TRADER_AVOID", "UNBREAKABLE" ],
+    "color": "light_blue",
+    "use_action": "SKYISLAND_WARP_FOCUS"
   }
 ]

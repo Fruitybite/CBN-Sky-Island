@@ -20,6 +20,14 @@ storage.raids_total = storage.raids_total or 0
 storage.raids_won = storage.raids_won or 0
 storage.raids_lost = storage.raids_lost or 0
 
+-- Difficulty settings defaults
+-- pulse_interval: "casual" (30min), "normal" (15min), "hard" (10min), "impossible" (5min)
+-- return_behavior: 0 (whole room), 1 (whole room for cost), 2 (self only)
+-- emergency_return: 0 (free), 1 (costs shard to use), 2 (costs shards to craft), 3 (extraction only)
+storage.difficulty_pulse_interval = storage.difficulty_pulse_interval or "normal"
+storage.difficulty_return_behavior = storage.difficulty_return_behavior or 1
+storage.difficulty_emergency_return = storage.difficulty_emergency_return or 2  -- Default: craft cost
+
 -- Use warp obelisk - start expedition
 mod.use_warp_obelisk = function(who, item, pos)
   return teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickness)
@@ -114,9 +122,92 @@ mod.use_earthbound_pill = function(who, item, pos)
   return 1  -- Consume the item
 end
 
+-- Warp Home Focus - reusable spell-like return (for free/shard difficulty modes)
+mod.use_warp_focus = function(who, item, pos)
+  local player = gapi.get_avatar()
+  if not player then return 0 end
+
+  -- Check emergency return setting
+  -- 0 = free, 1 = costs shard to use, 2+ = focus doesn't work
+  local emergency_setting = storage.difficulty_emergency_return or 2
+
+  if emergency_setting >= 2 then
+    -- Focus doesn't work in craft-cost or extraction-only modes
+    gapi.add_msg("The focus pulses weakly but cannot establish a connection.")
+    gapi.add_msg("Your difficulty settings require a Skyward Beacon or extraction point.")
+    return 0
+  end
+
+  -- Only works during expedition
+  if not storage.is_away_from_home then
+    gapi.add_msg("You're already home. The focus has no effect here.")
+    return 0
+  end
+
+  -- Mode 1: Costs a warp shard to use, and cannot be used near enemies
+  if emergency_setting == 1 then
+    -- Check for nearby enemies (10 tile radius)
+    local player_pos = player:get_pos_ms()
+    local has_nearby_enemy = false
+
+    for dx = -10, 10 do
+      for dy = -10, 10 do
+        if not has_nearby_enemy then
+          local check_pos = Tripoint.new(player_pos.x + dx, player_pos.y + dy, player_pos.z)
+          local monster = gapi.get_monster_at(check_pos)
+          if monster and monster.friendly <= 0 then
+            has_nearby_enemy = true
+          end
+        end
+      end
+    end
+
+    if has_nearby_enemy then
+      gapi.add_msg("Hostile creatures nearby disrupt the focus's energy. You cannot use it here!")
+      return 0
+    end
+
+    -- Check for warp shard
+    local shard_id = ItypeId.new("skyisland_warp_shard")
+    if not player:has_item_with_id(shard_id, false) then
+      gapi.add_msg("The focus requires a warp shard to activate!")
+      return 0
+    end
+
+    -- Consume the shard (get item then remove it)
+    local shard_item = player:get_item_with_id(shard_id, false)
+    if shard_item then
+      -- For stackable items, reduce charges
+      if shard_item:is_stackable() and shard_item.charges > 1 then
+        shard_item:mod_charges(-1)
+      else
+        player:remove_item(shard_item)
+      end
+    end
+    gapi.add_msg("A warp shard crumbles to dust as the focus activates!")
+  end
+
+  -- Return home with all items (focus is NOT consumed)
+  gapi.add_msg("The focus flares with brilliant light. You feel yourself being pulled skyward...")
+  teleport.return_home_success(storage, missions, warp_sickness)
+  return 0  -- Don't consume the focus
+end
+
+-- Skyward Beacon - consumable emergency return (works in all modes except extraction-only)
 mod.use_skyward_beacon = function(who, item, pos)
   local player = gapi.get_avatar()
   if not player then return 0 end
+
+  -- Check emergency return setting
+  -- 0 = free focus, 1 = shard focus, 2 = beacon only, 3 = extraction only
+  local emergency_setting = storage.difficulty_emergency_return or 2
+
+  if emergency_setting == 3 then
+    -- Extraction only mode - beacon doesn't work
+    gapi.add_msg("The beacon flickers weakly but nothing happens. Emergency returns are disabled.")
+    gapi.add_msg("You must find an extraction point (return obelisk) to escape.")
+    return 0
+  end
 
   -- Only works during expedition
   if not storage.is_away_from_home then
@@ -124,7 +215,7 @@ mod.use_skyward_beacon = function(who, item, pos)
     return 0
   end
 
-  -- Return home with all items
+  -- Beacon always works (it's the craftable 5-shard item)
   gapi.add_msg("The beacon flares with brilliant light. You feel yourself being pulled skyward...")
   teleport.return_home_success(storage, missions, warp_sickness)
   return 1  -- Consume the item
@@ -148,17 +239,24 @@ mod.use_warp_crystal = function(who, item, pos)
     menu:add(0, "Close")
   else
     -- Build status text
+    -- Get base interval from difficulty setting
+    local difficulty = storage.difficulty_pulse_interval or "normal"
+    local base_intervals = { casual = 30, normal = 15, hard = 10, impossible = 5 }
+    local base_interval = base_intervals[difficulty] or 15
     local pulse_multiplier = storage.current_raid_pulse_multiplier or 1
-    local interval_minutes = 15 * pulse_multiplier
+    local interval_minutes = base_interval * pulse_multiplier
     local raid_type = storage.current_raid_type or "short"
     local raid_name = raid_type:sub(1,1):upper() .. raid_type:sub(2)
+    local difficulty_name = difficulty:sub(1,1):upper() .. difficulty:sub(2)
 
     local status_text = string.format(
       "Current Expedition: %s\n" ..
+      "Difficulty: %s\n" ..
       "Pulse Interval: %d minutes\n" ..
       "Current Pulse: %d\n" ..
       "Grace Period: %d pulses\n\n",
       raid_name,
+      difficulty_name,
       interval_minutes,
       status_info.current_pulse,
       status_info.grace_period
@@ -282,9 +380,13 @@ mod.on_game_started = function()
   storage.home_location = nil
   storage.is_away_from_home = false
   storage.warp_pulse_count = 0
+  storage.warp_pulse_accumulated = 0
   storage.raids_total = 0
   storage.raids_won = 0
   storage.raids_lost = 0
+
+  -- Register the global warp sickness hook (runs every minute, checks conditions)
+  warp_sickness.register_global_hook(storage)
 
   gdebug.log_info("Sky Islands: New game started")
   gapi.add_msg("Sky Islands PoC loaded! Use warp remote to start.")
@@ -296,10 +398,11 @@ mod.on_game_load = function()
   gdebug.log_info(string.format("  Away from home: %s", tostring(storage.is_away_from_home)))
   gdebug.log_info(string.format("  Warp pulse count: %d", storage.warp_pulse_count or 0))
 
-  -- If we were away, restart the sickness timer
+  -- Register the global warp sickness hook (runs every minute, checks conditions)
+  warp_sickness.register_global_hook(storage)
+
   if storage.is_away_from_home then
-    gapi.add_msg("Resuming expedition... warp sickness timer restarted.")
-    warp_sickness.start_timer(storage)
+    gapi.add_msg("Resuming expedition...")
   end
 end
 

@@ -19,6 +19,38 @@ local CONSTRUCTION_COSTS = {
   bigroom4 = 200
 }
 
+-- Difficulty settings configuration
+local DIFFICULTY_SETTINGS = {
+  pulse_interval = {
+    { id = "casual", name = "Casual", interval = 30,
+      desc = "Warp pulses every 30 minutes.\nWarp sickness after 4 hours, disintegration after 6 hours.\nMore relaxed time limits for activities and reaching the exit." },
+    { id = "normal", name = "Normal", interval = 15,
+      desc = "Warp pulses every 15 minutes.\nWarp sickness after 2 hours, disintegration after 3 hours.\nThe intended way to play." },
+    { id = "hard", name = "Hard", interval = 10,
+      desc = "Warp pulses every 10 minutes.\nWarp sickness after 1 hour 20 minutes, disintegration after 2 hours.\nStrict time limits, must prioritize the exit." },
+    { id = "impossible", name = "Impossible", interval = 5,
+      desc = "Warp pulses every 5 minutes.\nWarp sickness after 40 minutes, disintegration after 1 hour.\nExtremely tight time limits, no mercy." }
+  },
+  return_behavior = {
+    { id = "whole_room", name = "Whole Room", value = 0,
+      desc = "Everything in the extraction room returns with you.\nResources are generally not a problem if you reach extraction." },
+    { id = "whole_room_cost", name = "Whole Room for a Cost", value = 1,
+      desc = "Returns the whole room IF you have a Vortex Token.\nOtherwise only personal items return.\nForces difficult choices about what to bring back." },
+    { id = "self_only", name = "Self Only", value = 2,
+      desc = "Only what you're carrying returns with you.\nYou must always make difficult choices about items." }
+  },
+  emergency_return = {
+    { id = "free_focus", name = "Free Warp Focus", value = 0,
+      desc = "Warp Home Focus works for FREE (reusable, no cost).\nEasiest mode - recommended for casual play.\nSkyward Beacon also works as normal." },
+    { id = "shard_focus", name = "Warp Focus Costs 1 Shard", value = 1,
+      desc = "Warp Home Focus costs 1 warp shard each use.\nCannot use if enemies are within 10 tiles.\nSkyward Beacon also works as normal." },
+    { id = "beacon_only", name = "Skyward Beacon Only", value = 2,
+      desc = "Only crafted Skyward Beacons work (5 shards each).\nWarp Home Focus does not function.\nThe default balanced option." },
+    { id = "extraction_only", name = "Extraction Only", value = 3,
+      desc = "NO emergency returns work at all.\nOnly return obelisks can bring you home.\nMaximum challenge mode." }
+  }
+}
+
 -- Upgrade info (for display purposes - actual unlocking is via crafting)
 local UPGRADE_INFO = {
   stability = {
@@ -124,9 +156,10 @@ local function show_main_menu(player, storage)
   ui:add(1, locale.gettext("Construction"))
   ui:add(2, locale.gettext("Upgrades"))
   ui:add(3, locale.gettext("Services"))
-  ui:add(4, locale.gettext("Information"))
-  ui:add(5, locale.gettext("Rank-Up Challenges"))
-  ui:add(6, locale.gettext("Close"))
+  ui:add(4, locale.gettext("Difficulty Settings"))
+  ui:add(5, locale.gettext("Information"))
+  ui:add(6, locale.gettext("Rank-Up Challenges"))
+  ui:add(7, locale.gettext("Close"))
 
   local choice = ui:query()
 
@@ -137,8 +170,10 @@ local function show_main_menu(player, storage)
   elseif choice == 3 then
     return "services"
   elseif choice == 4 then
-    return "information"
+    return "difficulty"
   elseif choice == 5 then
+    return "information"
+  elseif choice == 6 then
     return "rankup"
   else
     return "close"
@@ -581,6 +616,124 @@ local function show_construction_menu(player, storage)
   return "main"
 end
 
+-- Helper: Get current setting name
+local function get_setting_name(category, current_value, value_field)
+  value_field = value_field or "id"
+  for _, setting in ipairs(DIFFICULTY_SETTINGS[category]) do
+    if setting[value_field] == current_value then
+      return setting.name
+    end
+  end
+  return "Unknown"
+end
+
+-- Difficulty settings main menu
+local function show_difficulty_menu(player, storage)
+  -- Get current settings
+  local pulse_setting = storage.difficulty_pulse_interval or "normal"
+  local return_setting = storage.difficulty_return_behavior or 1  -- default: whole room for cost
+  local emergency_setting = storage.difficulty_emergency_return or 0  -- default: beacon only
+
+  local pulse_name = get_setting_name("pulse_interval", pulse_setting, "id")
+  local return_name = get_setting_name("return_behavior", return_setting, "value")
+  local emergency_name = get_setting_name("emergency_return", emergency_setting, "value")
+
+  local ui = UiList.new()
+  ui:title(locale.gettext("Difficulty Settings"))
+  ui:add(1, locale.gettext(string.format("Warp Pulse Timing: %s", pulse_name)))
+  ui:add(2, locale.gettext(string.format("Return Obelisk Behavior: %s", return_name)))
+  ui:add(3, locale.gettext(string.format("Emergency Return Options: %s", emergency_name)))
+  ui:add(4, locale.gettext("Back"))
+
+  local choice = ui:query()
+
+  if choice == 1 then
+    return "difficulty_pulse"
+  elseif choice == 2 then
+    return "difficulty_return"
+  elseif choice == 3 then
+    return "difficulty_emergency"
+  else
+    return "main"
+  end
+end
+
+-- Pulse interval difficulty menu
+local function show_pulse_difficulty_menu(player, storage)
+  local current = storage.difficulty_pulse_interval or "normal"
+
+  local ui = UiList.new()
+  ui:title(locale.gettext("Select Warp Pulse Timing"))
+  ui:desc_enabled(true)
+
+  for i, setting in ipairs(DIFFICULTY_SETTINGS.pulse_interval) do
+    local marker = (setting.id == current) and " [CURRENT]" or ""
+    ui:add_w_desc(i, locale.gettext(setting.name .. marker), setting.desc)
+  end
+  ui:add(#DIFFICULTY_SETTINGS.pulse_interval + 1, locale.gettext("Back"))
+
+  local choice = ui:query()
+
+  if choice and choice >= 1 and choice <= #DIFFICULTY_SETTINGS.pulse_interval then
+    local selected = DIFFICULTY_SETTINGS.pulse_interval[choice]
+    storage.difficulty_pulse_interval = selected.id
+    gapi.add_msg(string.format("Pulse timing set to %s (%d minute intervals).",
+      selected.name, selected.interval))
+  end
+
+  return "difficulty"
+end
+
+-- Return obelisk behavior menu
+local function show_return_behavior_menu(player, storage)
+  local current = storage.difficulty_return_behavior or 1
+
+  local ui = UiList.new()
+  ui:title(locale.gettext("Select Return Obelisk Behavior"))
+  ui:desc_enabled(true)
+
+  for i, setting in ipairs(DIFFICULTY_SETTINGS.return_behavior) do
+    local marker = (setting.value == current) and " [CURRENT]" or ""
+    ui:add_w_desc(i, locale.gettext(setting.name .. marker), setting.desc)
+  end
+  ui:add(#DIFFICULTY_SETTINGS.return_behavior + 1, locale.gettext("Back"))
+
+  local choice = ui:query()
+
+  if choice and choice >= 1 and choice <= #DIFFICULTY_SETTINGS.return_behavior then
+    local selected = DIFFICULTY_SETTINGS.return_behavior[choice]
+    storage.difficulty_return_behavior = selected.value
+    gapi.add_msg(string.format("Return obelisk behavior set to: %s", selected.name))
+  end
+
+  return "difficulty"
+end
+
+-- Emergency return options menu
+local function show_emergency_return_menu(player, storage)
+  local current = storage.difficulty_emergency_return or 0
+
+  local ui = UiList.new()
+  ui:title(locale.gettext("Select Emergency Return Options"))
+  ui:desc_enabled(true)
+
+  for i, setting in ipairs(DIFFICULTY_SETTINGS.emergency_return) do
+    local marker = (setting.value == current) and " [CURRENT]" or ""
+    ui:add_w_desc(i, locale.gettext(setting.name .. marker), setting.desc)
+  end
+  ui:add(#DIFFICULTY_SETTINGS.emergency_return + 1, locale.gettext("Back"))
+
+  local choice = ui:query()
+
+  if choice and choice >= 1 and choice <= #DIFFICULTY_SETTINGS.emergency_return then
+    local selected = DIFFICULTY_SETTINGS.emergency_return[choice]
+    storage.difficulty_emergency_return = selected.value
+    gapi.add_msg(string.format("Emergency return options set to: %s", selected.name))
+  end
+
+  return "difficulty"
+end
+
 -- Main entry point
 function heart.use_heart(who, item, pos, storage)
   local player = gapi.get_avatar()
@@ -597,6 +750,14 @@ function heart.use_heart(who, item, pos, storage)
       current_menu = show_upgrades_menu(player, storage)
     elseif current_menu == "services" then
       current_menu = show_services_menu(player, storage)
+    elseif current_menu == "difficulty" then
+      current_menu = show_difficulty_menu(player, storage)
+    elseif current_menu == "difficulty_pulse" then
+      current_menu = show_pulse_difficulty_menu(player, storage)
+    elseif current_menu == "difficulty_return" then
+      current_menu = show_return_behavior_menu(player, storage)
+    elseif current_menu == "difficulty_emergency" then
+      current_menu = show_emergency_return_menu(player, storage)
     elseif current_menu == "information" then
       current_menu = show_information_menu(player, storage)
     elseif current_menu == "rankup" then

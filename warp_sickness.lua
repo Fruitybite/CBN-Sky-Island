@@ -1,12 +1,25 @@
 -- Sky Islands BN Port - Warp Sickness System
 -- Handles warp sickness progression using JSON effects
+-- Uses a SINGLE always-running hook that checks conditions each minute
 
 local warp_sickness = {}
 
 -- Warp sickness timing
-local BASE_WARP_SICKNESS_INTERVAL = TimeDuration.from_minutes(15)  -- Normal difficulty
-local BASE_GRACE_PERIOD_PULSES = 8  -- 8 pulses × 15 min = 2 hours before sickness starts
+-- Base interval is modified by difficulty setting (casual=30, normal=15, hard=10, impossible=5)
+local PULSE_INTERVALS = {
+  casual = 30,
+  normal = 15,
+  hard = 10,
+  impossible = 5
+}
+local BASE_GRACE_PERIOD_PULSES = 8  -- 8 pulses before sickness starts
 local MAX_WARP_SICKNESS_INTENSITY = 6
+
+-- Helper: Get base pulse interval in minutes based on difficulty
+local function get_base_pulse_interval(storage)
+  local difficulty = storage.difficulty_pulse_interval or "normal"
+  return PULSE_INTERVALS[difficulty] or 15
+end
 
 -- Effect IDs
 local EFFECT_WARP_SICKNESS = EffectTypeId.new("skyisland_warpsickness")
@@ -60,31 +73,28 @@ end
 local function show_pulse_dialog(message, color)
   local popup = QueryPopup.new()
   popup:message(message)
-  -- Color disabled for now - debugging binding issue
-  -- if color then
-  --   popup:message_color(color)
-  -- end
+  if color then
+    popup:message_color(color)
+  end
   popup:allow_any_key(true)
   popup:query()
 end
 
--- Warp sickness timer tick - pulse counter and intensity management
-function warp_sickness.tick(storage)
-  if not storage.is_away_from_home then
-    return false  -- Stop hook when home - prevents stacking hooks on multiple expeditions
-  end
+-- Prevent re-entry during popup display
+local tick_in_progress = false
 
-  -- Prevent re-entry (can happen if multiple intervals pass during wait/sleep)
+-- Process a warp pulse (called when accumulated time reaches threshold)
+local function process_warp_pulse(storage)
   if tick_in_progress then
-    gdebug.log_info("Warp pulse tick already in progress, skipping")
-    return true  -- Keep timer running but skip this tick
+    gdebug.log_info("Warp pulse already in progress, skipping")
+    return
   end
   tick_in_progress = true
 
   local player = gapi.get_avatar()
   if not player then
     tick_in_progress = false
-    return true
+    return
   end
 
   -- Increment pulse counter
@@ -95,7 +105,8 @@ function warp_sickness.tick(storage)
   local stability_bonus = storage.stability_unlocked or 0
   local grace_period = BASE_GRACE_PERIOD_PULSES + stability_bonus
   local pulse_multiplier = storage.current_raid_pulse_multiplier or 1
-  local interval_minutes = 15 * pulse_multiplier
+  local base_interval = get_base_pulse_interval(storage)
+  local interval_minutes = base_interval * pulse_multiplier
 
   gdebug.log_info(string.format("Warp pulse %d (grace period: %d)", pulse, grace_period))
 
@@ -134,7 +145,7 @@ function warp_sickness.tick(storage)
         Color.c_light_red)
     end
     tick_in_progress = false
-    return true
+    return
   end
 
   -- Apply or update warp sickness effect
@@ -197,47 +208,65 @@ function warp_sickness.tick(storage)
   end
 
   tick_in_progress = false
-  return true  -- Keep running
 end
 
--- Start warp sickness - initialize pulse counter
-function warp_sickness.start(storage)
-  -- Reset pulse counter for new expedition
-  storage.warp_pulse_count = 0
-  gdebug.log_info("Warp sickness: initialized with grace period")
-end
+-- Global hook registered flag (to prevent duplicate registration)
+local global_hook_registered = false
 
--- Track if timer is already running to prevent duplicates
-local timer_running = false
--- Prevent re-entry during popup display
-local tick_in_progress = false
-
--- Start warp sickness timer
-function warp_sickness.start_timer(storage)
-  -- Prevent duplicate timers
-  if timer_running then
-    gdebug.log_info("Warp sickness timer already running, skipping duplicate start")
+-- Register the single global hook that runs every minute
+-- This should be called ONCE during mod initialization
+function warp_sickness.register_global_hook(storage)
+  if global_hook_registered then
+    gdebug.log_info("Warp sickness global hook already registered, skipping")
     return
   end
-  timer_running = true
+  global_hook_registered = true
 
-  -- Pulse interval is multiplied by raid type (1x short, 2x medium, 3x long)
-  local pulse_multiplier = storage.current_raid_pulse_multiplier or 1
-  local interval = TimeDuration.from_minutes(15 * pulse_multiplier)
-  gdebug.log_info(string.format("Warp sickness timer started: %d minute intervals", 15 * pulse_multiplier))
-  gapi.add_on_every_x_hook(interval, function()
-    local result = warp_sickness.tick(storage)
-    if not result then
-      timer_running = false  -- Timer stopped, allow new one
+  gdebug.log_info("Registering warp sickness global hook (1 minute interval)")
+
+  gapi.add_on_every_x_hook(TimeDuration.from_minutes(1), function()
+    -- Always run, always return true to keep running
+
+    -- If player is home, reset accumulator and do nothing
+    if not storage.is_away_from_home then
+      storage.warp_pulse_accumulated = 0
+      return true
     end
-    return result
+
+    -- Player is on a raid - accumulate time
+    storage.warp_pulse_accumulated = (storage.warp_pulse_accumulated or 0) + 1
+
+    -- Calculate pulse threshold based on difficulty and raid type
+    local base_interval = get_base_pulse_interval(storage)
+    local pulse_multiplier = storage.current_raid_pulse_multiplier or 1
+    local pulse_threshold = base_interval * pulse_multiplier
+
+    -- Check if we've accumulated enough for a pulse
+    if storage.warp_pulse_accumulated >= pulse_threshold then
+      gdebug.log_info(string.format("Warp pulse triggered: accumulated %d >= threshold %d",
+        storage.warp_pulse_accumulated, pulse_threshold))
+      storage.warp_pulse_accumulated = 0
+      process_warp_pulse(storage)
+    end
+
+    return true  -- Always keep running
   end)
 end
 
--- Stop warp sickness - remove all effects
-function warp_sickness.stop()
-  -- Reset timer flags so a new timer can be started next expedition
-  timer_running = false
+-- Start warp sickness for a new expedition - just reset counters
+function warp_sickness.start(storage)
+  storage.warp_pulse_count = 0
+  storage.warp_pulse_accumulated = 0
+  gdebug.log_info("Warp sickness: initialized for new expedition")
+end
+
+-- Stop warp sickness - remove all effects and reset counters
+function warp_sickness.stop(storage)
+  -- Reset counters
+  if storage then
+    storage.warp_pulse_accumulated = 0
+    -- Note: we don't reset warp_pulse_count here so stats are preserved
+  end
   tick_in_progress = false
 
   local player = gapi.get_avatar()
@@ -249,7 +278,7 @@ function warp_sickness.stop()
   player:remove_effect(EFFECT_WARP_SICKNESS)
   player:remove_effect(EFFECT_DISINTEGRATION)
 
-  -- Also remove resurrection sickness if present (stops the tick hook)
+  -- Also remove resurrection sickness if present
   local res_sick_effect = EffectTypeId.new("skyisland_resurrection_sickness")
   player:remove_effect(res_sick_effect)
 

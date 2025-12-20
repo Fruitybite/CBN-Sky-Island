@@ -366,7 +366,7 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
 
     -- Check if catalyst is available (for labs)
     if loc_config.catalyst_item and is_unlocked then
-      has_catalyst = who:has_item_with_id(ItypeId.new(loc_config.catalyst_item))
+      has_catalyst = who:has_item_with_id(ItypeId.new(loc_config.catalyst_item), false)
       if not has_catalyst then
         suffix = " [No Catalyst]"
       end
@@ -402,7 +402,14 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
   -- Consume catalyst if required
   if loc_config.catalyst_item then
     local catalyst_id = ItypeId.new(loc_config.catalyst_item)
-    who:remove_items_with_id(catalyst_id, 1)
+    local catalyst_item = who:get_item_with_id(catalyst_id, false)
+    if catalyst_item then
+      if catalyst_item:is_stackable() and catalyst_item.charges > 1 then
+        catalyst_item:mod_charges(-1)
+      else
+        who:remove_item(catalyst_item)
+      end
+    end
     gapi.add_msg("The Labs Catalyst crumbles to dust as dimensional barriers part...")
   end
 
@@ -497,10 +504,9 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
   missions.create_slaughter_mission()
   missions.create_treasure_mission(dest_omt, storage)
 
-  -- Start warp sickness (apply initial effects)
+  -- Start warp sickness (reset counters for new expedition)
+  -- The global hook is already running and will start accumulating time
   warp_sickness.start(storage)
-  -- Start sickness timer (progressive worsening)
-  warp_sickness.start_timer(storage)
 
   gapi.add_msg(string.format("You arrive at the %s!", loc_config.name:lower()))
   gapi.add_msg("Find the red room exit portal to return home before warp sickness kills you.")
@@ -527,9 +533,37 @@ function teleport.use_return_obelisk(who, item, pos, storage, missions, warp_sic
   local confirm = confirm_ui:query()
 
   if confirm == 1 then
-    -- Store items from the red room in temporary storage BEFORE teleporting
-    -- This removes them from the map and holds them in C++ storage that survives map changes
-    local items_stored = store_red_room_items(pos)
+    -- Check return behavior setting
+    -- 0 = whole_room (always), 1 = whole_room_cost (needs vortex token), 2 = self_only (never)
+    local return_behavior = storage.difficulty_return_behavior or 1
+    local items_stored = 0
+    local used_vortex_token = false
+
+    if return_behavior == 0 then
+      -- Whole Room: Always teleport room contents
+      items_stored = store_red_room_items(pos)
+    elseif return_behavior == 1 then
+      -- Whole Room for Cost: Only if player has vortex token
+      local vortex_id = ItypeId.new("skyisland_vortex_token")
+      if who:has_item_with_id(vortex_id, false) then
+        local vortex_item = who:get_item_with_id(vortex_id, false)
+        if vortex_item then
+          if vortex_item:is_stackable() and vortex_item.charges > 1 then
+            vortex_item:mod_charges(-1)
+          else
+            who:remove_item(vortex_item)
+          end
+        end
+        items_stored = store_red_room_items(pos)
+        used_vortex_token = true
+        gapi.add_msg("The Vortex Token crumbles as it pulls the room's contents into the warp!")
+      else
+        gapi.add_msg("Without a Vortex Token, only items you carry will return with you.")
+      end
+    else
+      -- Self Only: Never teleport room contents
+      gapi.add_msg("Only items you carry will return with you.")
+    end
 
     -- Convert stored abs_ms coordinates to OMT for teleportation
     local home_abs_ms = Tripoint.new(
@@ -570,7 +604,7 @@ function teleport.use_return_obelisk(who, item, pos, storage, missions, warp_sic
     storage.raids_won = old_raids_won + 1
 
     -- Stop warp sickness (remove all effects)
-    warp_sickness.stop()
+    warp_sickness.stop(storage)
 
     -- Spawn any warped animals
     teleport.spawn_warped_animals(storage)
@@ -639,7 +673,7 @@ function teleport.return_home_success(storage, missions, warp_sickness)
   storage.raids_won = old_raids_won + 1
 
   -- Stop warp sickness (remove all effects)
-  warp_sickness.stop()
+  warp_sickness.stop(storage)
 
   -- Spawn any warped animals
   teleport.spawn_warped_animals(storage)
@@ -710,7 +744,7 @@ function teleport.resurrect_at_home(storage, missions, warp_sickness)
   storage.raids_lost = (storage.raids_lost or 0) + 1
 
   -- Stop warp sickness (remove all effects before applying resurrection sickness)
-  warp_sickness.stop()
+  warp_sickness.stop(storage)
 
   -- Apply resurrection sickness
   warp_sickness.apply_resurrection_sickness()

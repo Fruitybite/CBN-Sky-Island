@@ -93,5 +93,10 @@
     "type": "item_action",
     "id": "SKYISLAND_ANIMAL_TELEPORTER",
     "name": { "str": "Warp creature home" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_WARP_FOCUS",
+    "name": { "str": "Cast Warp Home" }
   }
 ]

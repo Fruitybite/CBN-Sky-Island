@@ -50,3 +50,8 @@ This is an active work-in-progress port. The core gameplay loop is functional, b
 ### State not persisting
 - Check `debug.log` for save/load messages
 - Verify raids_total increments correctly when starting expeditions
+
+## Development TODO
+
+### Engine Contributions (requires C++ patches to CBN)
+- [ ] **Lua spell effect**: Add a `"lua"` spell effect type that calls registered Lua functions, enabling mods to create spells with custom logic. This would allow the warp home focus to be a proper spell instead of an item with iuse.

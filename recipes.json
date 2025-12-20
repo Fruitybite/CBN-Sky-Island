@@ -1124,11 +1124,24 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
-    "//": "Emergency warp home - consumed on use",
+    "//": "Emergency warp home - consumed on use (5 shards)",
     "components": [
-      [ [ "skyisland_warp_shard", 10 ] ]
+      [ [ "skyisland_warp_shard", 5 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_warp_focus",
+    "type": "recipe",
+    "category": "CC_SKYISLAND",
+    "subcategory": "CSC_SKYISLAND_ITEMS",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
+    "//": "Reusable warp home - FREE to craft, works in free/shard difficulty modes (shard mode costs 1 shard per USE)"
   },
   {
     "result": "skyisland_homeward_mote",

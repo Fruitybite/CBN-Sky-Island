@@ -431,16 +431,22 @@ end
 -- end
 
 -- Character death hook (late) - actual resurrection and teleportation
-mod.on_character_death = function()
-  gdebug.log_info("Sky Islands: on_character_death fired")
+-- Receives params table with: char (dying character), killer (who killed them)
+mod.on_character_death = function(params)
+  local dying_char = params and params.char
+  local player = gapi.get_avatar()
+
+  -- Only handle player death, not NPCs
+  if not dying_char or not player or dying_char ~= player then
+    return
+  end
+
+  gdebug.log_info("Sky Islands: on_character_death fired for player")
   gdebug.log_info(string.format("  home_location: %s", tostring(storage.home_location)))
 
   if not storage.home_location then
     return  -- No home set, can't resurrect
   end
-
-  local player = gapi.get_avatar()
-  if not player then return end
 
   -- Check for homeward mote (life insurance)
   local mote_id = ItypeId.new("skyisland_homeward_mote")

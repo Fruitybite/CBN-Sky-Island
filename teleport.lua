@@ -3,6 +3,10 @@
 
 local teleport = {}
 
+-- Temporary storage for red room items during teleportation
+-- Items are detached from map, held here, then placed at home
+local red_room_item_storage = {}
+
 -- Red room bounds relative to obelisk position
 -- The interior of the room is 3 tiles in one axis and 2 in the other from the obelisk
 -- Since the room can rotate, we use 3 for both axes to be safe
@@ -13,6 +17,9 @@ local RED_ROOM_RANGE = 3  -- tiles in each direction
 local function store_red_room_items(obelisk_pos)
   local game_map = gapi.get_map()
   local items_stored = 0
+
+  -- Clear any previous storage
+  red_room_item_storage = {}
 
   gdebug.log_info(string.format("Scanning red room around obelisk at (%d, %d, %d)",
     obelisk_pos.x, obelisk_pos.y, obelisk_pos.z))
@@ -30,17 +37,14 @@ local function store_red_room_items(obelisk_pos)
       if game_map:has_items_at(check_pos) then
         local items_stack = game_map:get_items_at(check_pos)
 
-        -- Collect all items at this position into a list first
-        -- (can't modify while iterating)
-        local items_to_store = {}
-        for _, it in pairs(items_stack:as_item_stack()) do
-          table.insert(items_to_store, it)
-        end
+        -- Get frozen copy of items for safe iteration while modifying
+        local items_to_store = items_stack:items()
 
-        -- Now store each item (removes from map, puts in temporary storage)
+        -- Detach each item from map and store in Lua table
         for _, it in ipairs(items_to_store) do
-          local index = game_map:store_item(check_pos, it)
-          if index >= 0 then
+          local detached = game_map:detach_item_at(check_pos, it)
+          if detached then
+            table.insert(red_room_item_storage, detached)
             items_stored = items_stored + 1
           end
         end
@@ -60,21 +64,22 @@ end
 -- Helper: Retrieve stored items and place them at home position
 local function retrieve_stored_items_at_home(home_pos)
   local game_map = gapi.get_map()
-  local stored_count = game_map:get_stored_item_count()
+  local stored_count = #red_room_item_storage
   local items_retrieved = 0
 
   gdebug.log_info(string.format("Retrieving %d stored items at home (%d, %d, %d)",
     stored_count, home_pos.x, home_pos.y, home_pos.z))
 
-  -- Retrieve each stored item (indices 0 to stored_count-1)
-  for i = 0, stored_count - 1 do
-    if game_map:retrieve_stored_item(i, home_pos) then
+  -- Place each stored item on the map at home position
+  for _, detached in ipairs(red_room_item_storage) do
+    local failed = game_map:add_item(home_pos, detached)
+    if not failed then
       items_retrieved = items_retrieved + 1
     end
   end
 
-  -- Clear the storage
-  game_map:clear_stored_items()
+  -- Clear the storage (items now owned by map or GC'd if placement failed)
+  red_room_item_storage = {}
 
   if items_retrieved > 0 then
     gapi.add_msg(string.format("%d items from the red room were teleported home with you!", items_retrieved))

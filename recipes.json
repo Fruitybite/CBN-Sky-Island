@@ -1065,10 +1065,10 @@
     "components": [
       [ [ "skyisland_warp_shard", 1 ] ],
       [ [ "survivor_scope", 1 ], [ "rifle_scope", 1 ], [ "binoculars", 1 ] ],
+      [ [ "golf_club", 1 ], [ "golf_bag", 1 ] ],
       [ [ "feather", 40 ], [ "down_feather", 40 ] ],
-      [ [ "egg_bird_unfert", 6 ], [ "egg_bird", 6 ], [ "egg_chicken", 12 ] ],
       [ [ "stepladder", 1 ] ],
-      [ [ "chair_folding", 1 ] ]
+      [ [ "camp_chair", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },

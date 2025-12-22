@@ -143,5 +143,10 @@
     "type": "item_action",
     "id": "SKYISLAND_UPGRADE_HARDMISSIONS2",
     "name": { "str": "Unlock Hardest Missions" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_UPGRADE_SLAUGHTER",
+    "name": { "str": "Unlock Slaughter Missions" }
   }
 ]

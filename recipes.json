@@ -1310,6 +1310,24 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "skyisland_upgradekey_slaughter",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
+    "//": "DDA: 5 corpses. Requires proof of kills.",
+    "components": [
+      [ [ "skyisland_warp_shard", 2 ] ],
+      [ [ "corpse", 5 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "skyisland_labs_catalyst",
     "type": "recipe",
     "category": "CC_WARP",

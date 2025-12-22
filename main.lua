@@ -124,6 +124,10 @@ mod.use_upgrade_hardmissions2 = function(who, item, pos)
   return upgrades.use_hardmissions2(who, item, pos, storage)
 end
 
+mod.use_upgrade_slaughter = function(who, item, pos)
+  return upgrades.use_slaughter(who, item, pos, storage)
+end
+
 -- Utility item activations
 mod.use_quickheal = function(who, item, pos)
   local player = gapi.get_avatar()

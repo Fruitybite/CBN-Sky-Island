@@ -97,6 +97,10 @@ game.iuse_functions["SKYISLAND_UPGRADE_HARDMISSIONS2"] = function(...)
   return mod.use_upgrade_hardmissions2(...)
 end
 
+game.iuse_functions["SKYISLAND_UPGRADE_SLAUGHTER"] = function(...)
+  return mod.use_upgrade_slaughter(...)
+end
+
 -- Utility item activations
 game.iuse_functions["SKYISLAND_QUICKHEAL"] = function(...)
   return mod.use_quickheal(...)

@@ -192,6 +192,63 @@ function missions.create_bonus_mission(center_omt, storage)
   end
 end
 
+-- Create slaughter mission (kill X of species)
+-- These are simpler kill-count missions that don't require going to a specific location
+function missions.create_slaughter_mission(center_omt, storage)
+  local player = gapi.get_avatar()
+  if not player then return end
+
+  -- Build weighted mission pool
+  -- More common/easier missions have higher weights
+  local mission_pool = {
+    { id = "MISSION_SLAUGHTER_ZOMBIES_10", weight = 40, name = "Kill 10 Zombies" },
+    { id = "MISSION_SLAUGHTER_ZOMBIES_50", weight = 20, name = "Kill 50 Zombies" },
+    { id = "MISSION_SLAUGHTER_ZOMBIES_100", weight = 10, name = "Kill 100 Zombies" },
+    { id = "MISSION_SLAUGHTER_BIRD", weight = 15, name = "Kill 5 Birds" },
+    { id = "MISSION_SLAUGHTER_MAMMAL", weight = 15, name = "Kill 5 Mammals" },
+    { id = "MISSION_SLAUGHTER_MIGO", weight = 5, name = "Kill a Mi-Go" },
+    { id = "MISSION_SLAUGHTER_NETHER", weight = 5, name = "Kill 3 Nether Creatures" },
+  }
+
+  -- Calculate total weight
+  local total_weight = 0
+  for _, mission in ipairs(mission_pool) do
+    total_weight = total_weight + mission.weight
+  end
+
+  -- Select random mission based on weight
+  local roll = gapi.rng(1, total_weight)
+  local selected = nil
+  local current_weight = 0
+
+  for _, mission in ipairs(mission_pool) do
+    current_weight = current_weight + mission.weight
+    if roll <= current_weight then
+      selected = mission
+      break
+    end
+  end
+
+  if not selected then
+    gdebug.log_error("Failed to select slaughter mission!")
+    return
+  end
+
+  gdebug.log_info(string.format("Creating slaughter mission: %s", selected.id))
+
+  local player_id = player:getID()
+  local mission_type = MissionTypeIdRaw.new(selected.id)
+
+  local new_mission = Mission.reserve_new(mission_type, player_id)
+  if new_mission then
+    new_mission:assign(player)
+    gapi.add_msg(string.format("Slaughter Mission: %s!", selected.name))
+    gdebug.log_info(string.format("Created slaughter mission: %s", selected.id))
+  else
+    gdebug.log_error(string.format("Failed to create slaughter mission: %s", selected.id))
+  end
+end
+
 -- Complete or fail all raid missions
 function missions.complete_or_fail_missions(player, storage)
   local missions_list = player:get_active_missions()

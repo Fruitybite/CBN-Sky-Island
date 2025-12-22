@@ -129,6 +129,13 @@ local UPGRADE_DEFS = {
     required = 1,
     new_level = 2,
     message = "Hardest Missions unlocked. The most dangerous bonus missions with the greatest rewards are now available."
+  },
+  -- Slaughter missions (kill X of species)
+  slaughter = {
+    field = "slaughter_unlocked",
+    required = nil,
+    new_level = true,
+    message = "Slaughter Missions unlocked. You will now receive a slaughter mission during each expedition, rewarding warp shards for killing specific types of enemies."
   }
 }
 
@@ -267,6 +274,10 @@ end
 
 function upgrades.use_hardmissions2(who, item, pos, storage)
   return activate_upgrade(who, item, pos, storage, "hardmissions2")
+end
+
+function upgrades.use_slaughter(who, item, pos, storage)
+  return activate_upgrade(who, item, pos, storage, "slaughter")
 end
 
 return upgrades

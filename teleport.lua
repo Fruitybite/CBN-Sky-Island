@@ -619,6 +619,11 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
     missions.create_bonus_mission(dest_omt, storage)
   end
 
+  -- Slaughter missions (kill X of species) require upgrade
+  if storage.slaughter_unlocked then
+    missions.create_slaughter_mission(dest_omt, storage)
+  end
+
   -- Start warp sickness (reset counters for new expedition)
   -- The global hook is already running and will start accumulating time
   warp_sickness.start(storage)

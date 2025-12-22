@@ -297,13 +297,6 @@ local function apply_landing_protection(storage)
 
   -- Check for landing upgrades and apply bonus effects
 
-  -- Landing waterwalking bonus
-  if storage.landing_waterwalk_unlocked then
-    local waterwalk_id = EffectTypeId.new("skyisland_waterwalking_landing")
-    player:add_effect(waterwalk_id, cloak_duration)
-    gdebug.log_info("Applied landing waterwalking bonus")
-  end
-
   -- Scouting clairvoyance bonus (based on upgrade level)
   local clairvoyance_time = storage.scouting_clairvoyance_time or 0
   if clairvoyance_time > 0 then

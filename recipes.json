@@ -1095,26 +1095,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "skyisland_upgradekey_landing_waterwalk",
-    "type": "recipe",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_UPGRADES",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "15 m",
-    "autolearn": true,
-    "reversible": false,
-    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
-    "//": "Aquatic items: diving gear, fish, water containers",
-    "components": [
-      [ [ "skyisland_warp_shard", 2 ] ],
-      [ [ "dive_bag", 1 ], [ "rebreather", 1 ] ],
-      [ [ "fish", 10 ], [ "fish_pickled", 10 ] ],
-      [ [ "water_clean", 20 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "skyisland_upgradekey_scouting_clairvoyance1",
     "type": "recipe",
     "category": "CC_WARP",
@@ -1169,7 +1149,7 @@
       [ [ "cash_card", 50000 ] ]
     ],
     "components": [
-      [ [ "fp_loyalty_card", 1 ] ],
+      [ [ "fp_loyalty_card", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -1265,7 +1245,7 @@
     "reversible": false,
     "tools": [
       [ [ "skyisland_fakeitem_heart", -1 ] ],
-      [ [ "permanent_marker", 500 ] ],
+      [ [ "permanent_marker", 500 ] ]
     ],
     "//": "DDA: warp shards + paper + pens as tools",
     "components": [
@@ -1465,7 +1445,7 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "skyisland_waterwalking_stone",
+    "result": "skyisland_warp_raft_token",
     "type": "recipe",
     "category": "CC_WARP",
     "subcategory": "CSC_WARP_ITEMS",
@@ -1475,9 +1455,9 @@
     "autolearn": true,
     "reversible": false,
     "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
-    "//": "Walk on water for 3 minutes",
+    "//": "Spawns a temporary 1-tile raft for crossing water",
     "components": [
-      [ [ "skyisland_warp_shard", 3 ] ]
+      [ [ "skyisland_warp_shard", 2 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },

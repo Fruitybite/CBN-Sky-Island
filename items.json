@@ -366,7 +366,8 @@
     "color": "magenta",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_STABILITY1"
+    "use_action": "SKYISLAND_UPGRADE_STABILITY1",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_stability2",
@@ -381,7 +382,8 @@
     "color": "magenta",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_STABILITY2"
+    "use_action": "SKYISLAND_UPGRADE_STABILITY2",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_stability3",
@@ -396,7 +398,8 @@
     "color": "magenta",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_STABILITY3"
+    "use_action": "SKYISLAND_UPGRADE_STABILITY3",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_scouting1",
@@ -411,7 +414,8 @@
     "color": "light_blue",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_SCOUTING1"
+    "use_action": "SKYISLAND_UPGRADE_SCOUTING1",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_scouting2",
@@ -426,7 +430,8 @@
     "color": "light_blue",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_SCOUTING2"
+    "use_action": "SKYISLAND_UPGRADE_SCOUTING2",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_exits1",
@@ -441,7 +446,8 @@
     "color": "green",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_EXITS1"
+    "use_action": "SKYISLAND_UPGRADE_EXITS1",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_raidlength1",
@@ -456,7 +462,8 @@
     "color": "yellow",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_RAIDLENGTH1"
+    "use_action": "SKYISLAND_UPGRADE_RAIDLENGTH1",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_raidlength2",
@@ -471,7 +478,8 @@
     "color": "yellow",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_RAIDLENGTH2"
+    "use_action": "SKYISLAND_UPGRADE_RAIDLENGTH2",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_basements",
@@ -486,7 +494,8 @@
     "color": "brown",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_BASEMENTS"
+    "use_action": "SKYISLAND_UPGRADE_BASEMENTS",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_roofs",
@@ -501,7 +510,8 @@
     "color": "cyan",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_ROOFS"
+    "use_action": "SKYISLAND_UPGRADE_ROOFS",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_labs",
@@ -516,22 +526,8 @@
     "color": "light_green",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_LABS"
-  },
-  {
-    "id": "skyisland_upgradekey_landing_waterwalk",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "Aquatic Lens" },
-    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade. Activate near the Heart of the Island to unlock Landing Water-Walking: Walk on water for the duration of your warpcloak when arriving at an expedition.",
-    "volume": "250 ml",
-    "weight": "150 g",
-    "material": [ "stone" ],
-    "symbol": "V",
-    "color": "blue",
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_LANDING_WATERWALK"
+    "use_action": "SKYISLAND_UPGRADE_LABS",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_scouting_clairvoyance1",
@@ -546,7 +542,8 @@
     "color": "light_blue",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_SCOUTING_CLAIRVOYANCE1"
+    "use_action": "SKYISLAND_UPGRADE_SCOUTING_CLAIRVOYANCE1",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_scouting_clairvoyance2",
@@ -561,7 +558,8 @@
     "color": "white",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_SCOUTING_CLAIRVOYANCE2"
+    "use_action": "SKYISLAND_UPGRADE_SCOUTING_CLAIRVOYANCE2",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_bonusmissions1",
@@ -576,7 +574,8 @@
     "color": "light_green",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS1"
+    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS1",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_bonusmissions2",
@@ -591,7 +590,8 @@
     "color": "green",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS2"
+    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS2",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_bonusmissions3",
@@ -606,7 +606,8 @@
     "color": "cyan",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS3"
+    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS3",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_bonusmissions4",
@@ -621,7 +622,8 @@
     "color": "light_blue",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS4"
+    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS4",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_bonusmissions5",
@@ -636,7 +638,8 @@
     "color": "blue",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS5"
+    "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS5",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_hardmissions1",
@@ -651,7 +654,8 @@
     "color": "yellow",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_HARDMISSIONS1"
+    "use_action": "SKYISLAND_UPGRADE_HARDMISSIONS1",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_upgradekey_hardmissions2",
@@ -666,7 +670,8 @@
     "color": "red",
     "initial_charges": 1,
     "charges_per_use": 1,
-    "use_action": "SKYISLAND_UPGRADE_HARDMISSIONS2"
+    "use_action": "SKYISLAND_UPGRADE_HARDMISSIONS2",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_quickheal",
@@ -784,19 +789,26 @@
     "use_action": { "type": "heal", "move_cost": 2500, "limb_power": 21, "head_power": 21, "torso_power": 21 }
   },
   {
-    "id": "skyisland_waterwalking_stone",
+    "id": "skyisland_warp_raft_token",
     "type": "TOOL",
     "category": "other",
-    "name": { "str": "flotation stone" },
-    "description": "This smooth, whorled stone seems cool and wet to the touch, but when you take your hand off it your skin is perfectly dry. If you activate it, you will be able to walk on the surface of water for three minutes.",
-    "weight": "5 g",
-    "volume": "5 ml",
+    "name": { "str": "warp raft token" },
+    "description": "A small token that pulses with aquatic energy. When activated, it unfolds into a temporary one-person raft that can float on water. The raft will disintegrate after about 3 minutes, so plan your crossing carefully!",
+    "weight": "50 g",
+    "volume": "250 ml",
     "looks_like": "spiral_stone",
-    "flags": [ "UNBREAKABLE" ],
     "material": [ "alien_resin" ],
-    "symbol": ".",
+    "symbol": "0",
     "color": "cyan",
-    "use_action": "SKYISLAND_WATERWALKING_STONE"
+    "initial_charges": 1,
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "unfold_vehicle",
+      "vehicle_name": "skyisland_warp_raft",
+      "unfold_msg": "The token dissolves into swirling energy that coalesces into a shimmering raft!",
+      "moves": 500
+    },
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "skyisland_wood_floor_tokens",

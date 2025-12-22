@@ -74,13 +74,6 @@ local UPGRADE_DEFS = {
     new_level = true,
     message = "Lab starts are now available at the warp obelisk. You can choose to begin expeditions in underground science labs. Be warned: you will need a Labs Catalyst each time, and you will start sealed inside!"
   },
-  -- Landing bonus upgrades (applied during warpcloak on landing)
-  landing_waterwalk = {
-    field = "landing_waterwalk_unlocked",
-    required = nil,
-    new_level = true,
-    message = "Landing Water-Walking unlocked. When you arrive at an expedition site, you will be able to walk on water for the duration of your warpcloak."
-  },
   -- Scouting clairvoyance (see everything near you on landing)
   scouting_clairvoyance1 = {
     field = "scouting_clairvoyance_time",
@@ -173,8 +166,6 @@ local function activate_upgrade(who, item, pos, storage, upgrade_key)
     gapi.add_msg("=== UPGRADE UNLOCKED ===")
     gapi.add_msg(def.message)
     gdebug.log_info(string.format("Upgrade %s activated: %s = true", upgrade_key, def.field))
-    -- Explicitly remove the item since return value may not work
-    player:remove_item(item)
     return 1
   end
 
@@ -194,9 +185,6 @@ local function activate_upgrade(who, item, pos, storage, upgrade_key)
   gapi.add_msg("=== UPGRADE UNLOCKED ===")
   gapi.add_msg(def.message)
   gdebug.log_info(string.format("Upgrade %s activated: %s = %d", upgrade_key, def.field, def.new_level))
-
-  -- Explicitly remove the item since return value may not work
-  player:remove_item(item)
   return 1
 end
 
@@ -243,10 +231,6 @@ end
 
 function upgrades.use_labs(who, item, pos, storage)
   return activate_upgrade(who, item, pos, storage, "labs")
-end
-
-function upgrades.use_landing_waterwalk(who, item, pos, storage)
-  return activate_upgrade(who, item, pos, storage, "landing_waterwalk")
 end
 
 function upgrades.use_scouting_clairvoyance1(who, item, pos, storage)

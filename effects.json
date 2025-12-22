@@ -61,18 +61,6 @@
     }
   },
   {
-    "id": "skyisland_waterwalking",
-    "type": "effect_type",
-    "name": [ "Waterwalking" ],
-    "desc": [ "You can walk on the surface of water as if it were solid ground." ],
-    "apply_message": "You feel lighter than water!",
-    "remove_message": "The waterwalking effect fades.",
-    "rating": "good",
-    "max_intensity": 1,
-    "max_duration": "3 m",
-    "flags": [ "YOUCANSWIM" ]
-  },
-  {
     "id": "skyisland_warpcloak",
     "type": "effect_type",
     "name": [ "Warp Cloak" ],
@@ -95,15 +83,5 @@
     "rating": "good",
     "max_intensity": 1,
     "flags": [ "EFFECT_SUPER_CLAIRVOYANCE" ]
-  },
-  {
-    "id": "skyisland_waterwalking_landing",
-    "//": "Hidden message-less version for warpcloak landing bonus",
-    "type": "effect_type",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "rating": "good",
-    "max_intensity": 1,
-    "flags": [ "YOUCANSWIM" ]
   }
 ]

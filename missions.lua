@@ -84,7 +84,7 @@ function missions.create_extraction_mission(center_omt, storage)
       if i == 1 then
         gapi.add_msg("Mission: Reach the exit portal!")
       else
-        gapi.add_msg("A second exit portal has also been detected!")
+        gapi.add_msg("Another exit portal has also been detected!")
       end
       -- Get actual target location from mission
       local target = new_mission:get_target_point()

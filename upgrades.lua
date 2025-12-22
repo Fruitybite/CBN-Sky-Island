@@ -93,6 +93,49 @@ local UPGRADE_DEFS = {
     required = 20,
     new_level = 60,
     message = "Scouting Clairvoyance II unlocked. You will see everything near you for 60 seconds when beginning an expedition."
+  },
+  -- Bonus mission unlocks (DDA: 5 tiers + 2 hard mission tiers)
+  bonusmissions1 = {
+    field = "bonus_missions_tier",
+    required = 0,
+    new_level = 1,
+    message = "Bonus Missions I unlocked. You will now receive random bonus missions during expeditions for extra warp shards."
+  },
+  bonusmissions2 = {
+    field = "bonus_missions_tier",
+    required = 1,
+    new_level = 2,
+    message = "Bonus Missions II unlocked. More bonus mission types are now available."
+  },
+  bonusmissions3 = {
+    field = "bonus_missions_tier",
+    required = 2,
+    new_level = 3,
+    message = "Bonus Missions III unlocked. Even more bonus mission variety."
+  },
+  bonusmissions4 = {
+    field = "bonus_missions_tier",
+    required = 3,
+    new_level = 4,
+    message = "Bonus Missions IV unlocked. A wider range of bonus missions available."
+  },
+  bonusmissions5 = {
+    field = "bonus_missions_tier",
+    required = 4,
+    new_level = 5,
+    message = "Bonus Missions V unlocked. Maximum bonus mission variety achieved."
+  },
+  hardmissions1 = {
+    field = "hard_missions_tier",
+    required = 0,
+    new_level = 1,
+    message = "Harder Missions unlocked. More challenging bonus missions with greater rewards are now available."
+  },
+  hardmissions2 = {
+    field = "hard_missions_tier",
+    required = 1,
+    new_level = 2,
+    message = "Hardest Missions unlocked. The most dangerous bonus missions with the greatest rewards are now available."
   }
 }
 
@@ -209,6 +252,34 @@ end
 
 function upgrades.use_scouting_clairvoyance2(who, item, pos, storage)
   return activate_upgrade(who, item, pos, storage, "scouting_clairvoyance2")
+end
+
+function upgrades.use_bonusmissions1(who, item, pos, storage)
+  return activate_upgrade(who, item, pos, storage, "bonusmissions1")
+end
+
+function upgrades.use_bonusmissions2(who, item, pos, storage)
+  return activate_upgrade(who, item, pos, storage, "bonusmissions2")
+end
+
+function upgrades.use_bonusmissions3(who, item, pos, storage)
+  return activate_upgrade(who, item, pos, storage, "bonusmissions3")
+end
+
+function upgrades.use_bonusmissions4(who, item, pos, storage)
+  return activate_upgrade(who, item, pos, storage, "bonusmissions4")
+end
+
+function upgrades.use_bonusmissions5(who, item, pos, storage)
+  return activate_upgrade(who, item, pos, storage, "bonusmissions5")
+end
+
+function upgrades.use_hardmissions1(who, item, pos, storage)
+  return activate_upgrade(who, item, pos, storage, "hardmissions1")
+end
+
+function upgrades.use_hardmissions2(who, item, pos, storage)
+  return activate_upgrade(who, item, pos, storage, "hardmissions2")
 end
 
 return upgrades

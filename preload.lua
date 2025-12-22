@@ -73,6 +73,34 @@ game.iuse_functions["SKYISLAND_UPGRADE_SCOUTING_CLAIRVOYANCE2"] = function(...)
   return mod.use_upgrade_scouting_clairvoyance2(...)
 end
 
+game.iuse_functions["SKYISLAND_UPGRADE_BONUSMISSIONS1"] = function(...)
+  return mod.use_upgrade_bonusmissions1(...)
+end
+
+game.iuse_functions["SKYISLAND_UPGRADE_BONUSMISSIONS2"] = function(...)
+  return mod.use_upgrade_bonusmissions2(...)
+end
+
+game.iuse_functions["SKYISLAND_UPGRADE_BONUSMISSIONS3"] = function(...)
+  return mod.use_upgrade_bonusmissions3(...)
+end
+
+game.iuse_functions["SKYISLAND_UPGRADE_BONUSMISSIONS4"] = function(...)
+  return mod.use_upgrade_bonusmissions4(...)
+end
+
+game.iuse_functions["SKYISLAND_UPGRADE_BONUSMISSIONS5"] = function(...)
+  return mod.use_upgrade_bonusmissions5(...)
+end
+
+game.iuse_functions["SKYISLAND_UPGRADE_HARDMISSIONS1"] = function(...)
+  return mod.use_upgrade_hardmissions1(...)
+end
+
+game.iuse_functions["SKYISLAND_UPGRADE_HARDMISSIONS2"] = function(...)
+  return mod.use_upgrade_hardmissions2(...)
+end
+
 -- Utility item activations
 game.iuse_functions["SKYISLAND_QUICKHEAL"] = function(...)
   return mod.use_quickheal(...)

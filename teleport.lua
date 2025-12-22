@@ -619,8 +619,12 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
 
   -- Create missions
   missions.create_extraction_mission(dest_omt, storage)
-  missions.create_slaughter_mission()
-  missions.create_treasure_mission(dest_omt, storage)
+
+  -- Bonus missions require upgrades (DDA: no bonus missions by default)
+  local bonus_tier = storage.bonus_missions_tier or 0
+  if bonus_tier >= 1 then
+    missions.create_bonus_mission(dest_omt, storage)
+  end
 
   -- Start warp sickness (reset counters for new expedition)
   -- The global hook is already running and will start accumulating time

@@ -100,102 +100,82 @@ function missions.create_extraction_mission(center_omt, storage)
   end
 end
 
--- Create treasure mission
-function missions.create_treasure_mission(center_omt, storage)
+-- Create bonus mission (unified weighted selection based on upgrade tiers)
+-- DDA weights: treasure=45, light=15, horde=10, mid=15, mid_horde=10
+-- Hard missions add: hard=10, elite=5, boss=5, migo=5
+-- Hardest missions add: boss_group=10, boss_horde=10, boss_multi=10, migo_elite=10
+function missions.create_bonus_mission(center_omt, storage)
   local player = gapi.get_avatar()
   if not player then return end
 
-  -- Select mission type based on raid length
+  local hard_tier = storage.hard_missions_tier or 0
   local suffix = get_raid_suffix(storage)
-  local mission_type_id = "MISSION_BONUS_TREASURE" .. suffix
-  gdebug.log_info(string.format("Creating treasure mission: %s (raid type: %s)",
-    mission_type_id, storage.current_raid_type or "unknown"))
 
-  local player_id = player:getID()
-  local mission_type = MissionTypeIdRaw.new(mission_type_id)
-
-  local new_mission = Mission.reserve_new(mission_type, player_id)
-  if new_mission then
-    new_mission:assign(player)
-    gapi.add_msg("Bonus Mission: Find the warp shards!")
-    local target = new_mission:get_target_point()
-    gdebug.log_info(string.format("Created treasure mission at: %d, %d, %d", target.x, target.y, target.z))
-  else
-    gdebug.log_error("Failed to create treasure mission!")
-  end
-end
-
--- Create slaughter mission
-function missions.create_slaughter_mission()
-  local player = gapi.get_avatar()
-  if not player then return end
-
-  -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  -- !!! TEMPORARY DEBUG: FORCE KILL_MONSTERS MISSION FOR TESTING             !!!
-  -- !!! REMOVE THIS BEFORE PRODUCTION - SEARCH FOR "TEMPORARY DEBUG"         !!!
-  -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  local DEBUG_FORCE_KILL_MONSTERS = false
-
-  if DEBUG_FORCE_KILL_MONSTERS then
-    gdebug.log_info("!!! TEMPORARY DEBUG: Forcing MISSION_BONUS_KILL_LIGHT for testing !!!")
-    local player_id = player:getID()
-    local mission_type = MissionTypeIdRaw.new("MISSION_BONUS_KILL_LIGHT")
-    local new_mission = Mission.reserve_new(mission_type, player_id)
-    if new_mission then
-      new_mission:assign(player)
-      gapi.add_msg("DEBUG: Mission: Kill the warp-draining zombies!")
-      gdebug.log_info("DEBUG: Created KILL_MONSTERS mission: MISSION_BONUS_KILL_LIGHT")
-    else
-      gdebug.log_error("DEBUG: Failed to create KILL_MONSTERS mission!")
-    end
-    return
-  end
-  -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-  -- Weighted pool of slaughter missions (matching CDDA weights)
-  local slaughter_missions = {
-    { id = "MISSION_SLAUGHTER_ZOMBIES_10", weight = 10, name = "Kill 10 Zombies" },
-    { id = "MISSION_SLAUGHTER_ZOMBIES_50", weight = 20, name = "Kill 50 Zombies" },
-    { id = "MISSION_SLAUGHTER_BIRD", weight = 5, name = "Kill 5 Birds" },
-    { id = "MISSION_SLAUGHTER_MAMMAL", weight = 5, name = "Kill 5 Mammals" },
-    -- TODO: Add harder missions when difficulty system is implemented
-    -- MISSION_SLAUGHTER_ZOMBIES_100, MISSION_SLAUGHTER_MIGO, MISSION_SLAUGHTER_NETHER
+  -- Build weighted mission pool
+  local mission_pool = {
+    -- Base missions (always available with bonus_missions_tier >= 1)
+    { id = "MISSION_BONUS_TREASURE" .. suffix, weight = 45, name = "Find the warp shards", has_target = true },
+    { id = "MISSION_BONUS_KILL_LIGHT", weight = 15, name = "Clear zombie cluster", has_target = true },
+    { id = "MISSION_BONUS_KILL_HORDE", weight = 10, name = "Clear zombie horde", has_target = true },
+    { id = "MISSION_BONUS_KILL_MID", weight = 15, name = "Clear evolved zombies", has_target = true },
+    { id = "MISSION_BONUS_KILL_MID_HORDE", weight = 10, name = "Clear evolved horde", has_target = true },
   }
+
+  -- Hard missions (hard_missions_tier >= 1)
+  if hard_tier >= 1 then
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_HARD", weight = 10, name = "Clear fearsome zombies", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_ELITE", weight = 5, name = "Clear elite zombies", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS", weight = 5, name = "Kill zombie lord", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MIGO", weight = 5, name = "Clear mi-go threat", has_target = true })
+  end
+
+  -- Hardest missions (hard_missions_tier >= 2)
+  if hard_tier >= 2 then
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS_GROUP", weight = 10, name = "Kill zombie leader + swarm", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS_HORDE", weight = 10, name = "Kill horde lord", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS_MULTI", weight = 10, name = "Kill zombie superteam", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MIGO_ELITE", weight = 10, name = "Kill mi-go overlord", has_target = true })
+  end
 
   -- Calculate total weight
   local total_weight = 0
-  for _, mission in ipairs(slaughter_missions) do
+  for _, mission in ipairs(mission_pool) do
     total_weight = total_weight + mission.weight
   end
 
   -- Select random mission based on weight
   local roll = gapi.rng(1, total_weight)
-  local selected_mission = nil
+  local selected = nil
   local current_weight = 0
 
-  for _, mission in ipairs(slaughter_missions) do
+  for _, mission in ipairs(mission_pool) do
     current_weight = current_weight + mission.weight
     if roll <= current_weight then
-      selected_mission = mission
+      selected = mission
       break
     end
   end
 
-  if not selected_mission then
-    gdebug.log_error("Failed to select slaughter mission!")
+  if not selected then
+    gdebug.log_error("Failed to select bonus mission!")
     return
   end
 
+  gdebug.log_info(string.format("Creating bonus mission: %s", selected.id))
+
   local player_id = player:getID()
-  local mission_type = MissionTypeIdRaw.new(selected_mission.id)
+  local mission_type = MissionTypeIdRaw.new(selected.id)
 
   local new_mission = Mission.reserve_new(mission_type, player_id)
   if new_mission then
     new_mission:assign(player)
-    gapi.add_msg(string.format("Mission: %s!", selected_mission.name))
-    gdebug.log_info(string.format("Created slaughter mission: %s", selected_mission.name))
+    gapi.add_msg(string.format("Bonus Mission: %s!", selected.name))
+    if selected.has_target then
+      local target = new_mission:get_target_point()
+      gdebug.log_info(string.format("Created bonus mission at: %d, %d, %d", target.x, target.y, target.z))
+    end
   else
-    gdebug.log_error("Failed to create slaughter mission!")
+    gdebug.log_error(string.format("Failed to create bonus mission: %s", selected.id))
   end
 end
 

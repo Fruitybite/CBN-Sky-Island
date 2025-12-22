@@ -1155,6 +1155,176 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "skyisland_upgradekey_bonusmissions1",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [
+      [ [ "skyisland_fakeitem_heart", -1 ] ],
+      [ [ "cash_card", 50000 ] ]
+    ],
+    "components": [
+      [ [ "fp_loyalty_card", 1 ] ],
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_upgradekey_bonusmissions2",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
+    "//": "DDA: gas discount card + warp shards + jewelry",
+    "components": [
+      [ [ "gasdiscount_platinum", 1 ] ],
+      [ [ "skyisland_warp_shard", 3 ] ],
+      [ [ "ring_purity", 1 ] ],
+      [ [ "ring_engagement", 1 ] ],
+      [ [ "ring_wedding", 1 ] ],
+      [ [ "ring_signet", 1 ] ],
+      [ [ "silver_watch", 1 ] ],
+      [ [ "gold_watch", 1 ] ],
+      [ [ "gold_locket", 1 ] ],
+      [ [ "platinum_locket", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_upgradekey_bonusmissions3",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
+    "//": "DDA: jade brooch/crown + warp shards + precious metals + gems",
+    "components": [
+      [ [ "jade_brooch", 1 ], [ "crown_golden", 1 ], [ "crown_golden_survivor", 1 ] ],
+      [ [ "skyisland_warp_shard", 6 ] ],
+      [ [ "platinum_small", 100 ] ],
+      [ [ "gold_small", 200 ] ],
+      [ [ "silver_small", 500 ] ],
+      [ [ "diamond", 5 ] ],
+      [ [ "ruby", 1 ] ],
+      [ [ "emerald", 1 ] ],
+      [ [ "garnet", 1 ] ],
+      [ [ "sapphire", 1 ] ],
+      [ [ "opal", 1 ] ],
+      [ [ "pearl", 1 ] ],
+      [ [ "citrine", 1 ] ],
+      [ [ "peridot", 1 ] ],
+      [ [ "amethyst", 1 ] ],
+      [ [ "tourmaline", 1 ] ],
+      [ [ "aquamarine", 1 ] ],
+      [ [ "alexandrite", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_upgradekey_bonusmissions4",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [
+      [ [ "skyisland_fakeitem_heart", -1 ] ],
+      [ [ "cash_card", 250000 ] ]
+    ],
+    "components": [
+      [ [ "skyisland_warp_shard", 8 ] ],
+      [ [ "spiral_stone", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_upgradekey_bonusmissions5",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [
+      [ [ "skyisland_fakeitem_heart", -1 ] ],
+      [ [ "permanent_marker", 500 ] ],
+    ],
+    "//": "DDA: warp shards + paper + pens as tools",
+    "components": [
+      [ [ "skyisland_warp_shard", 10 ] ],
+      [ [ "paper", 200 ] ],
+      [ [ "survnote", 10 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_upgradekey_hardmissions1",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [
+        [ [ "skyisland_fakeitem_heart", -1 ] ],
+        [ [ "glock_19", -1 ] ]
+    ],
+    "//": "DDA: bat + warp shards + medical + 9mm ammo",
+    "components": [
+      [ [ "bat", 1 ], [ "bwirebat", 1 ], [ "nailbat", 1 ] ],
+      [ [ "skyisland_warp_shard", 2 ] ],
+      [ [ "bandages", 10 ] ],
+      [ [ "chem_hydrogen_peroxide", 10 ] ],
+      [ [ "9mm", 50 ], [ "9mmfmj", 50 ], [ "9mmP", 30 ], [ "9mmP2", 20 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_upgradekey_hardmissions2",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [
+      [ [ "skyisland_fakeitem_heart", -1 ] ],
+      [ [ "shotgun_s", -1 ], [ "shotgun_d", -1 ] ]
+    ],
+    "//": "DDA: sledgehammer + warp shards + medical + shotgun shells + grenade",
+    "components": [
+      [ [ "hammer_sledge", 1 ], [ "hammer_sledge_short", 1 ], [ "hammer_sledge_heavy", 1 ], [ "hammer_sledge_engineer", 1 ] ],
+      [ [ "skyisland_warp_shard", 2 ] ],
+      [ [ "quikclot", 8 ] ],
+      [ [ "bfipowder", 10 ] ],
+      [ [ "shot_00", 40 ] ],
+      [ [ "grenade", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "skyisland_labs_catalyst",
     "type": "recipe",
     "category": "CC_WARP",

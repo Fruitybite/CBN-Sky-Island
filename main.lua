@@ -100,6 +100,34 @@ mod.use_upgrade_scouting_clairvoyance2 = function(who, item, pos)
   return upgrades.use_scouting_clairvoyance2(who, item, pos, storage)
 end
 
+mod.use_upgrade_bonusmissions1 = function(who, item, pos)
+  return upgrades.use_bonusmissions1(who, item, pos, storage)
+end
+
+mod.use_upgrade_bonusmissions2 = function(who, item, pos)
+  return upgrades.use_bonusmissions2(who, item, pos, storage)
+end
+
+mod.use_upgrade_bonusmissions3 = function(who, item, pos)
+  return upgrades.use_bonusmissions3(who, item, pos, storage)
+end
+
+mod.use_upgrade_bonusmissions4 = function(who, item, pos)
+  return upgrades.use_bonusmissions4(who, item, pos, storage)
+end
+
+mod.use_upgrade_bonusmissions5 = function(who, item, pos)
+  return upgrades.use_bonusmissions5(who, item, pos, storage)
+end
+
+mod.use_upgrade_hardmissions1 = function(who, item, pos)
+  return upgrades.use_hardmissions1(who, item, pos, storage)
+end
+
+mod.use_upgrade_hardmissions2 = function(who, item, pos)
+  return upgrades.use_hardmissions2(who, item, pos, storage)
+end
+
 -- Utility item activations
 mod.use_quickheal = function(who, item, pos)
   local player = gapi.get_avatar()

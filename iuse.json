@@ -118,5 +118,40 @@
     "type": "item_action",
     "id": "SKYISLAND_UPGRADE_SCOUTING_CLAIRVOYANCE2",
     "name": { "str": "Unlock Scouting Clairvoyance II" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_UPGRADE_BONUSMISSIONS1",
+    "name": { "str": "Unlock Bonus Missions I" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_UPGRADE_BONUSMISSIONS2",
+    "name": { "str": "Unlock Bonus Missions II" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_UPGRADE_BONUSMISSIONS3",
+    "name": { "str": "Unlock Bonus Missions III" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_UPGRADE_BONUSMISSIONS4",
+    "name": { "str": "Unlock Bonus Missions IV" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_UPGRADE_BONUSMISSIONS5",
+    "name": { "str": "Unlock Bonus Missions V" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_UPGRADE_HARDMISSIONS1",
+    "name": { "str": "Unlock Harder Missions" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_UPGRADE_HARDMISSIONS2",
+    "name": { "str": "Unlock Hardest Missions" }
   }
 ]

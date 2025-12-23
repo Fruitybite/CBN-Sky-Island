@@ -12,6 +12,14 @@ local red_room_item_storage = {}
 -- Since the room can rotate, we use 3 for both axes to be safe
 local RED_ROOM_RANGE = 3  -- tiles in each direction
 
+-- These items don't disappear when you die. Table tracks how many
+-- the player had when they died
+local items_preserved_on_death = {
+  skyisland_warp_shard = 0,
+  skyisland_material_token = 0,
+  skyisland_vortex_token = 0,
+}
+
 -- Helper: Store items from the red room in temporary storage (survives map changes)
 -- Returns the number of items stored
 local function store_red_room_items(obelisk_pos)
@@ -835,6 +843,22 @@ function teleport.return_home_success(storage, missions, warp_sickness)
   ))
 end
 
+-- Helper: Count stackable items by ID
+local function count_item_charges(player, item_id)
+  local total = 0
+  local all_items = player:all_items(false)
+  for _, item in ipairs(all_items) do
+    if item:get_type():str() == item_id then
+      if item:is_stackable() then
+        total = total + item.charges
+      else
+        total = total + 1
+      end
+    end
+  end
+  return total
+end
+
 -- Resurrection handler - teleport player home after death
 function teleport.resurrect_at_home(storage, missions, warp_sickness)
   if not storage.home_location then
@@ -845,6 +869,11 @@ function teleport.resurrect_at_home(storage, missions, warp_sickness)
 
   local player = gapi.get_avatar()
   if not player then return end
+
+  -- Check for token bag and preserve tokens before dropping items
+  for item in pairs(items_preserved_on_death) do
+    items_preserved_on_death[item] = count_item_charges(player, item)
+  end
 
   -- DROP ALL ITEMS before teleporting - this is the death penalty!
   -- Items are dropped at the death location (lost forever)
@@ -890,6 +919,19 @@ function teleport.resurrect_at_home(storage, missions, warp_sickness)
 
   gapi.add_msg("You respawn at home, naked and wounded!")
   gdebug.log_info(string.format("Resurrected at home abs_ms: %d, %d, %d", home_abs_ms.x, home_abs_ms.y, home_abs_ms.z))
+  gdebug.log_info(string.format("local pos: %d, %d, %d", local_pos.x, local_pos.y, local_pos.z))
+
+  -- Restore preserved items
+  local player_pos = player:get_pos_ms()
+  for item, count in pairs(items_preserved_on_death) do
+    if count > 0 then
+  gdebug.log_info(local_pos)
+      local item_id = ItypeId.new(item)
+      local items = gapi.create_item(item_id, count)
+      gapi.get_map():add_item(player_pos, items)
+    end
+    items_preserved_on_death[item] = 0
+  end
 end
 
 return teleport

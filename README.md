@@ -2,56 +2,123 @@
 
 A port of the Sky Islands mod from Cataclysm: Dark Days Ahead to Cataclysm: Bright Nights.
 
-This is NOT CURRENTLY COMPATIBLE with BN Nightly; you need two C++ patches, only one of which I have polished enough to PR. If you insist on trying the mod out in its broken, incomplete state, you need to build [my working branch](https://github.com/graysonchao/Cataclysm-BN/tree/feat/mgoal_kill_monsters) from source.
+**Ported from**: [CDDA Sky Islands](https://github.com/TGWeaver/CDDA-Sky-Islands) by TGWeaver
+
+## Overview
+
+Sky Islands is a roguelike raid-loop mod. You live on a floating island sanctuary and teleport down to the zombie-infested surface for timed expeditions. Complete missions, gather resources, and return home before warp sickness kills you. Die during a raid and you respawn at home - but lose everything you were carrying (except tokens).
 
 ## Features
 
-### ✅ Implemented
-- **Teleportation System**: Warp obelisk to start expeditions, return obelisk to get back home
-- **Mission System**: Three mission types per expedition (extraction, slaughter, treasure)
-- **Warp Sickness**: Escalating penalties every 5 minutes while away (13 stages from mild disorientation to instant death)
-- **Material Token Economy**: Earn 50 tokens per successful return, convert to resources at infinity nodes
-- **Infinity Nodes**: Three deployable furniture types that convert tokens to raw materials
-  - Infinity tree: logs, planks, sticks, wooden beams
-  - Infinity stone: rocks, clay, sand, soil, bricks, cement
-  - Infinity ore: scrap metal, steel, pipes, wire, nails, frames
-- **Death Protection**: Die during a raid? Respawn at home (but lose the raid rewards)
+### Core Gameplay
+
+- **Floating Island Sanctuary**: Your home base, safe from zombies. Contains the Heart of the Island (upgrade hub) and warp obelisks for travel.
+- **Timed Expeditions**: Teleport to the surface for raids. Warp sickness builds over time - stay too long and you die.
+- **Death Protection**: Die during a raid? You respawn at home, but lose all carried items except warp shards and material tokens.
+- **Mission System**: Each expedition includes extraction, slaughter, and bonus missions for rewards.
+
+### Expeditions
+
+- **Raid Types**: Short (1x time), Medium (1.5x time), and Extended (2x time) expeditions with scaling rewards.
+- **Starting Locations**:
+  - Field (always available)
+  - Basement (unlock required)
+  - Rooftop (unlock required)
+  - Science Lab (unlock required, costs catalyst, high risk/reward)
+- **Warp Sickness**: 8-pulse grace period, then escalating debuffs leading to disintegration. Stability upgrades extend the grace period.
+
+### Economy
+
+- **Warp Shards**: Primary currency earned from missions. Used for upgrades, healing, and crafting.
+- **Material Tokens**: Earned on successful return (50/75/100 based on raid length). Convert to raw materials at infinity nodes.
+- **Vortex Tokens**: Rare currency for special items.
+
+### Infinity Nodes
+
+Deployable furniture that converts material tokens to resources:
+- **Infinity Tree**: Logs, planks, sticks, wooden beams
+- **Infinity Stone**: Rocks, clay, sand, soil, bricks, cement
+- **Infinity Ore**: Scrap metal, steel, pipes, wire, nails, frames
+
+### Upgrades (Craft Near Heart of Island)
+
+- **Stability (3 levels)**: +2 grace period pulses per level
+- **Scouting (2 levels)**: Reveal more map tiles around extraction points
+- **Scouting Clairvoyance (2 levels)**: Temporary omniscience on landing (10s/20s)
+- **Multiple Exits**: 2 extraction points per expedition instead of 1
+- **Expedition Length (2 levels)**: Unlock Medium and Extended raids
+- **Landing Flight**: 60 seconds of flight when landing on expeditions
+- **Bonus Missions (5 tiers)**: Unlock additional mission types with better rewards
+- **Hard Missions (2 tiers)**: Unlock challenging missions with higher payouts
+- **Slaughter Missions**: Kill-count missions for bonus shards
+- **Location Unlocks**: Basement starts, Rooftop starts, Lab starts
+
+### Heart of the Island
+
+Central hub with menus for:
+- **Construction**: Place infinity nodes and other structures
+- **Upgrades**: View upgrade progress and requirements
+- **Services**: Healing (free at Rank 0, costs shards later), expedition statistics
+- **Difficulty Settings**: Customize warp pulse timing, return behavior, emergency return options
+- **Information**: Lore and gameplay explanations
+- **Rank-Up Challenges**: Progress gates at 10 and 20 successful raids
+
+### Difficulty Options
+
+- **Warp Pulse Timing**: Casual (30min), Normal (15min), Hard (10min), Impossible (5min)
+- **Return Behavior**: Whole room teleports with you, or just yourself
+- **Emergency Return**: Free beacon, costs shards, craft-only, or extraction-only
+
+### Utility Items
+
+- **Homeward Mote**: One-time death insurance - keeps all items on death
+- **Earthbound Pill**: Extends time on expedition (+4 pulses)
+- **Warp Status Crystal**: Shows detailed expedition status
+- **Skyward Beacon**: Emergency return home (crafted)
+- **Warp Home Focus**: Reusable return item (for certain difficulty modes)
+- **Animal Teleporter**: Capture and teleport friendly creatures to your island
+
+### Quality of Life
+
+- **Token Preservation**: Warp shards, material tokens, and vortex tokens survive death
+- **Red Room Item Teleport**: Items dropped in the red room near return obelisks teleport home with you
 - **State Persistence**: All progress saves correctly across game sessions
 
-### 🚧 In Progress
-- **Heart of the Island**: Central upgrade hub (planned)
-- **Progress Gates**: Automatic rank-ups at 10 and 20 successful raids (planned)
-- **Rank-up Missions**: Craft "Proof of Determination" to unlock new recipes (planned)
+## Getting Started
+
+1. Start a new game with the "Sky Island Warper" scenario
+2. You begin on your floating island sanctuary
+3. Use the warp obelisk to start your first expedition
+4. Complete missions and return via the extraction point before warp sickness kills you
+5. Use earned shards and tokens to craft upgrades and gather resources
 
 ## Known Issues
 
 ### Scenario Selection
-When creating a character, the game may default to "Evacuee" instead of "Sky Island Warper". You must manually select "Sky Island Warper" from the scenario list.
-
-This is a Bright Nights engine issue affecting multiple mods. **Workaround**: Manually select the scenario before starting.
-
-## Development Status
-
-This is an active work-in-progress port. The core gameplay loop is functional, but many features from the CDDA version are still being ported.
-
-**Ported from**: [CDDA Sky Islands](https://github.com/TGWeaver/CDDA-Sky-Islands) by TGWeaver
+When creating a character, manually select "Sky Island Warper" from the scenario list - the game may default to a different scenario.
 
 ## Troubleshooting
 
 ### Mod won't load
 - Check `debug.log` for Lua errors
-- Verify you're running a recent Cataclysm-BN build with Lua mod support
+- Verify you're running a Cataclysm-BN build with Lua mod support
 
-### Warp sickness not progressing
-- Ensure you successfully started an expedition (check messages)
-- Wait 5+ minutes of game time
-- Check `debug.log` for "Warp sickness tick" messages
+### Debug Logging
+To enable verbose debug output, edit `util.lua` and set:
+```lua
+util.DEBUG = true
+```
 
-### State not persisting
-- Check `debug.log` for save/load messages
-- Verify raids_total increments correctly when starting expeditions
+## Development
 
-## Development TODO
+This is an active port. Most core features from CDDA Sky Islands are implemented. Some advanced features may still be in progress.
 
-### Engine Contributions (requires C++ patches to CBN)
-- [ ] **Lua spell effect**: Add a `"lua"` spell effect type that calls registered Lua functions, enabling mods to create spells with custom logic. This would allow the warp home focus to be a proper spell instead of an item with iuse.
+### Files
+- `main.lua` - Entry point, hooks, item activations
+- `teleport.lua` - Warp obelisk, return logic, resurrection
+- `missions.lua` - Mission creation and rewards
+- `warp_sickness.lua` - Warp pulse timing and effects
+- `heart.lua` - Heart of the Island menus
+- `upgrades.lua` - Upgrade definitions and activation
+- `util.lua` - Shared utilities (debug logging)
+- `preload.lua` - Hook and iuse registration

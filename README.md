@@ -4,6 +4,11 @@ A port of the Sky Islands mod from Cataclysm: Dark Days Ahead to Cataclysm: Brig
 
 **Ported from**: [CDDA Sky Islands](https://github.com/TGWeaver/CDDA-Sky-Islands) by TGWeaver
 
+## Compatibility
+Requires https://github.com/cataclysmbn/Cataclysm-BN/commit/c879aaf66421a61c59ff9f576143edbcf3174daa or later!!
+
+This means that, as of this writing, you need to download the _very latest commit_ of CBN and build it yourself in order to play.
+
 ## Overview
 
 Sky Islands is a roguelike raid-loop mod. You live on a floating island sanctuary and teleport down to the zombie-infested surface for timed expeditions. Complete missions, gather resources, and return home before warp sickness kills you. Die during a raid and you respawn at home - but lose everything you were carrying (except tokens).

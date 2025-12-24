@@ -5,9 +5,7 @@ A port of the Sky Islands mod from Cataclysm: Dark Days Ahead to Cataclysm: Brig
 **Ported from**: [CDDA Sky Islands](https://github.com/TGWeaver/CDDA-Sky-Islands) by TGWeaver
 
 ## Compatibility
-Requires https://github.com/cataclysmbn/Cataclysm-BN/commit/c879aaf66421a61c59ff9f576143edbcf3174daa or later!!
-
-This means that, as of this writing, you need to download the _very latest commit_ of CBN and build it yourself in order to play.
+Requires [CBN Nightly 2025-12-23](https://github.com/cataclysmbn/Cataclysm-BN/releases/tag/2025-12-23) or later!
 
 ## Overview
 

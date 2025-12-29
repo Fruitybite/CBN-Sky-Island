@@ -74,18 +74,18 @@
         "                        ",
         "                        ",
         "           YXZ          ",
-        "                        ",
-        "                        ",
-        "                        ",
+        "           ...          ",
+        "           ...          ",
+        "           ...          ",
         "            V           "
       ],
       "terrain": {
         " ": "t_grass",
         ".": "t_concrete",
-        "V": "t_grass",
-        "X": "t_grass",
+        "V": "t_concrete",
+        "X": "t_concrete",
         "Y": "t_grass",
-        "Z": "t_grass"
+        "Z": "t_grass",
       },
       "furniture": {
         "X": "f_skyisland_warp_obelisk",

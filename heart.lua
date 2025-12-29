@@ -467,6 +467,48 @@ local function run_construction_mission(player, mission_id)
   end
 end
 
+-- Hardcoded coordinates for sky island core terrain changes
+-- These are based on the sky_island_core mapgen layout and avoid
+-- using mapgen updates on the surface (which can fail with vehicles)
+local ISLAND_COORDS = {
+  stairs_down = { x = 60, y = 69, z = 10 },
+  skylight = { x = 60, y = 56, z = 10 }
+}
+
+local function to_tripoint(coord)
+	return Tripoint.new(coord.x, coord.y, coord.z)
+end
+
+-- Helper: Set terrain at a specific local coordinate
+-- Uses absolute world coordinates based on player's current overmap tile
+local function set_terrain_at_local_pos(coord, terrain_id)
+  local map = gapi.get_map()
+  if not map then
+    gapi.add_msg("ERROR: Could not get map")
+    return false
+  end
+
+  -- Create the terrain ID
+  local ter_str = TerId.new(terrain_id)
+  if not ter_str or not ter_str:is_valid() then
+    gapi.add_msg("ERROR: Invalid terrain ID: " .. terrain_id)
+    return false
+  end
+  local ter_int = ter_str:int_id()
+
+  -- Create the tripoint at the specified local coordinates
+  local pos = to_tripoint(coord)
+
+  -- Set the terrain
+  local current_ter = map:get_ter_at(pos)
+  gapi.add_msg("current ter at %s is %s", pos, current_ter)
+  local success = map:set_ter_at(pos, ter_int)
+  if not success then
+    gapi.add_msg("WARNING: Failed to set terrain at position")
+  end
+  return success
+end
+
 -- Construction menu
 local function show_construction_menu(player, storage)
   local ui = UiList.new()
@@ -542,6 +584,11 @@ local function show_construction_menu(player, storage)
     remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.basement)
     storage.skyisland_build_base = true
     gapi.add_msg("Construction beginning... The island trembles as new spaces form.")
+
+    -- Set stairs down on surface via Lua (avoids mapgen update issues with vehicles)
+    set_terrain_at_local_pos(ISLAND_COORDS.stairs_down, "t_stairs_down")
+
+    -- Run the mission to create the basement room
     if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BASEMENT") then
       gapi.add_msg("A basement has been carved into the island's depths!")
     end
@@ -558,6 +605,11 @@ local function show_construction_menu(player, storage)
     remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.bigroom1)
     storage.skyisland_build_bigroom1 = true
     gapi.add_msg("Expanding the basement...")
+
+    -- Set skylight on surface via Lua (avoids mapgen update issues with vehicles)
+    set_terrain_at_local_pos(ISLAND_COORDS.skylight, "t_glass_roof")
+
+    -- Run the mission to expand the basement
     if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BIGROOM1") then
       gapi.add_msg("Cross-shaped corridors now extend from the central room! A skylight illuminates from above.")
     end

@@ -825,7 +825,7 @@
     "type": "TOOL",
     "category": "other",
     "name": { "str": "warp raft token" },
-    "description": "A small token that pulses with aquatic energy. When activated, it unfolds into a temporary one-person raft that can float on water. The raft will disintegrate after about 3 minutes, so plan your crossing carefully!",
+    "description": "A small token that pulses with aquatic energy. When activated, it unfolds into a small, slow raft.",
     "weight": "50 g",
     "volume": "250 ml",
     "looks_like": "spiral_stone",

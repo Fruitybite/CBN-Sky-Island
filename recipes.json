@@ -1335,12 +1335,13 @@
     "time": "15 m",
     "autolearn": true,
     "reversible": false,
-    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
-    "//": "Consumable catalyst for lab expeditions - science card + welding fuel",
+    "tools": [
+      [ [ "skyisland_fakeitem_heart", -1 ] ],
+      [ [ "oxy_torch", 5 ] ],
+    ],
     "components": [
       [ [ "skyisland_warp_shard", 1 ] ],
-      [ [ "id_science", 1 ] ],
-      [ [ "oxyacetylene", 60 ] ]
+      [ [ "id_science", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },

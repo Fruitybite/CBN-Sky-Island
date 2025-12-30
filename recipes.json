@@ -1043,7 +1043,7 @@
     "//": "Basement items: plushies, board games, cards - things found in home basements",
     "components": [
       [ [ "skyisland_warp_shard", 1 ] ],
-      [ [ "bodypillow", 2 ], [ "teddy", 4 ], [ "shark_plush", 4 ] ],
+      [ [ "bodypillow", 2 ], [ "teddy_bear", 4 ], [ "shark_plush", 4 ] ],
       [ [ "chess", 1 ], [ "checkers", 1 ], [ "monopoly", 1 ] ],
       [ [ "cards_magic", 1 ], [ "deck_of_cards", 2 ] ],
       [ [ "catan", 1 ], [ "dnd", 1 ], [ "battleship", 1 ] ]

@@ -153,5 +153,15 @@
     "type": "item_action",
     "id": "SKYISLAND_UPGRADE_LANDING_FLIGHT",
     "name": { "str": "Unlock Landing Flight" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_IMPRINT_AUTODOC",
+    "name": { "str": "Imprint on Autodoc" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_IMPRINT_AUTODOC_COUCH",
+    "name": { "str": "Imprint on Autodoc Couch" }
   }
 ]

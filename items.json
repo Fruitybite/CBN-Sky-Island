@@ -195,7 +195,20 @@
   {
     "id": "skyisland_autodoc_inert",
     "name": { "str": "Autodoc copyplate (inert)", "str_pl": "Autodoc copyplates (inert)" },
-    "description": "This strange obsidian-colored plate is capable of mimicking the advanced tech found within a modern Autodoc, and can be used to create a working copy at your sanctuary. However, it is inert in its current state and must first be imprinted on a working Autodoc. To do so, find an Autodoc during an expedition and use the construction menu to imprint this plate.",
+    "description": "This strange obsidian-colored plate is capable of mimicking the advanced tech found within a modern Autodoc, and can be used to create a working copy at your sanctuary. However, it is inert in its current state and must first be imprinted on a working Autodoc. To do so, find an Autodoc during an expedition and activate this item while standing next to it.",
+    "type": "TOOL",
+    "symbol": ")",
+    "color": "light_cyan",
+    "material": [ "alien_resin" ],
+    "flags": [ "UNBREAKABLE" ],
+    "weight": "100 g",
+    "volume": "200 ml",
+    "use_action": "SKYISLAND_IMPRINT_AUTODOC"
+  },
+  {
+    "id": "skyisland_autodoc_active",
+    "name": { "str": "Autodoc copyplate (activated)", "str_pl": "Autodoc copyplates (activated)" },
+    "description": "This strange obsidian-colored plate is capable of mimicking the advanced tech found within a modern Autodoc, and can be used to create a working copy at your sanctuary. It has been successfully activated and can be used as the catalyst to create a new Autodoc at a location of your choosing using the construction menu. Requires an adjacent Autodoc Couch to function.",
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_cyan",
@@ -205,9 +218,22 @@
     "volume": "200 ml"
   },
   {
-    "id": "skyisland_autodoc_active",
-    "name": { "str": "Autodoc copyplate (activated)", "str_pl": "Autodoc copyplates (activated)" },
-    "description": "This strange obsidian-colored plate is capable of mimicking the advanced tech found within a modern Autodoc, and can be used to create a working copy at your sanctuary. It has been successfully activated and can be used as the catalyst to create a new Autodoc at a location of your choosing using the construction menu. Be aware this cannot be safely moved once placed, and will also require you to add an adjacent couch, then convert it to an Autodoc couch.",
+    "id": "skyisland_autodoc_couch_inert",
+    "name": { "str": "Autodoc Couch copyplate (inert)", "str_pl": "Autodoc Couch copyplates (inert)" },
+    "description": "This strange obsidian-colored plate is capable of mimicking the patient interface couch used with an Autodoc. It is inert and must first be imprinted on a working Autodoc Couch. Find one during an expedition and activate this item while standing next to it.",
+    "type": "TOOL",
+    "symbol": ")",
+    "color": "light_cyan",
+    "material": [ "alien_resin" ],
+    "flags": [ "UNBREAKABLE" ],
+    "weight": "100 g",
+    "volume": "200 ml",
+    "use_action": "SKYISLAND_IMPRINT_AUTODOC_COUCH"
+  },
+  {
+    "id": "skyisland_autodoc_couch_active",
+    "name": { "str": "Autodoc Couch copyplate (activated)", "str_pl": "Autodoc Couch copyplates (activated)" },
+    "description": "This strange obsidian-colored plate is capable of mimicking the patient interface couch used with an Autodoc. It has been activated and can be used to create a new Autodoc Couch via the construction menu. Must be placed adjacent to an Autodoc to function.",
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_cyan",

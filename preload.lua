@@ -131,6 +131,14 @@ game.iuse_functions["SKYISLAND_WARP_FOCUS"] = function(...)
   return mod.use_warp_focus(...)
 end
 
+game.iuse_functions["SKYISLAND_IMPRINT_AUTODOC"] = function(...)
+  return mod.use_imprint_autodoc(...)
+end
+
+game.iuse_functions["SKYISLAND_IMPRINT_AUTODOC_COUCH"] = function(...)
+  return mod.use_imprint_autodoc_couch(...)
+end
+
 -- Register hooks
 table.insert(game.hooks.on_game_started, function(...)
   return mod.on_game_started(...)

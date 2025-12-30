@@ -11,6 +11,7 @@ local teleport = require("teleport")
 local heart = require("heart")
 local upgrades = require("upgrades")
 local util = require("util")
+local iuse = require("iuse")
 
 -- Initialize storage defaults (only for new games)
 -- These will be overwritten by saved data on load
@@ -417,6 +418,15 @@ mod.use_animal_teleporter = function(who, item, pos)
     tostring(monster_type), monster_hp, #storage.warped_animals))
 
   return 1  -- Consume the teleporter
+end
+
+-- Copyplate imprint functions (delegated to iuse module)
+mod.use_imprint_autodoc = function(who, item, pos)
+  return iuse.imprint_autodoc(who, item, pos)
+end
+
+mod.use_imprint_autodoc_couch = function(who, item, pos)
+  return iuse.imprint_autodoc_couch(who, item, pos)
 end
 
 -- Game started hook - initialize for new games only

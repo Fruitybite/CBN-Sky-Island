@@ -1552,5 +1552,39 @@
       [ [ "adderall", 20 ], [ "meth", 10 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_autodoc_inert",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
+    "//": "Craft at the Heart, then imprint on a real Autodoc during expedition",
+    "components": [
+      [ [ "skyisland_warp_shard", 20 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_autodoc_couch_inert",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": false,
+    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
+    "//": "Craft at the Heart, then imprint on a real Autodoc Couch during expedition",
+    "components": [
+      [ [ "skyisland_warp_shard", 10 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

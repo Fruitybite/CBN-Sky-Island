@@ -565,8 +565,8 @@
     "id": "skyisland_upgradekey_bonusmissions1",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "Warped Contract" },
-    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade. Activate near the Heart of the Island to unlock Bonus Missions I: Receive random bonus missions during expeditions for extra warp shards.",
+    "name": { "str": "Entry-level Contract" },
+    "description": "A contract signed in ink, showing the holder's will to fight. Activate near the Heart of the Island to unlock Expedition Missions: Every expedition now offers 1 randomly assigned bonus mission, which rewards warp shards on completion.",
     "volume": "250 ml",
     "weight": "150 g",
     "material": [ "stone" ],
@@ -575,14 +575,14 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS1",
-    "flags": [ "DESTROY_ON_DECHARGE" ]
+    "flags": []
   },
   {
     "id": "skyisland_upgradekey_bonusmissions2",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "Reinforced Contract" },
-    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade. Activate near the Heart of the Island to unlock Bonus Missions II: More bonus mission types become available.",
+    "name": { "str": "Survivor's Contract" },
+    "description": "A contract signed in zombie blood, proving the holder to be a true survivor. Activate near the Heart of the Island to unlock Two Missions: Every expedition now offers 2 randomly assigned bonus missions.",
     "volume": "250 ml",
     "weight": "150 g",
     "material": [ "stone" ],
@@ -591,14 +591,14 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS2",
-    "flags": [ "DESTROY_ON_DECHARGE" ]
+    "flags": []
   },
   {
     "id": "skyisland_upgradekey_bonusmissions3",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "Sealed Contract" },
-    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade. Activate near the Heart of the Island to unlock Bonus Missions III: Even more bonus mission variety.",
+    "name": { "str": "Mercenary's Contract" },
+    "description": "A contract lined with gunpowder and gold. Whoever signed this must be a seasoned operator. Activate near the Heart of the Island to unlock Three Missions: Every expedition now offers 3 randomly assigned bonus missions.",
     "volume": "250 ml",
     "weight": "150 g",
     "material": [ "stone" ],
@@ -607,14 +607,14 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS3",
-    "flags": [ "DESTROY_ON_DECHARGE" ]
+    "flags": []
   },
   {
     "id": "skyisland_upgradekey_bonusmissions4",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "Binding Contract" },
-    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade. Activate near the Heart of the Island to unlock Bonus Missions IV: A wider range of bonus missions.",
+    "name": { "str": "Artisan's Contract" },
+    "description": "A finely-crafted contract, demonstrating that the holder can create as well as destroy. Activate near the Heart of the Island to unlock Four Missions: Every expedition now offers 4 randomly assigned bonus missions.",
     "volume": "250 ml",
     "weight": "150 g",
     "material": [ "stone" ],
@@ -623,14 +623,14 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "use_action": "SKYISLAND_UPGRADE_BONUSMISSIONS4",
-    "flags": [ "DESTROY_ON_DECHARGE" ]
+    "flags": []
   },
   {
     "id": "skyisland_upgradekey_bonusmissions5",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "Eternal Contract" },
-    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade. Activate near the Heart of the Island to unlock Bonus Missions V: Maximum bonus mission variety.",
+    "name": { "str": "Post-human's Contract" },
+    "description": "A contract built from futuristic materials, proving that the holder is beyond human. Activate near the Heart of the Island to unlock Five Missions: Every expedition now offers 5 randomly assigned bonus missions.",
     "volume": "250 ml",
     "weight": "150 g",
     "material": [ "stone" ],

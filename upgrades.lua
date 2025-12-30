@@ -88,36 +88,36 @@ local UPGRADE_DEFS = {
     new_level = 60,
     message = "Scouting Clairvoyance II unlocked. You will see everything near you for 60 seconds when beginning an expedition."
   },
-  -- Bonus mission unlocks (DDA: 5 tiers + 2 hard mission tiers)
+  -- Bonus mission unlocks (number of missions per expedition)
   bonusmissions1 = {
     field = "bonus_missions_tier",
     required = 0,
     new_level = 1,
-    message = "Bonus Missions I unlocked. You will now receive random bonus missions during expeditions for extra warp shards."
+    message = "Expedition Missions unlocked. Every expedition now offers 1 randomly assigned bonus mission, which rewards warp shards on completion."
   },
   bonusmissions2 = {
     field = "bonus_missions_tier",
     required = 1,
     new_level = 2,
-    message = "Bonus Missions II unlocked. More bonus mission types are now available."
+    message = "Two Missions unlocked. Every expedition now offers 2 randomly assigned bonus missions."
   },
   bonusmissions3 = {
     field = "bonus_missions_tier",
     required = 2,
     new_level = 3,
-    message = "Bonus Missions III unlocked. Even more bonus mission variety."
+    message = "Three Missions unlocked. Every expedition now offers 3 randomly assigned bonus missions."
   },
   bonusmissions4 = {
     field = "bonus_missions_tier",
     required = 3,
     new_level = 4,
-    message = "Bonus Missions IV unlocked. A wider range of bonus missions available."
+    message = "Four Missions unlocked. Every expedition now offers 4 randomly assigned bonus missions."
   },
   bonusmissions5 = {
     field = "bonus_missions_tier",
     required = 4,
     new_level = 5,
-    message = "Bonus Missions V unlocked. Maximum bonus mission variety achieved."
+    message = "Five Missions unlocked. Every expedition now offers 5 randomly assigned bonus missions."
   },
   hardmissions1 = {
     field = "hard_missions_tier",

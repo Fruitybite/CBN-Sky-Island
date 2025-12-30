@@ -15,25 +15,25 @@ local MISSION_REWARDS = {
   -- MGOAL_KILL_MONSTER_SPEC missions
   ["RAID: Kill 10 Zombies"] = 1,
   ["RAID: Kill 50 Zombies"] = 3,
-  ["RAID: Kill 100 Zombies"] = 5,
-  ["RAID: Kill a Mi-Go"] = 3,
-  ["RAID: Kill 3 Nether Creatures"] = 4,
+  ["RAID: Kill 100 Zombies"] = 10,
+  ["RAID: Kill a Mi-Go"] = 8,
+  ["RAID: Kill 3 Nether Creatures"] = 10,
   ["RAID: Kill 5 Birds"] = 1,
-  ["RAID: Kill 5 Mammals"] = 1,
+  ["RAID: Kill 5 Mammals"] = 2,
 
   -- MGOAL_KILL_MONSTERS (combat) missions
   ["RAID: Clear zombie cluster"] = 3,
-  ["RAID: Clear zombie horde"] = 4,
-  ["RAID: Clear evolved zombies"] = 4,
-  ["RAID: Clear evolved horde"] = 5,
-  ["RAID: Clear fearsome zombies"] = 5,
-  ["RAID: Clear elite zombies"] = 8,
-  ["RAID: Kill zombie lord"] = 10,
-  ["RAID: Kill zombie superteam"] = 10,
-  ["RAID: Kill zombie leader + swarm"] = 12,
-  ["RAID: Kill horde lord"] = 12,
-  ["RAID: Clear mi-go threat"] = 9,
-  ["RAID: Kill mi-go overlord"] = 12,
+  ["RAID: Clear zombie horde"] = 6,
+  ["RAID: Clear evolved zombies"] = 8,
+  ["RAID: Clear evolved horde"] = 10,
+  ["RAID: Clear fearsome zombies"] = 12,
+  ["RAID: Clear elite zombies"] = 12,
+  ["RAID: Kill zombie lord"] = 15,
+  ["RAID: Kill zombie superteam"] = 15,
+  ["RAID: Kill zombie leader + swarm"] = 20,
+  ["RAID: Kill horde lord"] = 30,
+  ["RAID: Clear mi-go threat"] = 20,
+  ["RAID: Kill mi-go overlord"] = 30,
 }
 
 -- Give mission reward
@@ -131,8 +131,6 @@ function missions.create_bonus_mission(center_omt, storage)
     { id = "MISSION_BONUS_TREASURE" .. suffix, weight = 45, name = "Find the warp shards", has_target = true },
     { id = "MISSION_BONUS_KILL_LIGHT", weight = 15, name = "Clear zombie cluster", has_target = true },
     { id = "MISSION_BONUS_KILL_HORDE", weight = 10, name = "Clear zombie horde", has_target = true },
-    { id = "MISSION_BONUS_KILL_MID", weight = 15, name = "Clear evolved zombies", has_target = true },
-    { id = "MISSION_BONUS_KILL_MID_HORDE", weight = 10, name = "Clear evolved horde", has_target = true },
   }
 
   -- Hard missions (hard_missions_tier >= 1)
@@ -141,6 +139,8 @@ function missions.create_bonus_mission(center_omt, storage)
     table.insert(mission_pool, { id = "MISSION_BONUS_KILL_ELITE", weight = 5, name = "Clear elite zombies", has_target = true })
     table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS", weight = 5, name = "Kill zombie lord", has_target = true })
     table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MIGO", weight = 5, name = "Clear mi-go threat", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MID", weight = 15, name = "Clear evolved zombies", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MID_HORDE", weight = 10, name = "Clear evolved horde", has_target = true })
   end
 
   -- Hardest missions (hard_missions_tier >= 2)

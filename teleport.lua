@@ -685,9 +685,9 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
   -- Create missions
   missions.create_extraction_mission(dest_omt, storage)
 
-  -- Bonus missions require upgrades (DDA: no bonus missions by default)
+  -- Bonus missions: tier determines how many missions per expedition
   local bonus_tier = storage.bonus_missions_tier or 0
-  if bonus_tier >= 1 then
+  for i = 1, bonus_tier do
     missions.create_bonus_mission(dest_omt, storage)
   end
 

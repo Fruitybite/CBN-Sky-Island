@@ -68,6 +68,13 @@ local UPGRADE_INFO = {
   raidlength = {
     { level = 1, name = "Large Expeditions", effect = "2x grace period, 125 token reward", item = "Warped Hourglass" },
     { level = 2, name = "Extended Expeditions", effect = "3x grace period, 200 token reward (MAX)", item = "Warped Sundial" }
+  },
+  bonusmissions = {
+    { level = 1, name = "Expedition Missions", effect = "1 bonus mission per expedition", item = "Warped Contract" },
+    { level = 2, name = "Two Missions", effect = "2 bonus missions per expedition", item = "Reinforced Contract" },
+    { level = 3, name = "Three Missions", effect = "3 bonus missions per expedition", item = "Sealed Contract" },
+    { level = 4, name = "Four Missions", effect = "4 bonus missions per expedition", item = "Binding Contract" },
+    { level = 5, name = "Five Missions", effect = "5 bonus missions per expedition (MAX)", item = "Eternal Contract" }
   }
 }
 
@@ -242,6 +249,7 @@ local function show_upgrades_menu(player, storage)
   local scouting = storage.scouting_unlocked or 0
   local exits = storage.multiple_exits_unlocked or 0
   local raidlength = storage.longer_raids_unlocked or 0
+  local bonusmissions = storage.bonus_missions_tier or 0
 
   local ui = UiList.new()
   ui:title(locale.gettext("Upgrades (Craft items near Heart to unlock)"))
@@ -281,6 +289,19 @@ local function show_upgrades_menu(player, storage)
     ui:add(menu_index, locale.gettext(string.format("Expedition Length: Level %d - Next: %s (craft %s)", raidlength, raid_next.name, raid_next.item)))
   else
     ui:add(menu_index, locale.gettext("Expedition Length: MAX (Extended available)"))
+  end
+  menu_index = menu_index + 1
+
+  -- Bonus Missions status
+  local bonus_next = get_next_upgrade("bonusmissions", bonusmissions)
+  if bonus_next then
+    if bonusmissions == 0 then
+      ui:add(menu_index, locale.gettext(string.format("Bonus Missions: Not unlocked - craft %s", bonus_next.item)))
+    else
+      ui:add(menu_index, locale.gettext(string.format("Bonus Missions: %d per expedition - Next: %s (craft %s)", bonusmissions, bonus_next.name, bonus_next.item)))
+    end
+  else
+    ui:add(menu_index, locale.gettext(string.format("Bonus Missions: MAX (%d per expedition)", bonusmissions)))
   end
   menu_index = menu_index + 1
 
@@ -336,6 +357,13 @@ local function show_upgrades_menu(player, storage)
         details = string.format("%s: %s\nCraft: %s", next_up.name, next_up.effect, next_up.item)
       else
         details = "Expedition Length is at maximum (Extended Expeditions available)."
+      end
+    elseif choice == 5 then
+      local next_up = get_next_upgrade("bonusmissions", bonusmissions)
+      if next_up then
+        details = string.format("%s: %s\nCraft: %s", next_up.name, next_up.effect, next_up.item)
+      else
+        details = "Bonus Missions is at maximum level (5 missions per expedition)."
       end
     end
     if details then

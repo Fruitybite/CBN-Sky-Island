@@ -118,9 +118,10 @@ local function process_warp_pulse(storage)
 
     if remaining > 3 then
       -- Still plenty of time - green
+      gapi.add_msg(string.format("[Warp Pulse] You feel a faint tingling of warp energy. Safe pulses remaining: %d (~%d min).", remaining, time_remaining))
       show_pulse_dialog(
         string.format("=== WARP PULSE ===\n\n" ..
-          "You feel fine.\n\n" ..
+          "You feel a faint tingling of warp energy.\n\n" ..
           "Safe pulses remaining: %d\n" ..
           "Time until sickness: ~%d minutes\n\n" ..
           "[Press any key to continue]",
@@ -128,6 +129,7 @@ local function process_warp_pulse(storage)
         Color.c_green)
     elseif remaining > 0 then
       -- Getting close - yellow warning
+      gapi.add_msg(string.format("<color_yellow>[Warp Pulse] The warp begins to tug at you... Safe pulses remaining: %d (~%d min).</color>", remaining, time_remaining))
       show_pulse_dialog(
         string.format("=== WARP PULSE ===\n\n" ..
           "The warp begins to tug at you...\n\n" ..
@@ -138,6 +140,7 @@ local function process_warp_pulse(storage)
         Color.c_yellow)
     else
       -- Last safe pulse
+      gapi.add_msg("<color_light_red>[Warp Pulse] WARNING: This is your last safe pulse! The next pulse will begin warp sickness.</color>")
       show_pulse_dialog(
         "=== WARP PULSE ===\n\n" ..
           "WARNING: This is your last safe pulse!\n" ..
@@ -163,16 +166,19 @@ local function process_warp_pulse(storage)
       player:add_effect(EFFECT_DISINTEGRATION, TimeDuration.from_hours(999))
     end
     -- Critical - flashing red
+    gapi.add_msg("<color_red>[Warp Pulse] !!! WARP DISINTEGRATION !!! You are being unmade!</color>")
     show_pulse_dialog(
       "=== WARP PULSE ===\n\n" ..
         "!!! WARP DISINTEGRATION !!!\n\n" ..
-        "You are being unmade!\n" ..
+        "Your skin tears like tissue paper with every movement.\n" ..
         "Your body is coming apart at the seams!\n" ..
         "GET TO THE EXIT IMMEDIATELY!\n\n" ..
         "[Press any key to continue]",
       Color.i_red)
   elseif current_intensity >= 4 then
     -- Severe - red
+    gapi.add_msg(string.format("<color_red>[Warp Pulse] %s (%d/6). -%d stats. %d pulses to disintegration!</color>",
+      status_name, current_intensity, current_intensity * 2, pulses_to_doom))
     show_pulse_dialog(
       string.format("=== WARP PULSE ===\n\n" ..
         "STATUS: %s (Intensity %d/6)\n\n" ..
@@ -185,6 +191,8 @@ local function process_warp_pulse(storage)
       Color.c_red)
   elseif current_intensity >= 2 then
     -- Moderate - light red/orange
+    gapi.add_msg(string.format("<color_light_red>[Warp Pulse] STATUS: %s (%d/6). -%d stats. %d pulses to disintegration.</color>",
+      status_name, current_intensity, current_intensity * 2, pulses_to_doom))
     show_pulse_dialog(
       string.format("=== WARP PULSE ===\n\n" ..
         "STATUS: %s (Intensity %d/6)\n\n" ..
@@ -197,6 +205,8 @@ local function process_warp_pulse(storage)
       Color.c_light_red)
   else
     -- Mild - yellow
+    gapi.add_msg(string.format("<color_yellow>[Warp Pulse] %s (%d/6). -%d stats. %d pulses to disintegration.</color>",
+      status_name, current_intensity, current_intensity * 2, pulses_to_doom))
     show_pulse_dialog(
       string.format("=== WARP PULSE ===\n\n" ..
         "STATUS: %s (Intensity %d/6)\n\n" ..

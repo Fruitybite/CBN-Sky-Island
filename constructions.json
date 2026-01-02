@@ -49,5 +49,31 @@
     "pre_flags": [ "FLAT" ],
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_sand"
+  },
+  { "type": "construction_group", "id": "skyisland_build_autodoc", "name": "Warp: Build Autodoc (copyplate)" },
+  { "type": "construction_group", "id": "skyisland_build_autodoc_couch", "name": "Warp: Build Autodoc Couch (copyplate)" },
+  {
+    "type": "construction",
+    "id": "skyisland_build_autodoc_do",
+    "group": "skyisland_build_autodoc",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "electronics", 6 ], [ "mechanics", 4 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "skyisland_autodoc_active", 1 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_furniture": "f_autodoc"
+  },
+  {
+    "type": "construction",
+    "id": "skyisland_build_autodoc_couch_do",
+    "group": "skyisland_build_autodoc_couch",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "electronics", 6 ], [ "mechanics", 4 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "skyisland_autodoc_couch_active", 1 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_furniture": "f_autodoc_couch"
   }
 ]

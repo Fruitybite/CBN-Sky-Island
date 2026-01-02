@@ -139,6 +139,22 @@ game.iuse_functions["SKYISLAND_IMPRINT_AUTODOC_COUCH"] = function(...)
   return mod.use_imprint_autodoc_couch(...)
 end
 
+game.iuse_functions["SKYISLAND_IMPRINT_NANOFAB_BODY"] = function(...)
+  return mod.use_imprint_nanofab_body(...)
+end
+
+game.iuse_functions["SKYISLAND_IMPRINT_NANOFAB_PANEL"] = function(...)
+  return mod.use_imprint_nanofab_panel(...)
+end
+
+game.iuse_functions["SKYISLAND_IMPRINT_CVD_BODY"] = function(...)
+  return mod.use_imprint_cvd_body(...)
+end
+
+game.iuse_functions["SKYISLAND_IMPRINT_CVD_PANEL"] = function(...)
+  return mod.use_imprint_cvd_panel(...)
+end
+
 -- Register hooks
 table.insert(game.hooks.on_game_started, function(...)
   return mod.on_game_started(...)

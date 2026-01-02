@@ -75,5 +75,57 @@
     "components": [ [ [ "skyisland_autodoc_couch_active", 1 ] ] ],
     "pre_flags": [ "FLAT" ],
     "post_furniture": "f_autodoc_couch"
+  },
+  { "type": "construction_group", "id": "skyisland_build_nanofab_body", "name": "Warp: Build Nanofabricator Body (copyplate)" },
+  { "type": "construction_group", "id": "skyisland_build_nanofab_panel", "name": "Warp: Build Nanofabricator Control Panel (copyplate)" },
+  { "type": "construction_group", "id": "skyisland_build_cvd_body", "name": "Warp: Build CVD Machine Body (copyplate)" },
+  { "type": "construction_group", "id": "skyisland_build_cvd_panel", "name": "Warp: Build CVD Control Panel (copyplate)" },
+  {
+    "type": "construction",
+    "id": "skyisland_build_nanofab_body_do",
+    "group": "skyisland_build_nanofab_body",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "electronics", 8 ], [ "mechanics", 6 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "skyisland_nanofab_body_active", 1 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "t_nanofab_body"
+  },
+  {
+    "type": "construction",
+    "id": "skyisland_build_nanofab_panel_do",
+    "group": "skyisland_build_nanofab_panel",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "electronics", 8 ], [ "mechanics", 6 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "skyisland_nanofab_panel_active", 1 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "t_nanofab"
+  },
+  {
+    "type": "construction",
+    "id": "skyisland_build_cvd_body_do",
+    "group": "skyisland_build_cvd_body",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "electronics", 8 ], [ "mechanics", 6 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "skyisland_cvd_body_active", 1 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "t_cvdbody"
+  },
+  {
+    "type": "construction",
+    "id": "skyisland_build_cvd_panel_do",
+    "group": "skyisland_build_cvd_panel",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "electronics", 8 ], [ "mechanics", 6 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "skyisland_cvd_panel_active", 1 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "t_cvdmachine"
   }
 ]

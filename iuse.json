@@ -163,5 +163,25 @@
     "type": "item_action",
     "id": "SKYISLAND_IMPRINT_AUTODOC_COUCH",
     "name": { "str": "Imprint on Autodoc Couch" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_IMPRINT_NANOFAB_BODY",
+    "name": { "str": "Imprint on Nanofabricator" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_IMPRINT_NANOFAB_PANEL",
+    "name": { "str": "Imprint on Nanofabricator Control Panel" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_IMPRINT_CVD_BODY",
+    "name": { "str": "Imprint on CVD Machine" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_IMPRINT_CVD_PANEL",
+    "name": { "str": "Imprint on CVD Control Panel" }
   }
 ]

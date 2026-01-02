@@ -1563,10 +1563,9 @@
     "time": "5 m",
     "autolearn": true,
     "reversible": false,
-    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
-    "//": "Craft at the Heart, then imprint on a real Autodoc during expedition",
+    "//": "Imprint on a real Autodoc during expedition",
     "components": [
-      [ [ "skyisland_warp_shard", 20 ] ]
+      [ [ "skyisland_warp_shard", 10 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -1580,8 +1579,71 @@
     "time": "5 m",
     "autolearn": true,
     "reversible": false,
-    "tools": [ [ [ "skyisland_fakeitem_heart", -1 ] ] ],
-    "//": "Craft at the Heart, then imprint on a real Autodoc Couch during expedition",
+    "//": "Imprint on a real Autodoc Couch during expedition",
+    "components": [
+      [ [ "skyisland_warp_shard", 10 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_nanofab_body_inert",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": false,
+    "//": "Imprint on a real Nanofabricator body during expedition",
+    "components": [
+      [ [ "skyisland_warp_shard", 10 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_nanofab_panel_inert",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": false,
+    "//": "Imprint on a real Nanofabricator control panel during expedition",
+    "components": [
+      [ [ "skyisland_warp_shard", 10 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_cvd_body_inert",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": false,
+    "//": "Imprint on a real CVD Machine body during expedition",
+    "components": [
+      [ [ "skyisland_warp_shard", 10 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skyisland_cvd_panel_inert",
+    "type": "recipe",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_ITEMS",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": false,
+    "//": "Imprint on a real CVD control panel during expedition",
     "components": [
       [ [ "skyisland_warp_shard", 10 ] ]
     ],

@@ -429,6 +429,22 @@ mod.use_imprint_autodoc_couch = function(who, item, pos)
   return iuse.imprint_autodoc_couch(who, item, pos)
 end
 
+mod.use_imprint_nanofab_body = function(who, item, pos)
+  return iuse.imprint_nanofab_body(who, item, pos)
+end
+
+mod.use_imprint_nanofab_panel = function(who, item, pos)
+  return iuse.imprint_nanofab_panel(who, item, pos)
+end
+
+mod.use_imprint_cvd_body = function(who, item, pos)
+  return iuse.imprint_cvd_body(who, item, pos)
+end
+
+mod.use_imprint_cvd_panel = function(who, item, pos)
+  return iuse.imprint_cvd_panel(who, item, pos)
+end
+
 -- Game started hook - initialize for new games only
 mod.on_game_started = function()
   -- Reset to defaults for new game

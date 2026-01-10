@@ -130,44 +130,44 @@ This is an active port. Most core features from CDDA Sky Islands are implemented
 
 This mod is a port of a mod which was originally created by TGWeaver (who gave permission for others to use and reuse the mod) and which has received contributions by many more. I've done my best to collect the full list of those who have contributed to the original Sky Island for CDDA; as a humble porter, I owe them a deep debt of gratitude. To wit, these people are:
 
-TGWeaver
-adamkad1
-lettucegoblin
-Standing-Storm
-wave
-adamkad1
-andrei
-Anton Burmistrov
-Anton Simakov
-b3brodie
-BalthazarArgall
-Blueflowers
-Brian Ackermann
-Clarence "Sparr" Risher
-Consoleable
-David William Bull
-Dots
-DukePaulAtreid3s
-ehughsbaird
-gettingusedto
-gimy77357-netizen
-GuardianDll
-Holli
-I-am-Erk
-Karol1223
-Maleclypse
-Milopetilo
-MrHrulgin
-Naadn
-NetSysFire
-Oleksii Filonenko
-Procyonae
-Qrox
-Ramza13
-RenechCDDA
-Sab Pyrope
-sadenar
-SariusSkelrets
-ShnitzelX2
-Standing-Storm
-thaelina
+- TGWeaver
+- adamkad1
+- lettucegoblin
+- Standing-Storm
+- wave
+- adamkad1
+- andrei
+- Anton Burmistrov
+- Anton Simakov
+- b3brodie
+- BalthazarArgall
+- Blueflowers
+- Brian Ackermann
+- Clarence "Sparr" Risher
+- Consoleable
+- David William Bull
+- Dots
+- DukePaulAtreid3s
+- ehughsbaird
+- gettingusedto
+- gimy77357-netizen
+- GuardianDll
+- Holli
+- I-am-Erk
+- Karol1223
+- Maleclypse
+- Milopetilo
+- MrHrulgin
+- Naadn
+- NetSysFire
+- Oleksii Filonenko
+- Procyonae
+- Qrox
+- Ramza13
+- RenechCDDA
+- Sab Pyrope
+- sadenar
+- SariusSkelrets
+- ShnitzelX2
+- Standing-Storm
+- thaelina

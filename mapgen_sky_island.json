@@ -79,18 +79,8 @@
         "           ...          ",
         "            V           "
       ],
-      "terrain": {
-        " ": "t_grass",
-        ".": "t_concrete",
-        "V": "t_concrete",
-        "X": "t_concrete",
-        "Y": "t_grass",
-        "Z": "t_grass",
-      },
-      "furniture": {
-        "X": "f_skyisland_warp_obelisk",
-        "V": "f_skyisland_heart"
-      },
+      "terrain": { " ": "t_grass", ".": "t_concrete", "V": "t_concrete", "X": "t_concrete", "Y": "t_grass", "Z": "t_grass" },
+      "furniture": { "X": "f_skyisland_warp_obelisk", "V": "f_skyisland_heart" },
       "items": {
         "Z": [ { "item": "skyisland_trash_heap", "chance": 100 } ],
         "Y": [ { "item": "skyisland_starterkit_items", "chance": 100 } ]
@@ -129,11 +119,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": "t_grass",
-        ".": "t_skyisland_fake_air",
-        ",": "t_open_air"
-      }
+      "terrain": { " ": "t_grass", ".": "t_skyisland_fake_air", ",": "t_open_air" }
     }
   },
   {
@@ -168,11 +154,7 @@
         ",.                      ",
         ",.                      "
       ],
-      "terrain": {
-        " ": "t_grass",
-        ".": "t_skyisland_fake_air",
-        ",": "t_open_air"
-      }
+      "terrain": { " ": "t_grass", ".": "t_skyisland_fake_air", ",": "t_open_air" }
     }
   },
   {
@@ -207,10 +189,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": "t_skyisland_warprock",
-        "<": "t_stairs_up"
-      }
+      "terrain": { " ": "t_skyisland_warprock", "<": "t_stairs_up" }
     }
   },
   {
@@ -245,10 +224,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": "t_skyisland_warprock",
-        ".": "t_skyisland_fake_air"
-      }
+      "terrain": { " ": "t_skyisland_warprock", ".": "t_skyisland_fake_air" }
     }
   },
   {
@@ -283,11 +259,7 @@
         ",.                      ",
         ",.                      "
       ],
-      "terrain": {
-        " ": "t_skyisland_warprock",
-        ".": "t_skyisland_fake_air",
-        ",": "t_skyisland_fake_air"
-      }
+      "terrain": { " ": "t_skyisland_warprock", ".": "t_skyisland_fake_air", ",": "t_skyisland_fake_air" }
     }
   }
 ]

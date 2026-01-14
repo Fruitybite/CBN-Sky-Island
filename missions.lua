@@ -43,7 +43,7 @@ local function give_mission_reward(player, mission_name, count)
     -- BN requires an itype_id userdata object (string_id<itype>)
     local shard_id = ItypeId.new("skyisland_warp_shard")
     player:add_item_with_id(shard_id, count)
-    gapi.add_msg(string.format("You completed a mission and were rewarded with %d warp shard%s.", count, count > 1 and "s" or ""))
+    gapi.add_msg(string.format(locale.gettext("You completed a mission and were rewarded with %d warp shard%s."), count, count > 1 and "s" or ""))
     util.debug_log(string.format("Awarded %d warp shards for mission %s", count, mission_name))
   end
 end
@@ -96,9 +96,9 @@ function missions.create_extraction_mission(center_omt, storage)
     if new_mission then
       new_mission:assign(player)
       if i == 1 then
-        gapi.add_msg("Mission: Reach the exit portal!")
+        gapi.add_msg(locale.gettext("Mission: Reach the exit portal!"))
       else
-        gapi.add_msg("Another exit portal has also been detected!")
+        gapi.add_msg(locale.gettext("Another exit portal has also been detected!"))
       end
       -- Get actual target location from mission
       local target = new_mission:get_target_point()
@@ -109,7 +109,7 @@ function missions.create_extraction_mission(center_omt, storage)
         storage.exit_location = { x = target.x, y = target.y, z = target.z }
       end
     else
-      gdebug.log_error(string.format("Failed to create extraction mission %d!", i))
+      gdebug.log_error(string.format(locale.gettext("Failed to create extraction mission %d!"), i))
     end
   end
 end
@@ -128,27 +128,27 @@ function missions.create_bonus_mission(center_omt, storage)
   -- Build weighted mission pool
   local mission_pool = {
     -- Base missions (always available with bonus_missions_tier >= 1)
-    { id = "MISSION_BONUS_TREASURE" .. suffix, weight = 45, name = "Find the warp shards", has_target = true },
-    { id = "MISSION_BONUS_KILL_LIGHT", weight = 15, name = "Clear zombie cluster", has_target = true },
-    { id = "MISSION_BONUS_KILL_HORDE", weight = 10, name = "Clear zombie horde", has_target = true },
+    { id = "MISSION_BONUS_TREASURE" .. suffix, weight = 45, name = locale.gettext("Find the warp shards"), has_target = true },
+    { id = "MISSION_BONUS_KILL_LIGHT", weight = 15, name = locale.gettext("Clear zombie cluster"), has_target = true },
+    { id = "MISSION_BONUS_KILL_HORDE", weight = 10, name = locale.gettext("Clear zombie horde"), has_target = true },
   }
 
   -- Hard missions (hard_missions_tier >= 1)
   if hard_tier >= 1 then
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_HARD", weight = 10, name = "Clear fearsome zombies", has_target = true })
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_ELITE", weight = 5, name = "Clear elite zombies", has_target = true })
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS", weight = 5, name = "Kill zombie lord", has_target = true })
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MIGO", weight = 5, name = "Clear mi-go threat", has_target = true })
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MID", weight = 15, name = "Clear evolved zombies", has_target = true })
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MID_HORDE", weight = 10, name = "Clear evolved horde", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_HARD", weight = 10, name = locale.gettext("Clear fearsome zombies"), has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_ELITE", weight = 5, name = locale.gettext("Clear elite zombies"), has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS", weight = 5, name = locale.gettext("Kill zombie lord"), has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MIGO", weight = 5, name = locale.gettext("Clear mi-go threat"), has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MID", weight = 15, name = locale.gettext("Clear evolved zombies"), has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MID_HORDE", weight = 10, name = locale.gettext("Clear evolved horde"), has_target = true })
   end
 
   -- Hardest missions (hard_missions_tier >= 2)
   if hard_tier >= 2 then
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS_GROUP", weight = 10, name = "Kill zombie leader + swarm", has_target = true })
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS_HORDE", weight = 10, name = "Kill horde lord", has_target = true })
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS_MULTI", weight = 10, name = "Kill zombie superteam", has_target = true })
-    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MIGO_ELITE", weight = 10, name = "Kill mi-go overlord", has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS_GROUP", weight = 10, name = locale.gettext("Kill zombie leader + swarm"), has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS_HORDE", weight = 10, name = locale.gettext("Kill horde lord"), has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_BOSS_MULTI", weight = 10, name = locale.gettext("Kill zombie superteam"), has_target = true })
+    table.insert(mission_pool, { id = "MISSION_BONUS_KILL_MIGO_ELITE", weight = 10, name = locale.gettext("Kill mi-go overlord"), has_target = true })
   end
 
   -- Calculate total weight
@@ -183,13 +183,13 @@ function missions.create_bonus_mission(center_omt, storage)
   local new_mission = Mission.reserve_new(mission_type, player_id)
   if new_mission then
     new_mission:assign(player)
-    gapi.add_msg(string.format("Bonus Mission: %s!", selected.name))
+    gapi.add_msg(string.format(locale.gettext("Bonus Mission: %s!"), selected.name))
     if selected.has_target then
       local target = new_mission:get_target_point()
       util.debug_log(string.format("Created bonus mission at: %d, %d, %d", target.x, target.y, target.z))
     end
   else
-    gdebug.log_error(string.format("Failed to create bonus mission: %s", selected.id))
+    gdebug.log_error(string.format(locale.gettext("Failed to create bonus mission: %s"), selected.id))
   end
 end
 
@@ -202,13 +202,13 @@ function missions.create_slaughter_mission(center_omt, storage)
   -- Build weighted mission pool
   -- More common/easier missions have higher weights
   local mission_pool = {
-    { id = "MISSION_SLAUGHTER_ZOMBIES_10", weight = 40, name = "Kill 10 Zombies" },
-    { id = "MISSION_SLAUGHTER_ZOMBIES_50", weight = 20, name = "Kill 50 Zombies" },
-    { id = "MISSION_SLAUGHTER_ZOMBIES_100", weight = 10, name = "Kill 100 Zombies" },
-    { id = "MISSION_SLAUGHTER_BIRD", weight = 15, name = "Kill 5 Birds" },
-    { id = "MISSION_SLAUGHTER_MAMMAL", weight = 15, name = "Kill 5 Mammals" },
-    { id = "MISSION_SLAUGHTER_MIGO", weight = 5, name = "Kill a Mi-Go" },
-    { id = "MISSION_SLAUGHTER_NETHER", weight = 5, name = "Kill 3 Nether Creatures" },
+    { id = "MISSION_SLAUGHTER_ZOMBIES_10", weight = 40, name = locale.gettext("Kill 10 Zombies") },
+    { id = "MISSION_SLAUGHTER_ZOMBIES_50", weight = 20, name = locale.gettext("Kill 50 Zombies") },
+    { id = "MISSION_SLAUGHTER_ZOMBIES_100", weight = 10, name = locale.gettext("Kill 100 Zombies") },
+    { id = "MISSION_SLAUGHTER_BIRD", weight = 15, name = locale.gettext("Kill 5 Birds") },
+    { id = "MISSION_SLAUGHTER_MAMMAL", weight = 15, name = locale.gettext("Kill 5 Mammals") },
+    { id = "MISSION_SLAUGHTER_MIGO", weight = 5, name = locale.gettext("Kill a Mi-Go") },
+    { id = "MISSION_SLAUGHTER_NETHER", weight = 5, name = locale.gettext("Kill 3 Nether Creatures") },
   }
 
   -- Calculate total weight
@@ -243,7 +243,7 @@ function missions.create_slaughter_mission(center_omt, storage)
   local new_mission = Mission.reserve_new(mission_type, player_id)
   if new_mission then
     new_mission:assign(player)
-    gapi.add_msg(string.format("Slaughter Mission: %s!", selected.name))
+    gapi.add_msg(string.format(locale.gettext("Slaughter Mission: %s!"), selected.name))
     util.debug_log(string.format("Created slaughter mission: %s", selected.id))
   else
     gdebug.log_error(string.format("Failed to create slaughter mission: %s", selected.id))

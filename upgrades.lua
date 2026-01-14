@@ -13,137 +13,137 @@ local UPGRADE_DEFS = {
     field = "stability_unlocked",
     required = 0,
     new_level = 1,
-    message = "Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer. (9 pulses)"
+    message = locale.gettext("Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer. (9 pulses)")
   },
   stability2 = {
     field = "stability_unlocked",
     required = 1,
     new_level = 2,
-    message = "Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer. (10 pulses)"
+    message = locale.gettext("Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer. (10 pulses)")
   },
   stability3 = {
     field = "stability_unlocked",
     required = 2,
     new_level = 3,
-    message = "Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer. (11 pulses)"
+    message = locale.gettext("Your resistance to the chaos of the warpstream increases. In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer. (11 pulses)")
   },
   scouting1 = {
     field = "scouting_unlocked",
     required = 0,
     new_level = 1,
-    message = "Your vision expands. A 3x3 area around your landing zone will be revealed on future expeditions."
+    message = locale.gettext("Your vision expands. A 3x3 area around your landing zone will be revealed on future expeditions.")
   },
   scouting2 = {
     field = "scouting_unlocked",
     required = 1,
     new_level = 2,
-    message = "Your foresight sharpens. A 5x5 area around your landing zone will be revealed on future expeditions."
+    message = locale.gettext("Your foresight sharpens. A 5x5 area around your landing zone will be revealed on future expeditions.")
   },
   exits1 = {
     field = "multiple_exits_unlocked",
     required = 0,
     new_level = 1,
-    message = "The paths multiply. Two return obelisks will now spawn per expedition, giving you more options to escape."
+    message = locale.gettext("The paths multiply. Two return obelisks will now spawn per expedition, giving you more options to escape.")
   },
   raidlength1 = {
     field = "longer_raids_unlocked",
     required = 0,
     new_level = 1,
-    message = "Large Expeditions are now available at the warp obelisk. You will have double the grace period before warp sickness sets in."
+    message = locale.gettext("Large Expeditions are now available at the warp obelisk. You will have double the grace period before warp sickness sets in.")
   },
   raidlength2 = {
     field = "longer_raids_unlocked",
     required = 1,
     new_level = 2,
-    message = "Extended Expeditions are now available. You will have triple the grace period for maximum exploration time."
+    message = locale.gettext("Extended Expeditions are now available. You will have triple the grace period for maximum exploration time.")
   },
   basements = {
     field = "basements_unlocked",
     required = nil,  -- No prerequisite, just a boolean unlock
     new_level = true,
-    message = "Basement starts are now available at the warp obelisk. You can choose to begin expeditions in underground basements."
+    message = locale.gettext("Basement starts are now available at the warp obelisk. You can choose to begin expeditions in underground basements.")
   },
   roofs = {
     field = "roofs_unlocked",
     required = nil,
     new_level = true,
-    message = "Rooftop starts are now available at the warp obelisk. You can choose to begin expeditions on building rooftops."
+    message = locale.gettext("Rooftop starts are now available at the warp obelisk. You can choose to begin expeditions on building rooftops.")
   },
   labs = {
     field = "labs_unlocked",
     required = nil,
     new_level = true,
-    message = "Lab starts are now available at the warp obelisk. You can choose to begin expeditions in underground science labs. Be warned: you will need a Labs Catalyst each time, and you will start sealed inside!"
+    message = locale.gettext("Lab starts are now available at the warp obelisk. You can choose to begin expeditions in underground science labs. Be warned: you will need a Labs Catalyst each time, and you will start sealed inside!")
   },
   -- Scouting clairvoyance (see everything near you on landing)
   scouting_clairvoyance1 = {
     field = "scouting_clairvoyance_time",
     required = 0,
     new_level = 20,
-    message = "Scouting Clairvoyance I unlocked. You will see everything near you for 20 seconds when beginning an expedition."
+    message = locale.gettext("Scouting Clairvoyance I unlocked. You will see everything near you for 20 seconds when beginning an expedition.")
   },
   scouting_clairvoyance2 = {
     field = "scouting_clairvoyance_time",
     required = 20,
     new_level = 60,
-    message = "Scouting Clairvoyance II unlocked. You will see everything near you for 60 seconds when beginning an expedition."
+    message = locale.gettext("Scouting Clairvoyance II unlocked. You will see everything near you for 60 seconds when beginning an expedition.")
   },
   -- Bonus mission unlocks (number of missions per expedition)
   bonusmissions1 = {
     field = "bonus_missions_tier",
     required = 0,
     new_level = 1,
-    message = "Expedition Missions unlocked. Every expedition now offers 1 randomly assigned bonus mission, which rewards warp shards on completion."
+    message = locale.gettext("Expedition Missions unlocked. Every expedition now offers 1 randomly assigned bonus mission, which rewards warp shards on completion.")
   },
   bonusmissions2 = {
     field = "bonus_missions_tier",
     required = 1,
     new_level = 2,
-    message = "Two Missions unlocked. Every expedition now offers 2 randomly assigned bonus missions."
+    message = locale.gettext("Two Missions unlocked. Every expedition now offers 2 randomly assigned bonus missions.")
   },
   bonusmissions3 = {
     field = "bonus_missions_tier",
     required = 2,
     new_level = 3,
-    message = "Three Missions unlocked. Every expedition now offers 3 randomly assigned bonus missions."
+    message = locale.gettext("Three Missions unlocked. Every expedition now offers 3 randomly assigned bonus missions.")
   },
   bonusmissions4 = {
     field = "bonus_missions_tier",
     required = 3,
     new_level = 4,
-    message = "Four Missions unlocked. Every expedition now offers 4 randomly assigned bonus missions."
+    message = locale.gettext("Four Missions unlocked. Every expedition now offers 4 randomly assigned bonus missions.")
   },
   bonusmissions5 = {
     field = "bonus_missions_tier",
     required = 4,
     new_level = 5,
-    message = "Five Missions unlocked. Every expedition now offers 5 randomly assigned bonus missions."
+    message = locale.gettext("Five Missions unlocked. Every expedition now offers 5 randomly assigned bonus missions.")
   },
   hardmissions1 = {
     field = "hard_missions_tier",
     required = 0,
     new_level = 1,
-    message = "Harder Missions unlocked. More challenging bonus missions with greater rewards are now available."
+    message = locale.gettext("Harder Missions unlocked. More challenging bonus missions with greater rewards are now available.")
   },
   hardmissions2 = {
     field = "hard_missions_tier",
     required = 1,
     new_level = 2,
-    message = "Hardest Missions unlocked. The most dangerous bonus missions with the greatest rewards are now available."
+    message = locale.gettext("Hardest Missions unlocked. The most dangerous bonus missions with the greatest rewards are now available.")
   },
   -- Slaughter missions (kill X of species)
   slaughter = {
     field = "slaughter_unlocked",
     required = nil,
     new_level = true,
-    message = "Slaughter Missions unlocked. You will now receive a slaughter mission during each expedition, rewarding warp shards for killing specific types of enemies."
+    message = locale.gettext("Slaughter Missions unlocked. You will now receive a slaughter mission during each expedition, rewarding warp shards for killing specific types of enemies.")
   },
   -- Landing bonuses (active during warpcloak effect on arrival)
   landing_flight = {
     field = "landing_flight_unlocked",
     required = nil,
     new_level = true,
-    message = "Landing Flight unlocked. While under the warpcloak effect on landing, you gain the power of flight for 60 seconds."
+    message = locale.gettext("Landing Flight unlocked. While under the warpcloak effect on landing, you gain the power of flight for 60 seconds.")
   }
 }
 
@@ -160,7 +160,7 @@ end
 local function activate_upgrade(who, item, pos, storage, upgrade_key)
   local def = UPGRADE_DEFS[upgrade_key]
   if not def then
-    gapi.add_msg("ERROR: Unknown upgrade key: " .. upgrade_key)
+    gapi.add_msg(locale.gettext("ERROR: Unknown upgrade key: ") .. upgrade_key)
     return 0
   end
 
@@ -173,12 +173,12 @@ local function activate_upgrade(who, item, pos, storage, upgrade_key)
   if def.required == nil then
     local current_value = storage[def.field]
     if current_value then
-      gapi.add_msg("You have already unlocked this upgrade.")
+      gapi.add_msg(locale.gettext("You have already unlocked this upgrade."))
       return 0
     end
     -- Apply the boolean upgrade
     storage[def.field] = true
-    gapi.add_msg("=== UPGRADE UNLOCKED ===")
+    gapi.add_msg(locale.gettext("=== UPGRADE UNLOCKED ==="))
     gapi.add_msg(def.message)
     util.debug_log(string.format("Upgrade %s activated: %s = true", upgrade_key, def.field))
     return 1
@@ -188,16 +188,16 @@ local function activate_upgrade(who, item, pos, storage, upgrade_key)
   local current_level = storage[def.field] or 0
   if current_level ~= def.required then
     if current_level >= def.new_level then
-      gapi.add_msg("You have already unlocked this upgrade.")
+      gapi.add_msg(locale.gettext("You have already unlocked this upgrade."))
     else
-      gapi.add_msg("You must unlock the previous tier of this upgrade first.")
+      gapi.add_msg(locale.gettext("You must unlock the previous tier of this upgrade first."))
     end
     return 0
   end
 
   -- Apply the upgrade
   storage[def.field] = def.new_level
-  gapi.add_msg("=== UPGRADE UNLOCKED ===")
+  gapi.add_msg(locale.gettext("=== UPGRADE UNLOCKED ==="))
   gapi.add_msg(def.message)
   util.debug_log(string.format("Upgrade %s activated: %s = %d", upgrade_key, def.field, def.new_level))
   return 1

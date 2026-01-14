@@ -43,7 +43,7 @@ end
 local function imprint_furniture_copyplate(player, furn_id_str, inert_id_str, active_id_str, machine_name)
   -- Check for adjacent furniture
   if not has_adjacent_furniture(player, FurnId.new(furn_id_str)) then
-    gapi.add_msg(string.format("You need to be standing next to a working %s to imprint this copyplate.", machine_name))
+    gapi.add_msg(string.format(locale.gettext("You need to be standing next to a working %s to imprint this copyplate."), machine_name))
     return 0
   end
 
@@ -53,8 +53,8 @@ local function imprint_furniture_copyplate(player, furn_id_str, inert_id_str, ac
   local active_id = ItypeId.new(active_id_str)
   player:add_item_with_id(active_id, 1)
 
-  gapi.add_msg(string.format("The copyplate hums and glows as it absorbs the %s's schematics!", machine_name))
-  gapi.add_msg(string.format("You now have an activated %s copyplate.", machine_name))
+  gapi.add_msg(string.format(locale.gettext("The copyplate hums and glows as it absorbs the %s's schematics!"), machine_name))
+  gapi.add_msg(string.format(locale.gettext("You now have an activated %s copyplate."), machine_name))
 
   return 1
 end
@@ -63,7 +63,7 @@ end
 local function imprint_terrain_copyplate(player, ter_id_str, inert_id_str, active_id_str, machine_name)
   -- Check for adjacent terrain
   if not has_adjacent_terrain(player, TerId.new(ter_id_str)) then
-    gapi.add_msg(string.format("You need to be standing next to a working %s to imprint this copyplate.", machine_name))
+    gapi.add_msg(string.format(locale.gettext("You need to be standing next to a working %s to imprint this copyplate."), machine_name))
     return 0
   end
 
@@ -73,8 +73,8 @@ local function imprint_terrain_copyplate(player, ter_id_str, inert_id_str, activ
   local active_id = ItypeId.new(active_id_str)
   player:add_item_with_id(active_id, 1)
 
-  gapi.add_msg(string.format("The copyplate hums and glows as it absorbs the %s's schematics!", machine_name))
-  gapi.add_msg(string.format("You now have an activated %s copyplate.", machine_name))
+  gapi.add_msg(string.format(locale.gettext("The copyplate hums and glows as it absorbs the %s's schematics!"), machine_name))
+  gapi.add_msg(string.format(locale.gettext("You now have an activated %s copyplate."), machine_name))
 
   return 1
 end

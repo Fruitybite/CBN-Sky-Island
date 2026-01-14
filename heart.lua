@@ -5,9 +5,9 @@ local heart = {}
 
 -- Rank thresholds
 local RANK_THRESHOLDS = {
-  { min = 0, max = 9, name = "Novice" },
-  { min = 10, max = 19, name = "Adept" },
-  { min = 20, max = 999, name = "Master" }
+  { min = 0, max = 9, name = locale.gettext("Novice") },
+  { min = 10, max = 19, name = locale.gettext("Adept") },
+  { min = 20, max = 999, name = locale.gettext("Master") }
 }
 
 -- Construction costs
@@ -22,59 +22,59 @@ local CONSTRUCTION_COSTS = {
 -- Difficulty settings configuration
 local DIFFICULTY_SETTINGS = {
   pulse_interval = {
-    { id = "casual", name = "Casual", interval = 30,
-      desc = "Warp pulses every 30 minutes.\nWarp sickness after 4 hours, disintegration after 6 hours.\nMore relaxed time limits for activities and reaching the exit." },
-    { id = "normal", name = "Normal", interval = 15,
-      desc = "Warp pulses every 15 minutes.\nWarp sickness after 2 hours, disintegration after 3 hours.\nThe intended way to play." },
-    { id = "hard", name = "Hard", interval = 10,
-      desc = "Warp pulses every 10 minutes.\nWarp sickness after 1 hour 20 minutes, disintegration after 2 hours.\nStrict time limits, must prioritize the exit." },
-    { id = "impossible", name = "Impossible", interval = 5,
-      desc = "Warp pulses every 5 minutes.\nWarp sickness after 40 minutes, disintegration after 1 hour.\nExtremely tight time limits, no mercy." }
+    { id = "casual", name = locale.gettext("Casual"), interval = 30,
+      desc = locale.gettext("Warp pulses every 30 minutes.\nWarp sickness after 4 hours, disintegration after 6 hours.\nMore relaxed time limits for activities and reaching the exit.") },
+    { id = "normal", name = locale.gettext("Normal"), interval = 15,
+      desc = locale.gettext("Warp pulses every 15 minutes.\nWarp sickness after 2 hours, disintegration after 3 hours.\nThe intended way to play.") },
+    { id = "hard", name = locale.gettext("Hard"), interval = 10,
+      desc = locale.gettext("Warp pulses every 10 minutes.\nWarp sickness after 1 hour 20 minutes, disintegration after 2 hours.\nStrict time limits, must prioritize the exit.") },
+    { id = "impossible", name = locale.gettext("Impossible"), interval = 5,
+      desc = locale.gettext("Warp pulses every 5 minutes.\nWarp sickness after 40 minutes, disintegration after 1 hour.\nExtremely tight time limits, no mercy.") }
   },
   return_behavior = {
-    { id = "whole_room", name = "Whole Room", value = 0,
-      desc = "Everything in the extraction room returns with you.\nResources are generally not a problem if you reach extraction." },
-    { id = "whole_room_cost", name = "Whole Room for a Cost", value = 1,
-      desc = "Returns the whole room IF you have a Vortex Token.\nOtherwise only personal items return.\nForces difficult choices about what to bring back." },
-    { id = "self_only", name = "Self Only", value = 2,
-      desc = "Only what you're carrying returns with you.\nYou must always make difficult choices about items." }
+    { id = "whole_room", name = locale.gettext("Whole Room"), value = 0,
+      desc = locale.gettext("Everything in the extraction room returns with you.\nResources are generally not a problem if you reach extraction.") },
+    { id = "whole_room_cost", name = locale.gettext("Whole Room for a Cost"), value = 1,
+      desc = locale.gettext("Returns the whole room IF you have a Vortex Token.\nOtherwise only personal items return.\nForces difficult choices about what to bring back.") },
+    { id = "self_only", name = locale.gettext("Self Only"), value = 2,
+      desc = locale.gettext("Only what you're carrying returns with you.\nYou must always make difficult choices about items.") }
   },
   emergency_return = {
-    { id = "free_focus", name = "Free Warp Focus", value = 0,
-      desc = "Warp Home Focus works for FREE (reusable, no cost).\nEasiest mode - recommended for casual play.\nSkyward Beacon also works as normal." },
-    { id = "shard_focus", name = "Warp Focus Costs 1 Shard", value = 1,
-      desc = "Warp Home Focus costs 1 warp shard each use.\nCannot use if enemies are within 10 tiles.\nSkyward Beacon also works as normal." },
-    { id = "beacon_only", name = "Skyward Beacon Only", value = 2,
-      desc = "Only crafted Skyward Beacons work (5 shards each).\nWarp Home Focus does not function.\nThe default balanced option." },
-    { id = "extraction_only", name = "Extraction Only", value = 3,
-      desc = "NO emergency returns work at all.\nOnly return obelisks can bring you home.\nMaximum challenge mode." }
+    { id = "free_focus", name = locale.gettext("Free Warp Focus"), value = 0,
+      desc = locale.gettext("Warp Home Focus works for FREE (reusable, no cost).\nEasiest mode - recommended for casual play.\nSkyward Beacon also works as normal.") },
+    { id = "shard_focus", name = locale.gettext("Warp Focus Costs 1 Shard"), value = 1,
+      desc = locale.gettext("Warp Home Focus costs 1 warp shard each use.\nCannot use if enemies are within 10 tiles.\nSkyward Beacon also works as normal.") },
+    { id = "beacon_only", name = locale.gettext("Skyward Beacon Only"), value = 2,
+      desc = locale.gettext("Only crafted Skyward Beacons work (5 shards each).\nWarp Home Focus does not function.\nThe default balanced option.") },
+    { id = "extraction_only", name = locale.gettext("Extraction Only"), value = 3,
+      desc = locale.gettext("NO emergency returns work at all.\nOnly return obelisks can bring you home.\nMaximum challenge mode.") }
   }
 }
 
 -- Upgrade info (for display purposes - actual unlocking is via crafting)
 local UPGRADE_INFO = {
   stability = {
-    { level = 1, name = "Stability I", effect = "+2 bonus grace pulses", item = "Warped Tincture" },
-    { level = 2, name = "Stability II", effect = "+4 total bonus grace pulses", item = "Warped Elixir" },
-    { level = 3, name = "Stability III", effect = "+6 total bonus grace pulses (MAX)", item = "Warped Panacea" }
+    { level = 1, name = locale.gettext("Stability I"), effect = locale.gettext("+2 bonus grace pulses"), item = locale.gettext("Warped Tincture") },
+    { level = 2, name = locale.gettext("Stability II"), effect = locale.gettext("+4 total bonus grace pulses"), item = locale.gettext("Warped Elixir") },
+    { level = 3, name = locale.gettext("Stability III"), effect = locale.gettext("+6 total bonus grace pulses (MAX)"), item = locale.gettext("Warped Panacea") }
   },
   scouting = {
-    { level = 1, name = "Scouting I", effect = "Reveal 3x3 area on landing", item = "Scouting Lens" },
-    { level = 2, name = "Scouting II", effect = "Reveal 5x5 area on landing (MAX)", item = "Scouting Scope" }
+    { level = 1, name = locale.gettext("Scouting I"), effect = locale.gettext("Reveal 3x3 area on landing"), item = locale.gettext("Scouting Lens") },
+    { level = 2, name = locale.gettext("Scouting II"), effect = locale.gettext("Reveal 5x5 area on landing (MAX)"), item = locale.gettext("Scouting Scope") }
   },
   exits = {
-    { level = 1, name = "Multiple Exits", effect = "2 return obelisks per expedition", item = "Escape Charm" }
+    { level = 1, name = locale.gettext("Multiple Exits"), effect = locale.gettext("2 return obelisks per expedition"), item = locale.gettext("Escape Charm") }
   },
   raidlength = {
-    { level = 1, name = "Large Expeditions", effect = "2x grace period, 125 token reward", item = "Warped Hourglass" },
+    { level = 1, name = locale.gettext("Large Expeditions"), effect = locale.gettext("2x grace period, 125 token reward"), item = locale.gettext("Warped Hourglass") },
     { level = 2, name = "Extended Expeditions", effect = "3x grace period, 200 token reward (MAX)", item = "Warped Sundial" }
   },
   bonusmissions = {
-    { level = 1, name = "Expedition Missions", effect = "1 bonus mission per expedition", item = "Warped Contract" },
-    { level = 2, name = "Two Missions", effect = "2 bonus missions per expedition", item = "Reinforced Contract" },
-    { level = 3, name = "Three Missions", effect = "3 bonus missions per expedition", item = "Sealed Contract" },
-    { level = 4, name = "Four Missions", effect = "4 bonus missions per expedition", item = "Binding Contract" },
-    { level = 5, name = "Five Missions", effect = "5 bonus missions per expedition (MAX)", item = "Eternal Contract" }
+    { level = 1, name = locale.gettext("Expedition Missions"), effect = locale.gettext("1 bonus mission per expedition"), item = locale.gettext("Warped Contract") },
+    { level = 2, name = locale.gettext("Two Missions"), effect = locale.gettext("2 bonus missions per expedition"), item = locale.gettext("Reinforced Contract") },
+    { level = 3, name = locale.gettext("Three Missions"), effect = locale.gettext("3 bonus missions per expedition"), item = locale.gettext("Sealed Contract") },
+    { level = 4, name = locale.gettext("Four Missions"), effect = locale.gettext("4 bonus missions per expedition"), item = locale.gettext("Binding Contract") },
+    { level = 5, name = locale.gettext("Five Missions"), effect = locale.gettext("5 bonus missions per expedition (MAX)"), item = locale.gettext("Eternal Contract") }
   }
 }
 
@@ -132,7 +132,7 @@ local function get_rank(raids_won)
       return i - 1, rank.name  -- Return 0, 1, or 2
     end
   end
-  return 0, "Novice"
+  return 0, locale.gettext("Novice")
 end
 
 -- Helper: Heal player (costs warp shards after rank 0)
@@ -141,7 +141,7 @@ local function heal_player(player, rank, storage)
     -- Cost: 4 warp shards
     local shard_count = count_items(player, "skyisland_warp_shard")
     if shard_count < 4 then
-      gapi.add_msg("You need 4 warp shards to heal yourself.")
+      gapi.add_msg(locale.gettext("You need 4 warp shards to heal yourself."))
       return false
     end
     -- Remove shards
@@ -151,7 +151,7 @@ local function heal_player(player, rank, storage)
   -- Full heal
   player:set_all_parts_hp_to_max()
   player:clear_effects()
-  gapi.add_msg("You feel refreshed and restored!")
+  gapi.add_msg(locale.gettext("You feel refreshed and restored!"))
 
   return true
 end
@@ -216,12 +216,12 @@ local function show_services_menu(player, storage)
     local success_rate = raids_total > 0 and math.floor((raids_won / raids_total) * 100) or 0
 
     gapi.add_msg(string.format(
-      "=== Expedition Statistics ===\n" ..
-      "Current Rank: %s (%d)\n" ..
-      "Total Expeditions: %d\n" ..
-      "Successful Returns: %d\n" ..
-      "Failed Expeditions: %d\n" ..
-      "Success Rate: %d%%",
+      locale.gettext("=== Expedition Statistics ===\n") ..
+      locale.gettext("Current Rank: %s (%d)\n") ..
+      locale.gettext("Total Expeditions: %d\n") ..
+      locale.gettext("Successful Returns: %d\n") ..
+      locale.gettext("Failed Expeditions: %d\n") ..
+      locale.gettext("Success Rate: %d%%"),
       rank_name, rank_num, raids_total, raids_won, raids_lost, success_rate
     ))
     return "services"
@@ -259,16 +259,16 @@ local function show_upgrades_menu(player, storage)
   -- Stability status
   local stab_next = get_next_upgrade("stability", stability)
   if stab_next then
-    ui:add(menu_index, locale.gettext(string.format("Stability: Level %d - Next: %s (craft %s)", stability, stab_next.name, stab_next.item)))
+    ui:add(menu_index, string.format(locale.gettext("Stability: Level %d - Next: %s (craft %s)"), stability, stab_next.name, stab_next.item))
   else
-    ui:add(menu_index, locale.gettext(string.format("Stability: MAX (+%d pulses)", stability * 2)))
+    ui:add(menu_index, string.format(locale.gettext("Stability: MAX (+%d pulses)"), stability * 2))
   end
   menu_index = menu_index + 1
 
   -- Scouting status
   local scout_next = get_next_upgrade("scouting", scouting)
   if scout_next then
-    ui:add(menu_index, locale.gettext(string.format("Scouting: Level %d - Next: %s (craft %s)", scouting, scout_next.name, scout_next.item)))
+    ui:add(menu_index, string.format(locale.gettext("Scouting: Level %d - Next: %s (craft %s)"), scouting, scout_next.name, scout_next.item))
   else
     ui:add(menu_index, locale.gettext("Scouting: MAX (5x5 reveal)"))
   end
@@ -277,7 +277,7 @@ local function show_upgrades_menu(player, storage)
   -- Multiple Exits status
   local exit_next = get_next_upgrade("exits", exits)
   if exit_next then
-    ui:add(menu_index, locale.gettext(string.format("Exits: Not unlocked - craft %s", exit_next.item)))
+    ui:add(menu_index, string.format(locale.gettext("Exits: Not unlocked - craft %s"), exit_next.item))
   else
     ui:add(menu_index, locale.gettext("Exits: Unlocked (2 per expedition)"))
   end
@@ -286,7 +286,7 @@ local function show_upgrades_menu(player, storage)
   -- Raid Length status
   local raid_next = get_next_upgrade("raidlength", raidlength)
   if raid_next then
-    ui:add(menu_index, locale.gettext(string.format("Expedition Length: Level %d - Next: %s (craft %s)", raidlength, raid_next.name, raid_next.item)))
+    ui:add(menu_index, string.format(locale.gettext("Expedition Length: Level %d - Next: %s (craft %s)"), raidlength, raid_next.name, raid_next.item))
   else
     ui:add(menu_index, locale.gettext("Expedition Length: MAX (Extended available)"))
   end
@@ -296,12 +296,12 @@ local function show_upgrades_menu(player, storage)
   local bonus_next = get_next_upgrade("bonusmissions", bonusmissions)
   if bonus_next then
     if bonusmissions == 0 then
-      ui:add(menu_index, locale.gettext(string.format("Bonus Missions: Not unlocked - craft %s", bonus_next.item)))
+      ui:add(menu_index, string.format(locale.gettext("Bonus Missions: Not unlocked - craft %s"), bonus_next.item))
     else
-      ui:add(menu_index, locale.gettext(string.format("Bonus Missions: %d per expedition - Next: %s (craft %s)", bonusmissions, bonus_next.name, bonus_next.item)))
+      ui:add(menu_index, string.format(locale.gettext("Bonus Missions: %d per expedition - Next: %s (craft %s)"), bonusmissions, bonus_next.name, bonus_next.item))
     end
   else
-    ui:add(menu_index, locale.gettext(string.format("Bonus Missions: MAX (%d per expedition)", bonusmissions)))
+    ui:add(menu_index, string.format(locale.gettext("Bonus Missions: MAX (%d per expedition)"), bonusmissions))
   end
   menu_index = menu_index + 1
 
@@ -315,14 +315,14 @@ local function show_upgrades_menu(player, storage)
   if choice == menu_index - 1 then
     -- "How do upgrades work?"
     gapi.add_msg(
-      "=== How Upgrades Work ===\n" ..
-      "To unlock upgrades, you must CRAFT special artifacts near the Heart of the Island.\n\n" ..
-      "1. Gather the required items during expeditions\n" ..
-      "2. Return home safely with your loot\n" ..
-      "3. Open the crafting menu (& key) near the Heart\n" ..
-      "4. Craft the upgrade artifact (e.g., 'Warped Tincture')\n" ..
-      "5. Activate the crafted item to unlock the upgrade\n\n" ..
-      "Each upgrade requires different scavenged items. Check the crafting menu for requirements."
+      locale.gettext("=== How Upgrades Work ===\n") ..
+      locale.gettext("To unlock upgrades, you must CRAFT special artifacts near the Heart of the Island.\n\n") ..
+      locale.gettext("1. Gather the required items during expeditions\n") ..
+      locale.gettext("2. Return home safely with your loot\n") ..
+      locale.gettext("3. Open the crafting menu (& key) near the Heart\n") ..
+      locale.gettext("4. Craft the upgrade artifact (e.g., 'Warped Tincture')\n") ..
+      locale.gettext("5. Activate the crafted item to unlock the upgrade\n\n") ..
+      locale.gettext("Each upgrade requires different scavenged items. Check the crafting menu for requirements.")
     )
     return "upgrades"
   elseif choice == menu_index then
@@ -333,37 +333,37 @@ local function show_upgrades_menu(player, storage)
     if choice == 1 then
       local next_up = get_next_upgrade("stability", stability)
       if next_up then
-        details = string.format("%s: %s\nCraft: %s", next_up.name, next_up.effect, next_up.item)
+        details = string.format(locale.gettext("%s: %s\nCraft: %s"), next_up.name, next_up.effect, next_up.item)
       else
-        details = "Stability is at maximum level (+6 bonus grace pulses)."
+        details = locale.gettext("Stability is at maximum level (+6 bonus grace pulses).")
       end
     elseif choice == 2 then
       local next_up = get_next_upgrade("scouting", scouting)
       if next_up then
-        details = string.format("%s: %s\nCraft: %s", next_up.name, next_up.effect, next_up.item)
+        details = string.format(locale.gettext("%s: %s\nCraft: %s"), next_up.name, next_up.effect, next_up.item)
       else
-        details = "Scouting is at maximum level (5x5 area revealed on landing)."
+        details = locale.gettext("Scouting is at maximum level (5x5 area revealed on landing).")
       end
     elseif choice == 3 then
       local next_up = get_next_upgrade("exits", exits)
       if next_up then
-        details = string.format("%s: %s\nCraft: %s", next_up.name, next_up.effect, next_up.item)
+        details = string.format(locale.gettext("%s: %s\nCraft: %s"), next_up.name, next_up.effect, next_up.item)
       else
-        details = "Multiple Exits is unlocked (2 return obelisks per expedition)."
+        details = locale.gettext("Multiple Exits is unlocked (2 return obelisks per expedition).")
       end
     elseif choice == 4 then
       local next_up = get_next_upgrade("raidlength", raidlength)
       if next_up then
-        details = string.format("%s: %s\nCraft: %s", next_up.name, next_up.effect, next_up.item)
+        details = string.format(locale.gettext("%s: %s\nCraft: %s"), next_up.name, next_up.effect, next_up.item)
       else
-        details = "Expedition Length is at maximum (Extended Expeditions available)."
+        details = locale.gettext("Expedition Length is at maximum (Extended Expeditions available).")
       end
     elseif choice == 5 then
       local next_up = get_next_upgrade("bonusmissions", bonusmissions)
       if next_up then
-        details = string.format("%s: %s\nCraft: %s", next_up.name, next_up.effect, next_up.item)
+        details = string.format(locale.gettext("%s: %s\nCraft: %s"), next_up.name, next_up.effect, next_up.item)
       else
-        details = "Bonus Missions is at maximum level (5 missions per expedition)."
+        details = locale.gettext("Bonus Missions is at maximum level (5 missions per expedition).")
       end
     end
     if details then
@@ -397,41 +397,40 @@ local function show_rankup_menu(player, storage)
 
   if choice == 1 then
     gapi.add_msg(
-      "Beyond automatic rank progression, you can prove your mastery by completing rank-up " ..
-      "challenges. These require crafting special items near the Heart that demonstrate you " ..
-      "have gathered the tools and skills needed to survive. Completing these challenges " ..
-      "unlocks new recipes and capabilities."
+      locale.gettext("Beyond automatic rank progression, you can prove your mastery by completing rank-up challenges.") ..
+      locale.gettext("These require crafting special items near the Heart that demonstrate you have gathered the tools and skills needed to survive.") ..
+      locale.gettext("Completing these challenges unlocks new recipes and capabilities.")
     )
     return "rankup"
   elseif choice == 2 then
     gapi.add_msg(string.format(
-      "Current Rank: %s (%d)\nSuccessful Expeditions: %d\n\n" ..
-      "Rank 1 unlocks at 10 successful raids\nRank 2 unlocks at 20 successful raids",
+      locale.gettext("Current Rank: %s (%d)\nSuccessful Expeditions: %d\n\n") ..
+      locale.gettext("Rank 1 unlocks at 10 successful raids\nRank 2 unlocks at 20 successful raids"),
       rank_name, rank_num, raids_won
     ))
     return "rankup"
   elseif choice == 3 and rank_num >= 1 then
     gapi.add_msg(
-      "=== Proof of Determination ===\n" ..
-      "Requirements:\n" ..
-      "- 2 warp shards\n" ..
-      "- HAMMER quality 2\n" ..
-      "- SAW_W quality 2\n" ..
-      "- WRENCH quality 2\n" ..
-      "- Must be crafted near the Heart\n\n" ..
-      "Completing this proves you have mastered basic survival and tool-making."
+      locale.gettext("=== Proof of Determination ===\n") ..
+      locale.gettext("Requirements:\n") ..
+      locale.gettext("- 2 warp shards\n") ..
+      locale.gettext("- HAMMER quality 2\n") ..
+      locale.gettext("- SAW_W quality 2\n") ..
+      locale.gettext("- WRENCH quality 2\n") ..
+      locale.gettext("- Must be crafted near the Heart\n\n") ..
+      locale.gettext("Completing this proves you have mastered basic survival and tool-making.")
     )
     return "rankup"
   elseif choice == 4 and rank_num >= 2 then
     gapi.add_msg(
-      "=== Proof of Mastery ===\n" ..
-      "Requirements:\n" ..
-      "- 4 warp shards\n" ..
-      "- BUTCHER quality 16\n" ..
-      "- CUT_FINE quality 2\n" ..
-      "- PRY quality 2\n" ..
-      "- Must be crafted near the Heart\n\n" ..
-      "Completing this proves you have achieved ultimate mastery of survival."
+      locale.gettext("=== Proof of Mastery ===\n") ..
+      locale.gettext("Requirements:\n") ..
+      locale.gettext("- 4 warp shards\n") ..
+      locale.gettext("- BUTCHER quality 16\n") ..
+      locale.gettext("- CUT_FINE quality 2\n") ..
+      locale.gettext("- PRY quality 2\n") ..
+      locale.gettext("- Must be crafted near the Heart\n\n") ..
+      locale.gettext("Completing this proves you have achieved ultimate mastery of survival.")
     )
     return "rankup"
   else
@@ -452,26 +451,27 @@ local function show_information_menu(player, storage)
 
   if choice == 1 then
     gapi.add_msg(
-      "This floating island is your sanctuary. Use the Warp Obelisk to teleport to the " ..
-      "surface and begin expeditions. Gather resources, complete missions, and return " ..
-      "before warp sickness kills you. If you die, you'll respawn here but lose everything " ..
-      "you were carrying."
+      locale.gettext("This floating island is your sanctuary.") ..
+	  locale.gettext("Use the Warp Obelisk to teleport to the surface and begin expeditions.") ..
+      locale.gettext("Gather resources, complete missions, and return before warp sickness kills you.") ..
+      locale.gettext("If you die, you'll respawn here but lose everything you were carrying.")
     )
     return "information"
   elseif choice == 2 then
     gapi.add_msg(
-      "Use the Warp Obelisk to begin an expedition. You'll teleport to a random location " ..
-      "with three missions: find the exit, kill enemies, and find warp shards. Every 5 minutes, " ..
-      "warp sickness advances. After 12 stages, you'll start taking damage. Find the exit " ..
-      "(marked with a return obelisk) and return home before it's too late!"
+      locale.gettext("Use the Warp Obelisk to begin an expedition.") ..
+	  locale.gettext("You'll teleport to a random location with three missions: find the exit, kill enemies, and find warp shards.") ..
+      locale.gettext("Every 5 minutes, warp sickness advances.") ..
+      locale.gettext("After 12 stages, you'll start taking damage.") ..
+      locale.gettext("Find the exit (marked with a return obelisk) and return home before it's too late!")
     )
     return "information"
   elseif choice == 3 then
     gapi.add_msg(
-      "Warp shards are earned by completing missions and searching for treasure. They're used " ..
-      "for healing and upgrades. Material tokens (50 per successful expedition) can be converted " ..
-      "into raw resources at infinity nodes. Craft the infinity nodes first, deploy them on your " ..
-      "island, then use them to craft resources from tokens."
+      locale.gettext("Warp shards are earned by completing missions and searching for treasure.") ..
+	  locale.gettext("They're used for healing and upgrades.") ..
+      locale.gettext("Material tokens (50 per successful expedition) can be converted into raw resources at infinity nodes.") ..
+      locale.gettext("Craft the infinity nodes first, deploy them on your island, then use them to craft resources from tokens.")
     )
     return "information"
   else
@@ -490,7 +490,7 @@ local function run_construction_mission(player, mission_id)
     new_mission:wrap_up()
     return true
   else
-    gapi.add_msg("ERROR: Failed to create construction mission")
+    gapi.add_msg(locale.gettext("ERROR: Failed to create construction mission"))
     return false
   end
 end
@@ -512,14 +512,14 @@ end
 local function set_terrain_at_local_pos(coord, terrain_id)
   local map = gapi.get_map()
   if not map then
-    gapi.add_msg("ERROR: Could not get map")
+    gapi.add_msg(locale.gettext("ERROR: Could not get map"))
     return false
   end
 
   -- Create the terrain ID
   local ter_str = TerId.new(terrain_id)
   if not ter_str or not ter_str:is_valid() then
-    gapi.add_msg("ERROR: Invalid terrain ID: " .. terrain_id)
+    gapi.add_msg(locale.gettext("ERROR: Invalid terrain ID: ") .. terrain_id)
     return false
   end
   local ter_int = ter_str:int_id()
@@ -529,10 +529,10 @@ local function set_terrain_at_local_pos(coord, terrain_id)
 
   -- Set the terrain
   local current_ter = map:get_ter_at(pos)
-  gapi.add_msg("current ter at %s is %s", pos, current_ter)
+  gapi.add_msg(locale.gettext("current ter at %s is %s"), pos, current_ter)
   local success = map:set_ter_at(pos, ter_int)
   if not success then
-    gapi.add_msg("WARNING: Failed to set terrain at position")
+    gapi.add_msg(locale.gettext("WARNING: Failed to set terrain at position"))
   end
   return success
 end
@@ -552,7 +552,7 @@ local function show_construction_menu(player, storage)
 
   -- Basement
   if not has_basement then
-    ui:add(menu_index, locale.gettext(string.format("Build Basement (%d Material Tokens)", CONSTRUCTION_COSTS.basement)))
+    ui:add(menu_index, string.format(locale.gettext("Build Basement (%d Material Tokens)"), CONSTRUCTION_COSTS.basement))
   else
     ui:add(menu_index, locale.gettext("Basement - Already Built"))
   end
@@ -561,7 +561,7 @@ local function show_construction_menu(player, storage)
   -- Expansion 1 (only available after basement)
   if has_basement then
     if not has_bigroom1 then
-      ui:add(menu_index, locale.gettext(string.format("Build Expansion 1 - Corridors (%d Material Tokens)", CONSTRUCTION_COSTS.bigroom1)))
+      ui:add(menu_index, string.format(locale.gettext("Build Expansion 1 - Corridors (%d Material Tokens)"), CONSTRUCTION_COSTS.bigroom1))
     else
       ui:add(menu_index, locale.gettext("Expansion 1 - Already Built"))
     end
@@ -571,7 +571,7 @@ local function show_construction_menu(player, storage)
   -- Expansion 2 (only available after bigroom1)
   if has_bigroom1 then
     if not has_bigroom2 then
-      ui:add(menu_index, locale.gettext(string.format("Build Expansion 2 - Central Room (%d Material Tokens)", CONSTRUCTION_COSTS.bigroom2)))
+      ui:add(menu_index, string.format(locale.gettext("Build Expansion 2 - Central Room (%d Material Tokens)"), CONSTRUCTION_COSTS.bigroom2))
     else
       ui:add(menu_index, locale.gettext("Expansion 2 - Already Built"))
     end
@@ -581,7 +581,7 @@ local function show_construction_menu(player, storage)
   -- Expansion 3 (only available after bigroom2)
   if has_bigroom2 then
     if not has_bigroom3 then
-      ui:add(menu_index, locale.gettext(string.format("Build Expansion 3 - Large Room (%d Material Tokens)", CONSTRUCTION_COSTS.bigroom3)))
+      ui:add(menu_index, string.format(locale.gettext("Build Expansion 3 - Large Room (%d Material Tokens)"), CONSTRUCTION_COSTS.bigroom3))
     else
       ui:add(menu_index, locale.gettext("Expansion 3 - Already Built"))
     end
@@ -591,7 +591,7 @@ local function show_construction_menu(player, storage)
   -- Expansion 4 (only available after bigroom3)
   if has_bigroom3 then
     if not has_bigroom4 then
-      ui:add(menu_index, locale.gettext(string.format("Build Expansion 4 - Maximum Size (%d Material Tokens)", CONSTRUCTION_COSTS.bigroom4)))
+      ui:add(menu_index, string.format(locale.gettext("Build Expansion 4 - Maximum Size (%d Material Tokens)"), CONSTRUCTION_COSTS.bigroom4))
     else
       ui:add(menu_index, locale.gettext("Expansion 4 - Already Built"))
     end
@@ -606,19 +606,19 @@ local function show_construction_menu(player, storage)
   -- Handle basement
   if choice == 1 and not has_basement then
     if num_mat_tokens < CONSTRUCTION_COSTS.basement then
-      gapi.add_msg(string.format("You need %d material tokens to build the basement.", CONSTRUCTION_COSTS.basement))
+      gapi.add_msg(string.format(locale.gettext("You need %d material tokens to build the basement."), CONSTRUCTION_COSTS.basement))
       return "construction"
     end
     remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.basement)
     storage.skyisland_build_base = true
-    gapi.add_msg("Construction beginning... The island trembles as new spaces form.")
+    gapi.add_msg(locale.gettext("Construction beginning... The island trembles as new spaces form."))
 
     -- Set stairs down on surface via Lua (avoids mapgen update issues with vehicles)
     set_terrain_at_local_pos(ISLAND_COORDS.stairs_down, "t_stairs_down")
 
     -- Run the mission to create the basement room
     if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BASEMENT") then
-      gapi.add_msg("A basement has been carved into the island's depths!")
+      gapi.add_msg(locale.gettext("A basement has been carved into the island's depths!"))
     end
     return "construction"
   end
@@ -627,19 +627,19 @@ local function show_construction_menu(player, storage)
   local exp1_index = has_basement and 2 or nil
   if choice == exp1_index and not has_bigroom1 then
     if num_mat_tokens < CONSTRUCTION_COSTS.bigroom1 then
-      gapi.add_msg(string.format("You need %d material tokens for this expansion.", CONSTRUCTION_COSTS.bigroom1))
+      gapi.add_msg(string.format(locale.gettext("You need %d material tokens for this expansion."), CONSTRUCTION_COSTS.bigroom1))
       return "construction"
     end
     remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.bigroom1)
     storage.skyisland_build_bigroom1 = true
-    gapi.add_msg("Expanding the basement...")
+    gapi.add_msg(locale.gettext("Expanding the basement..."))
 
     -- Set skylight on surface via Lua (avoids mapgen update issues with vehicles)
     set_terrain_at_local_pos(ISLAND_COORDS.skylight, "t_glass_roof")
 
     -- Run the mission to expand the basement
     if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BIGROOM1") then
-      gapi.add_msg("Cross-shaped corridors now extend from the central room! A skylight illuminates from above.")
+      gapi.add_msg(locale.gettext("Cross-shaped corridors now extend from the central room! A skylight illuminates from above."))
     end
     return "construction"
   end
@@ -648,14 +648,14 @@ local function show_construction_menu(player, storage)
   local exp2_index = has_bigroom1 and (has_basement and 3 or nil) or nil
   if choice == exp2_index and not has_bigroom2 then
     if num_mat_tokens < CONSTRUCTION_COSTS.bigroom2 then
-      gapi.add_msg(string.format("You need %d material tokens for this expansion.", CONSTRUCTION_COSTS.bigroom2))
+      gapi.add_msg(string.format(locale.gettext("You need %d material tokens for this expansion."), CONSTRUCTION_COSTS.bigroom2))
       return "construction"
     end
     remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.bigroom2)
     storage.skyisland_build_bigroom2 = true
-    gapi.add_msg("Widening the corridors...")
+    gapi.add_msg(locale.gettext("Widening the corridors..."))
     if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BIGROOM2") then
-      gapi.add_msg("The corridors have been widened with additional rooms!")
+      gapi.add_msg(locale.gettext("The corridors have been widened with additional rooms!"))
     end
     return "construction"
   end
@@ -664,14 +664,14 @@ local function show_construction_menu(player, storage)
   local exp3_index = has_bigroom2 and (has_bigroom1 and (has_basement and 4 or nil) or nil) or nil
   if choice == exp3_index and not has_bigroom3 then
     if num_mat_tokens < CONSTRUCTION_COSTS.bigroom3 then
-      gapi.add_msg(string.format("You need %d material tokens for this expansion.", CONSTRUCTION_COSTS.bigroom3))
+      gapi.add_msg(string.format(locale.gettext("You need %d material tokens for this expansion."), CONSTRUCTION_COSTS.bigroom3))
       return "construction"
     end
     remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.bigroom3)
     storage.skyisland_build_bigroom3 = true
-    gapi.add_msg("Expanding the central room...")
+    gapi.add_msg(locale.gettext("Expanding the central room..."))
     if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BIGROOM3") then
-      gapi.add_msg("The central room has been greatly enlarged!")
+      gapi.add_msg(locale.gettext("The central room has been greatly enlarged!"))
     end
     return "construction"
   end
@@ -680,14 +680,14 @@ local function show_construction_menu(player, storage)
   local exp4_index = has_bigroom3 and (has_bigroom2 and (has_bigroom1 and (has_basement and 5 or nil) or nil) or nil) or nil
   if choice == exp4_index and not has_bigroom4 then
     if num_mat_tokens < CONSTRUCTION_COSTS.bigroom4 then
-      gapi.add_msg(string.format("You need %d material tokens for this expansion.", CONSTRUCTION_COSTS.bigroom4))
+      gapi.add_msg(string.format(locale.gettext("You need %d material tokens for this expansion."), CONSTRUCTION_COSTS.bigroom4))
       return "construction"
     end
     remove_items(player, "skyisland_material_token", CONSTRUCTION_COSTS.bigroom4)
     storage.skyisland_build_bigroom4 = true
-    gapi.add_msg("Final expansion underway...")
+    gapi.add_msg(locale.gettext("Final expansion underway..."))
     if run_construction_mission(player, "MISSION_SKYISLAND_BUILD_BIGROOM4") then
-      gapi.add_msg("The basement has reached its maximum size! Your sanctuary is complete.")
+      gapi.add_msg(locale.gettext("The basement has reached its maximum size! Your sanctuary is complete."))
     end
     return "construction"
   end
@@ -720,9 +720,9 @@ local function show_difficulty_menu(player, storage)
 
   local ui = UiList.new()
   ui:title(locale.gettext("Difficulty Settings"))
-  ui:add(1, locale.gettext(string.format("Warp Pulse Timing: %s", pulse_name)))
-  ui:add(2, locale.gettext(string.format("Return Obelisk Behavior: %s", return_name)))
-  ui:add(3, locale.gettext(string.format("Emergency Return Options: %s", emergency_name)))
+  ui:add(1, string.format(locale.gettext("Warp Pulse Timing: %s"), pulse_name))
+  ui:add(2, string.format(locale.gettext("Return Obelisk Behavior: %s"), return_name))
+  ui:add(3, string.format(locale.gettext("Emergency Return Options: %s"), emergency_name))
   ui:add(4, locale.gettext("Back"))
 
   local choice = ui:query()
@@ -757,7 +757,7 @@ local function show_pulse_difficulty_menu(player, storage)
   if choice and choice >= 1 and choice <= #DIFFICULTY_SETTINGS.pulse_interval then
     local selected = DIFFICULTY_SETTINGS.pulse_interval[choice]
     storage.difficulty_pulse_interval = selected.id
-    gapi.add_msg(string.format("Pulse timing set to %s (%d minute intervals).",
+    gapi.add_msg(string.format(locale.gettext("Pulse timing set to %s (%d minute intervals)."),
       selected.name, selected.interval))
   end
 
@@ -783,7 +783,7 @@ local function show_return_behavior_menu(player, storage)
   if choice and choice >= 1 and choice <= #DIFFICULTY_SETTINGS.return_behavior then
     local selected = DIFFICULTY_SETTINGS.return_behavior[choice]
     storage.difficulty_return_behavior = selected.value
-    gapi.add_msg(string.format("Return obelisk behavior set to: %s", selected.name))
+    gapi.add_msg(string.format(locale.gettext("Return obelisk behavior set to: %s"), selected.name))
   end
 
   return "difficulty"
@@ -808,7 +808,7 @@ local function show_emergency_return_menu(player, storage)
   if choice and choice >= 1 and choice <= #DIFFICULTY_SETTINGS.emergency_return then
     local selected = DIFFICULTY_SETTINGS.emergency_return[choice]
     storage.difficulty_emergency_return = selected.value
-    gapi.add_msg(string.format("Emergency return options set to: %s", selected.name))
+    gapi.add_msg(string.format(locale.gettext("Emergency return options set to: %s"), selected.name))
   end
 
   return "difficulty"

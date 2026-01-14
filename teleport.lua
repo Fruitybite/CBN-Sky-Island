@@ -91,7 +91,7 @@ local function retrieve_stored_items_at_home(home_pos)
   red_room_item_storage = {}
 
   if items_retrieved > 0 then
-    gapi.add_msg(string.format("%d items from the red room were teleported home with you!", items_retrieved))
+    gapi.add_msg(string.format(locale.gettext("%d items from the red room were teleported home with you!"), items_retrieved))
     util.debug_log(string.format("Retrieved %d items at home", items_retrieved))
   end
 
@@ -107,8 +107,8 @@ end
 -- Long (3x): 45 min pulses = 6 hour grace, 9 hour disintegration
 local RAID_CONFIG = {
   short = {
-    name = "Quick Expedition",
-    description = "Normal time limit (2 hours grace). Exits will be close together.",
+    name = locale.gettext("Quick Expedition"),
+    description = locale.gettext("Normal time limit (2 hours grace). Exits will be close together."),
     pulse_multiplier = 1,
     material_tokens = 50,
     token_cost = 0,  -- Free - no softlock risk
@@ -122,8 +122,8 @@ local RAID_CONFIG = {
     exit_max = 35
   },
   medium = {
-    name = "Large Expedition",
-    description = "Double time limit (4 hours grace). Exits scattered over wider area.",
+    name = locale.gettext("Large Expedition"),
+    description = locale.gettext("Double time limit (4 hours grace). Exits scattered over wider area."),
     pulse_multiplier = 2,
     material_tokens = 125,
     min_distance = 200,
@@ -134,8 +134,8 @@ local RAID_CONFIG = {
     exit_max = 90
   },
   long = {
-    name = "Extended Expedition",
-    description = "Triple time limit (6 hours grace). Exits very far away.",
+    name = locale.gettext("Extended Expedition"),
+    description = locale.gettext("Triple time limit (6 hours grace). Exits very far away."),
     pulse_multiplier = 3,
     material_tokens = 200,
     min_distance = 200,
@@ -150,8 +150,8 @@ local RAID_CONFIG = {
 -- Starting location configuration
 local LOCATION_CONFIG = {
   field = {
-    name = "Field",
-    description = "Arrive in a barren field. Usually wilderness, but could be an empty lot in town.",
+    name = locale.gettext("Field"),
+    description = locale.gettext("Arrive in a barren field. Usually wilderness, but could be an empty lot in town."),
     terrain_type = "field",
     match_type = OtMatchType.EXACT,
     z_level = 0,
@@ -159,8 +159,8 @@ local LOCATION_CONFIG = {
     catalyst_item = nil
   },
   basement = {
-    name = "Basement",
-    description = "Arrive inside an underground basement. Usually suburbia.",
+    name = locale.gettext("Basement"),
+    description = locale.gettext("Arrive inside an underground basement. Usually suburbia."),
     terrain_type = "basement",
     match_type = OtMatchType.CONTAINS,
     z_level = -1,
@@ -168,8 +168,8 @@ local LOCATION_CONFIG = {
     catalyst_item = nil
   },
   roof = {
-    name = "Rooftop",
-    description = "Arrive on a building roof. Usually houses, one story up.",
+    name = locale.gettext("Rooftop"),
+    description = locale.gettext("Arrive on a building roof. Usually houses, one story up."),
     terrain_type = "roof",
     match_type = OtMatchType.CONTAINS,
     z_level = 1,
@@ -177,8 +177,8 @@ local LOCATION_CONFIG = {
     catalyst_item = nil
   },
   labs = {
-    name = "Science Lab",
-    description = "Arrive in a subterranean science lab. DANGEROUS! Costs 1 Labs Catalyst. You will be sealed inside - bring an exit strategy!",
+    name = locale.gettext("Science Lab"),
+    description = locale.gettext("Arrive in a subterranean science lab. DANGEROUS! Costs 1 Labs Catalyst. You will be sealed inside - bring an exit strategy!"),
     terrain_type = "lab",
     match_type = OtMatchType.CONTAINS,
     z_level = -2,
@@ -323,7 +323,7 @@ local function teleport_to_omt(omt, offset_tiles, spawn_filter)
     player:unset_mutation(MutationBranchId.new("DEBUG_NOCLIP"))
   end
 
-  gapi.add_msg("You feel reality shift around you...")
+  gapi.add_msg(locale.gettext("You feel reality shift around you..."))
 end
 
 -- Helper: Apply warpcloak landing protection effects
@@ -356,7 +356,7 @@ local function apply_landing_protection(storage)
   if storage.landing_flight_unlocked then
     local flight_trait = MutationBranchId.new("SKYISLAND_WARP_FLIGHT")
     player:set_mutation(flight_trait)
-    gapi.add_msg("Warp energy lifts you into the air!")
+    gapi.add_msg(locale.gettext("Warp energy lifts you into the air!"))
     util.debug_log("Applied landing flight mutation (60s)")
 
     -- Schedule removal of flight mutation after 60 seconds
@@ -364,7 +364,7 @@ local function apply_landing_protection(storage)
       local p = gapi.get_avatar()
       if p then
         p:unset_mutation(flight_trait)
-        gapi.add_msg("Your feet touch the ground as the warp flight fades.")
+        gapi.add_msg(locale.gettext("Your feet touch the ground as the warp flight fades."))
         util.debug_log("Removed landing flight mutation")
       end
       return false  -- One-shot: stop after first execution
@@ -428,7 +428,7 @@ function teleport.spawn_warped_animals(storage)
     end
 
     if spawned_count > 0 then
-      gapi.add_msg(string.format("%d warped animal%s arrived at your island!",
+      gapi.add_msg(string.format(locale.gettext("%d warped animal%s arrived at your island!"),
         spawned_count, spawned_count > 1 and "s" or ""))
     end
 
@@ -441,7 +441,7 @@ end
 -- Use warp obelisk - start expedition
 function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickness)
   if storage.is_away_from_home then
-    gapi.add_msg("You are already on an expedition!")
+    gapi.add_msg(locale.gettext("You are already on an expedition!"))
     return 0
   end
 
@@ -456,7 +456,7 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
   -- Also get OMT for teleportation
   local home_omt = get_player_omt()
   if not home_omt then
-    gapi.add_msg("ERROR: Could not determine position!")
+    gapi.add_msg(locale.gettext("ERROR: Could not determine position!"))
     return 0
   end
 
@@ -471,20 +471,20 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
   local raid_options = {}
 
   -- Short raids always available
-  ui:add(menu_index, locale.gettext(string.format("%s (reward: %d tokens)", RAID_CONFIG.short.name, RAID_CONFIG.short.material_tokens)))
+  ui:add(menu_index, string.format(locale.gettext("%s (reward: %d tokens)"), RAID_CONFIG.short.name, RAID_CONFIG.short.material_tokens))
   raid_options[menu_index] = "short"
   menu_index = menu_index + 1
 
   -- Medium raids require upgrade
   if longer_raids >= 1 then
-    ui:add(menu_index, locale.gettext(string.format("%s (reward: %d tokens)", RAID_CONFIG.medium.name, RAID_CONFIG.medium.material_tokens)))
+    ui:add(menu_index, string.format(locale.gettext("%s (reward: %d tokens)"), RAID_CONFIG.medium.name, RAID_CONFIG.medium.material_tokens))
     raid_options[menu_index] = "medium"
     menu_index = menu_index + 1
   end
 
   -- Long raids require further upgrade
   if longer_raids >= 2 then
-    ui:add(menu_index, locale.gettext(string.format("%s (reward: %d tokens)", RAID_CONFIG.long.name, RAID_CONFIG.long.material_tokens)))
+    ui:add(menu_index, string.format(locale.gettext("%s (reward: %d tokens)"), RAID_CONFIG.long.name, RAID_CONFIG.long.material_tokens))
     raid_options[menu_index] = "long"
     menu_index = menu_index + 1
   end
@@ -495,7 +495,7 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
   local selected_raid = raid_options[choice]
 
   if not selected_raid then
-    gapi.add_msg("Warp cancelled.")
+    gapi.add_msg(locale.gettext("Warp cancelled."))
     return 0
   end
 
@@ -533,14 +533,14 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
     if loc_config.catalyst_item and is_unlocked then
       has_catalyst = who:has_item_with_id(ItypeId.new(loc_config.catalyst_item), false)
       if not has_catalyst then
-        suffix = " [No Catalyst]"
+        suffix = locale.gettext(" [No Catalyst]")
       end
     end
 
     if is_unlocked then
       local display_name = loc_config.name
       if loc_config.catalyst_item then
-        display_name = display_name .. " (requires catalyst)"
+        display_name = display_name .. locale.gettext(" (requires catalyst)")
       end
       loc_ui:add(loc_index, locale.gettext(display_name .. suffix))
       if has_catalyst then
@@ -558,7 +558,7 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
   local selected_location = loc_options[loc_choice]
 
   if not selected_location then
-    gapi.add_msg("Warp cancelled.")
+    gapi.add_msg(locale.gettext("Warp cancelled."))
     return 0
   end
 
@@ -575,11 +575,11 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
         who:remove_item(catalyst_item)
       end
     end
-    gapi.add_msg("The Labs Catalyst crumbles to dust as dimensional barriers part...")
+    gapi.add_msg(locale.gettext("The Labs Catalyst crumbles to dust as dimensional barriers part..."))
   end
 
-  gapi.add_msg(string.format("Initiating %s to %s...", config.name, loc_config.name))
-  gapi.add_msg("Searching for suitable location...")
+  gapi.add_msg(string.format(locale.gettext("Initiating %s to %s..."), config.name, loc_config.name))
+  gapi.add_msg(locale.gettext("Searching for suitable location..."))
 
   -- Build search parameters based on location type
   local params = OmtFindParams.new()
@@ -674,7 +674,7 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
       end
     end
     local area_size = (reveal_radius * 2 + 1)
-    gapi.add_msg(string.format("Your scouting reveals a %dx%d area around the landing zone.", area_size, area_size))
+    gapi.add_msg(string.format(locale.gettext("Your scouting reveals a %dx%d area around the landing zone."), area_size, area_size))
   end
 
   -- Set away status
@@ -700,8 +700,8 @@ function teleport.use_warp_obelisk(who, item, pos, storage, missions, warp_sickn
   -- The global hook is already running and will start accumulating time
   warp_sickness.start(storage)
 
-  gapi.add_msg(string.format("You arrive at the %s!", loc_config.name:lower()))
-  gapi.add_msg("Find the red room exit portal to return home before warp sickness kills you.")
+  gapi.add_msg(string.format(locale.gettext("You arrive at the %s!"), loc_config.name:lower()))
+  gapi.add_msg(locale.gettext("Find the red room exit portal to return home before warp sickness kills you."))
 
   return 1
 end
@@ -709,17 +709,17 @@ end
 -- Use return obelisk - return home
 function teleport.use_return_obelisk(who, item, pos, storage, missions, warp_sickness)
   if not storage.is_away_from_home then
-    gapi.add_msg("You are already home!")
+    gapi.add_msg(locale.gettext("You are already home!"))
     return 0
   end
 
   if not storage.home_location then
-    gapi.add_msg("ERROR: Home location not set!")
+    gapi.add_msg(locale.gettext("ERROR: Home location not set!"))
     return 0
   end
 
   local confirm_ui = UiList.new()
-  confirm_ui:title("Return home?")
+  confirm_ui:title(locale.gettext("Return home?"))
   confirm_ui:add(1, locale.gettext("Yes, return home"))
   confirm_ui:add(2, locale.gettext("No, stay"))
   local confirm = confirm_ui:query()
@@ -748,13 +748,13 @@ function teleport.use_return_obelisk(who, item, pos, storage, missions, warp_sic
         end
         items_stored = store_red_room_items(pos)
         used_vortex_token = true
-        gapi.add_msg("The Vortex Token crumbles as it pulls the room's contents into the warp!")
+        gapi.add_msg(locale.gettext("The Vortex Token crumbles as it pulls the room's contents into the warp!"))
       else
-        gapi.add_msg("Without a Vortex Token, only items you carry will return with you.")
+        gapi.add_msg(locale.gettext("Without a Vortex Token, only items you carry will return with you."))
       end
     else
       -- Self Only: Never teleport room contents
-      gapi.add_msg("Only items you carry will return with you.")
+      gapi.add_msg(locale.gettext("Only items you carry will return with you."))
     end
 
     -- Convert stored abs_ms coordinates to OMT for teleportation
@@ -787,7 +787,7 @@ function teleport.use_return_obelisk(who, item, pos, storage, missions, warp_sic
     local material_tokens = config and config.material_tokens or 50
 
     player:add_item_with_id(ItypeId.new("skyisland_material_token"), material_tokens)
-    gapi.add_msg(string.format("You've returned home safely! Earned %d material tokens.", material_tokens))
+    gapi.add_msg(string.format(locale.gettext("You've returned home safely! Earned %d material tokens."), material_tokens))
 
     -- Clear away status and increment wins
     storage.is_away_from_home = false
@@ -803,24 +803,24 @@ function teleport.use_return_obelisk(who, item, pos, storage, missions, warp_sic
 
     -- Check for progress gate rank-ups (automatic at 10 and 20 wins)
     if old_raids_won < 10 and storage.raids_won >= 10 then
-      gapi.add_msg("=== RANK UP ===")
-      gapi.add_msg("You have survived 10 expeditions and achieved Adept rank!")
-      gapi.add_msg("New features and recipes may now be available.")
+      gapi.add_msg(locale.gettext("=== RANK UP ==="))
+      gapi.add_msg(locale.gettext("You have survived 10 expeditions and achieved Adept rank!"))
+      gapi.add_msg(locale.gettext("New features and recipes may now be available."))
     elseif old_raids_won < 20 and storage.raids_won >= 20 then
-      gapi.add_msg("=== RANK UP ===")
-      gapi.add_msg("You have survived 20 expeditions and achieved Master rank!")
-      gapi.add_msg("New features and recipes may now be available.")
+      gapi.add_msg(locale.gettext("=== RANK UP ==="))
+      gapi.add_msg(locale.gettext("You have survived 20 expeditions and achieved Master rank!"))
+      gapi.add_msg(locale.gettext("New features and recipes may now be available."))
     end
 
-    gapi.add_msg(string.format(
-      "Stats: %d/%d raids completed successfully",
+    gapi.add_msg(string.format(locale.gettext(
+      "Stats: %d/%d raids completed successfully"),
       storage.raids_won,
       storage.raids_total
     ))
 
     return 1
   else
-    gapi.add_msg("Cancelled.")
+    gapi.add_msg(locale.gettext("Cancelled."))
     return 0
   end
 end
@@ -829,7 +829,7 @@ end
 -- Does NOT prompt for confirmation - caller should handle that
 function teleport.return_home_success(storage, missions, warp_sickness)
   if not storage.home_location then
-    gapi.add_msg("ERROR: Home location not set!")
+    gapi.add_msg(locale.gettext("ERROR: Home location not set!"))
     return
   end
 
@@ -856,7 +856,7 @@ function teleport.return_home_success(storage, missions, warp_sickness)
   local material_tokens = config and config.material_tokens or 50
 
   player:add_item_with_id(ItypeId.new("skyisland_material_token"), material_tokens)
-  gapi.add_msg(string.format("You've returned home safely! Earned %d material tokens.", material_tokens))
+  gapi.add_msg(string.format(locale.gettext("You've returned home safely! Earned %d material tokens."), material_tokens))
 
   -- Clear away status and increment wins
   storage.is_away_from_home = false
@@ -872,17 +872,17 @@ function teleport.return_home_success(storage, missions, warp_sickness)
 
   -- Check for progress gate rank-ups (automatic at 10 and 20 wins)
   if old_raids_won < 10 and storage.raids_won >= 10 then
-    gapi.add_msg("=== RANK UP ===")
-    gapi.add_msg("You have survived 10 expeditions and achieved Adept rank!")
-    gapi.add_msg("New features and recipes may now be available.")
+    gapi.add_msg(locale.gettext("=== RANK UP ==="))
+    gapi.add_msg(locale.gettext("You have survived 10 expeditions and achieved Adept rank!"))
+    gapi.add_msg(locale.gettext("New features and recipes may now be available."))
   elseif old_raids_won < 20 and storage.raids_won >= 20 then
-    gapi.add_msg("=== RANK UP ===")
-    gapi.add_msg("You have survived 20 expeditions and achieved Master rank!")
-    gapi.add_msg("New features and recipes may now be available.")
+    gapi.add_msg(locale.gettext("=== RANK UP ==="))
+    gapi.add_msg(locale.gettext("You have survived 20 expeditions and achieved Master rank!"))
+    gapi.add_msg(locale.gettext("New features and recipes may now be available."))
   end
 
-  gapi.add_msg(string.format(
-    "Stats: %d/%d raids completed successfully",
+  gapi.add_msg(string.format(locale.gettext(
+    "Stats: %d/%d raids completed successfully"),
     storage.raids_won,
     storage.raids_total
   ))
@@ -923,13 +923,13 @@ function teleport.resurrect_at_home(storage, missions, warp_sickness)
   -- DROP ALL ITEMS before teleporting - this is the death penalty!
   -- Items are dropped at the death location (lost forever)
   player:drop_all_items()
-  gapi.add_msg("Your belongings scatter as reality tears you away...")
+  gapi.add_msg(locale.gettext("Your belongings scatter as reality tears you away..."))
 
   -- Clear any warped animals - they're lost on death
   if storage.warped_animals and #storage.warped_animals > 0 then
     local lost_count = #storage.warped_animals
     storage.warped_animals = {}
-    gapi.add_msg(string.format("%d warped animal%s lost in the void...",
+    gapi.add_msg(string.format(locale.gettext("%d warped animal%s lost in the void..."),
       lost_count, lost_count > 1 and "s were" or " was"))
   end
 
@@ -962,7 +962,7 @@ function teleport.resurrect_at_home(storage, missions, warp_sickness)
   -- Apply resurrection sickness
   warp_sickness.apply_resurrection_sickness()
 
-  gapi.add_msg("You respawn at home, naked and wounded!")
+  gapi.add_msg(locale.gettext("You respawn at home, naked and wounded!"))
   util.debug_log(string.format("Resurrected at home abs_ms: %d, %d, %d", home_abs_ms.x, home_abs_ms.y, home_abs_ms.z))
   util.debug_log(string.format("local pos: %d, %d, %d", local_pos.x, local_pos.y, local_pos.z))
 

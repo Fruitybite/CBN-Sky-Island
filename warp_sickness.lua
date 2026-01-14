@@ -118,34 +118,34 @@ local function process_warp_pulse(storage)
 
     if remaining > 3 then
       -- Still plenty of time - green
-      gapi.add_msg(string.format("[Warp Pulse] You feel a faint tingling of warp energy. Safe pulses remaining: %d (~%d min).", remaining, time_remaining))
+      gapi.add_msg(string.format(locale.gettext("[Warp Pulse] You feel a faint tingling of warp energy. Safe pulses remaining: %d (~%d min)."), remaining, time_remaining))
       show_pulse_dialog(
-        string.format("=== WARP PULSE ===\n\n" ..
-          "You feel a faint tingling of warp energy.\n\n" ..
-          "Safe pulses remaining: %d\n" ..
-          "Time until sickness: ~%d minutes\n\n" ..
-          "[Press any key to continue]",
+        string.format(locale.gettext("=== WARP PULSE ===\n\n") ..
+          locale.gettext("You feel a faint tingling of warp energy.\n\n") ..
+          locale.gettext("Safe pulses remaining: %d\n") ..
+          locale.gettext("Time until sickness: ~%d minutes\n\n") ..
+          locale.gettext("[Press any key to continue]"),
           remaining, time_remaining),
         Color.c_green)
     elseif remaining > 0 then
       -- Getting close - yellow warning
-      gapi.add_msg(string.format("<color_yellow>[Warp Pulse] The warp begins to tug at you... Safe pulses remaining: %d (~%d min).</color>", remaining, time_remaining))
+      gapi.add_msg(string.format(locale.gettext("<color_yellow>[Warp Pulse] The warp begins to tug at you... Safe pulses remaining: %d (~%d min).</color>"), remaining, time_remaining))
       show_pulse_dialog(
-        string.format("=== WARP PULSE ===\n\n" ..
-          "The warp begins to tug at you...\n\n" ..
-          "Safe pulses remaining: %d\n" ..
-          "Time until sickness: ~%d minutes\n\n" ..
-          "[Press any key to continue]",
+        string.format(locale.gettext("=== WARP PULSE ===\n\n") ..
+          locale.gettext("The warp begins to tug at you...\n\n") ..
+          locale.gettext("Safe pulses remaining: %d\n") ..
+          locale.gettext("Time until sickness: ~%d minutes\n\n") ..
+          locale.gettext("[Press any key to continue]"),
           remaining, time_remaining),
         Color.c_yellow)
     else
       -- Last safe pulse
-      gapi.add_msg("<color_light_red>[Warp Pulse] WARNING: This is your last safe pulse! The next pulse will begin warp sickness.</color>")
+      gapi.add_msg(locale.gettext("<color_light_red>[Warp Pulse] WARNING: This is your last safe pulse! The next pulse will begin warp sickness.</color>"))
       show_pulse_dialog(
-        "=== WARP PULSE ===\n\n" ..
-          "WARNING: This is your last safe pulse!\n" ..
-          "The next pulse will begin warp sickness.\n\n" ..
-          "[Press any key to continue]",
+        locale.gettext("=== WARP PULSE ===\n\n") ..
+          locale.gettext("WARNING: This is your last safe pulse!\n") ..
+          locale.gettext("The next pulse will begin warp sickness.\n\n") ..
+          locale.gettext("[Press any key to continue]"),
         Color.c_light_red)
     end
     tick_in_progress = false
@@ -166,41 +166,41 @@ local function process_warp_pulse(storage)
       player:add_effect(EFFECT_DISINTEGRATION, TimeDuration.from_hours(999))
     end
     -- Critical - flashing red
-    gapi.add_msg("<color_red>[Warp Pulse] !!! WARP DISINTEGRATION !!! You are being unmade!</color>")
+    gapi.add_msg(locale.gettext("<color_red>[Warp Pulse] !!! WARP DISINTEGRATION !!! You are being unmade!</color>"))
     show_pulse_dialog(
-      "=== WARP PULSE ===\n\n" ..
-        "!!! WARP DISINTEGRATION !!!\n\n" ..
-        "Your skin tears like tissue paper with every movement.\n" ..
-        "Your body is coming apart at the seams!\n" ..
-        "GET TO THE EXIT IMMEDIATELY!\n\n" ..
-        "[Press any key to continue]",
+      locale.gettext("=== WARP PULSE ===\n\n") ..
+        locale.gettext("!!! WARP DISINTEGRATION !!!\n\n") ..
+        locale.gettext("Your skin tears like tissue paper with every movement.\n") ..
+        locale.gettext("Your body is coming apart at the seams!\n") ..
+        locale.gettext("GET TO THE EXIT IMMEDIATELY!\n\n") ..
+        locale.gettext("[Press any key to continue]"),
       Color.i_red)
   elseif current_intensity >= 4 then
     -- Severe - red
-    gapi.add_msg(string.format("<color_red>[Warp Pulse] %s (%d/6). -%d stats. %d pulses to disintegration!</color>",
+    gapi.add_msg(string.format(locale.gettext("<color_red>[Warp Pulse] %s (%d/6). -%d stats. %d pulses to disintegration!</color>"),
       status_name, current_intensity, current_intensity * 2, pulses_to_doom))
     show_pulse_dialog(
-      string.format("=== WARP PULSE ===\n\n" ..
-        "STATUS: %s (Intensity %d/6)\n\n" ..
-        "Your body is failing!\n" ..
-        "Stats: -%d to all\n" ..
-        "Pulses until disintegration: %d\n\n" ..
-        "You MUST return home soon!\n\n" ..
-        "[Press any key to continue]",
+      string.format(locale.gettext("=== WARP PULSE ===\n\n") ..
+        locale.gettext("STATUS: %s (Intensity %d/6)\n\n") ..
+        locale.gettext("Your body is failing!\n") ..
+        locale.gettext("Stats: -%d to all\n") ..
+        locale.gettext("Pulses until disintegration: %d\n\n") ..
+        locale.gettext("You MUST return home soon!\n\n") ..
+        locale.gettext("[Press any key to continue]"),
         status_name, current_intensity, current_intensity * 2, pulses_to_doom),
       Color.c_red)
   elseif current_intensity >= 2 then
     -- Moderate - light red/orange
-    gapi.add_msg(string.format("<color_light_red>[Warp Pulse] STATUS: %s (%d/6). -%d stats. %d pulses to disintegration.</color>",
+    gapi.add_msg(string.format(locale.gettext("<color_light_red>[Warp Pulse] STATUS: %s (%d/6). -%d stats. %d pulses to disintegration.</color>"),
       status_name, current_intensity, current_intensity * 2, pulses_to_doom))
     show_pulse_dialog(
-      string.format("=== WARP PULSE ===\n\n" ..
-        "STATUS: %s (Intensity %d/6)\n\n" ..
-        "The warp sickness grows stronger.\n" ..
-        "Stats: -%d to all\n" ..
-        "Pulses until disintegration: %d\n\n" ..
-        "Consider returning home soon.\n\n" ..
-        "[Press any key to continue]",
+      string.format(locale.gettext("=== WARP PULSE ===\n\n") ..
+        locale.gettext("STATUS: %s (Intensity %d/6)\n\n") ..
+        locale.gettext("The warp sickness grows stronger.\n") ..
+        locale.gettext("Stats: -%d to all\n") ..
+        locale.gettext("Pulses until disintegration: %d\n\n") ..
+        locale.gettext("Consider returning home soon.\n\n") ..
+        locale.gettext("[Press any key to continue]"),
         status_name, current_intensity, current_intensity * 2, pulses_to_doom),
       Color.c_light_red)
   else

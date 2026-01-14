@@ -141,13 +141,13 @@ mod.use_quickheal = function(who, item, pos)
 
   -- Only works on the island (not away from home)
   if storage.is_away_from_home then
-    gapi.add_msg("The quickheal pill only works on your sanctuary island.")
+    gapi.add_msg(locale.gettext("The quickheal pill only works on your sanctuary island."))
     return 0
   end
 
   -- Heal all body parts to max
   player:healall(999)
-  gapi.add_msg("A warm sensation washes over you as your wounds heal.")
+  gapi.add_msg(locale.gettext("A warm sensation washes over you as your wounds heal."))
   return 1  -- Consume the item
 end
 
@@ -157,13 +157,13 @@ mod.use_earthbound_pill = function(who, item, pos)
 
   -- Only works during expedition
   if not storage.is_away_from_home then
-    gapi.add_msg("You're not on an expedition. Save this for when you need more time earthside.")
+    gapi.add_msg(locale.gettext("You're not on an expedition. Save this for when you need more time earthside."))
     return 0
   end
 
   -- Reduce pulse count by 4 (extend time)
   storage.warp_pulse_count = math.max(0, (storage.warp_pulse_count or 0) - 4)
-  gapi.add_msg("The pill dissolves on your tongue. You feel the warp's grip on you loosen. (+4 pulses of time)")
+  gapi.add_msg(locale.gettext("The pill dissolves on your tongue. You feel the warp's grip on you loosen. (+4 pulses of time)"))
   util.debug_log(string.format("Earthbound pill used. Pulse count now: %d", storage.warp_pulse_count))
   return 1  -- Consume the item
 end
@@ -179,14 +179,14 @@ mod.use_warp_focus = function(who, item, pos)
 
   if emergency_setting >= 2 then
     -- Focus doesn't work in craft-cost or extraction-only modes
-    gapi.add_msg("The focus pulses weakly but cannot establish a connection.")
-    gapi.add_msg("Your difficulty settings require a Skyward Beacon or extraction point.")
+    gapi.add_msg(locale.gettext("The focus pulses weakly but cannot establish a connection."))
+    gapi.add_msg(locale.gettext("Your difficulty settings require a Skyward Beacon or extraction point."))
     return 0
   end
 
   -- Only works during expedition
   if not storage.is_away_from_home then
-    gapi.add_msg("You're already home. The focus has no effect here.")
+    gapi.add_msg(locale.gettext("You're already home. The focus has no effect here."))
     return 0
   end
 
@@ -209,14 +209,14 @@ mod.use_warp_focus = function(who, item, pos)
     end
 
     if has_nearby_enemy then
-      gapi.add_msg("Hostile creatures nearby disrupt the focus's energy. You cannot use it here!")
+      gapi.add_msg(locale.gettext("Hostile creatures nearby disrupt the focus's energy. You cannot use it here!"))
       return 0
     end
 
     -- Check for warp shard
     local shard_id = ItypeId.new("skyisland_warp_shard")
     if not player:has_item_with_id(shard_id, false) then
-      gapi.add_msg("The focus requires a warp shard to activate!")
+      gapi.add_msg(locale.gettext("The focus requires a warp shard to activate!"))
       return 0
     end
 
@@ -234,7 +234,7 @@ mod.use_warp_focus = function(who, item, pos)
   end
 
   -- Return home with all items (focus is NOT consumed)
-  gapi.add_msg("The focus flares with brilliant light. You feel yourself being pulled skyward...")
+  gapi.add_msg(locale.gettext("The focus flares with brilliant light. You feel yourself being pulled skyward..."))
   teleport.return_home_success(storage, missions, warp_sickness)
   return 0  -- Don't consume the focus
 end
@@ -250,19 +250,19 @@ mod.use_skyward_beacon = function(who, item, pos)
 
   if emergency_setting == 3 then
     -- Extraction only mode - beacon doesn't work
-    gapi.add_msg("The beacon flickers weakly but nothing happens. Emergency returns are disabled.")
-    gapi.add_msg("You must find an extraction point (return obelisk) to escape.")
+    gapi.add_msg(locale.gettext("The beacon flickers weakly but nothing happens. Emergency returns are disabled."))
+    gapi.add_msg(locale.gettext("You must find an extraction point (return obelisk) to escape."))
     return 0
   end
 
   -- Only works during expedition
   if not storage.is_away_from_home then
-    gapi.add_msg("You're already home. The beacon has no effect here.")
+    gapi.add_msg(locale.gettext("You're already home. The beacon has no effect here."))
     return 0
   end
 
   -- Beacon always works (it's the craftable 5-shard item)
-  gapi.add_msg("The beacon flares with brilliant light. You feel yourself being pulled skyward...")
+  gapi.add_msg(locale.gettext("The beacon flares with brilliant light. You feel yourself being pulled skyward..."))
   teleport.return_home_success(storage, missions, warp_sickness)
   return 1  -- Consume the item
 end
@@ -277,12 +277,12 @@ mod.use_warp_crystal = function(who, item, pos)
 
   -- Create status display menu
   local menu = UiList.new()
-  menu:title("Warp Status Crystal")
+  menu:title(locale.gettext("Warp Status Crystal"))
   menu:desc_enabled(true)
 
   if not storage.is_away_from_home then
-    menu:text("You are HOME SAFE on your sanctuary island.\n\nThe warp has no hold on you here.")
-    menu:add(0, "Close")
+    menu:text(locale.gettext("You are HOME SAFE on your sanctuary island.\n\nThe warp has no hold on you here."))
+    menu:add(0, locale.gettext("Close"))
   else
     -- Build status text
     -- Get base interval from difficulty setting
@@ -296,11 +296,11 @@ mod.use_warp_crystal = function(who, item, pos)
     local difficulty_name = difficulty:sub(1,1):upper() .. difficulty:sub(2)
 
     local status_text = string.format(
-      "Current Expedition: %s\n" ..
-      "Difficulty: %s\n" ..
-      "Pulse Interval: %d minutes\n" ..
-      "Current Pulse: %d\n" ..
-      "Grace Period: %d pulses\n\n",
+      locale.gettext("Current Expedition: %s\n") ..
+      locale.gettext("Difficulty: %s\n") ..
+      locale.gettext("Pulse Interval: %d minutes\n") ..
+      locale.gettext("Current Pulse: %d\n") ..
+      locale.gettext("Grace Period: %d pulses\n\n"),
       raid_name,
       difficulty_name,
       interval_minutes,
@@ -310,16 +310,16 @@ mod.use_warp_crystal = function(who, item, pos)
 
     if status_info.in_grace_period then
       status_text = status_text .. string.format(
-        "STATUS: STABLE\n" ..
-        "Safe pulses remaining: %d\n" ..
-        "Time until sickness begins: ~%d minutes",
+        locale.gettext("STATUS: STABLE\n") ..
+        locale.gettext("Safe pulses remaining: %d\n") ..
+        locale.gettext("Time until sickness begins: ~%d minutes"),
         status_info.pulses_remaining,
         status_info.pulses_remaining * interval_minutes
       )
     else
       status_text = status_text .. string.format(
-        "STATUS: %s (Intensity %d/%d)\n" ..
-        "Pulses until disintegration: %d",
+        locale.gettext("STATUS: %s (Intensity %d/%d)\n") ..
+        locale.gettext("Pulses until disintegration: %d"),
         status_info.status_name,
         status_info.current_intensity,
         6,
@@ -330,13 +330,13 @@ mod.use_warp_crystal = function(who, item, pos)
     menu:text(status_text)
 
     -- Add entries showing what happens at each stage
-    menu:add_w_desc(1, "Stage 1: Warp Stability", "Grace period. No effects. You feel fine.")
-    menu:add_w_desc(2, "Stage 2: Warp Sickness", "Intensity 1. -2 to all stats. Mild discomfort.")
-    menu:add_w_desc(3, "Stage 3: Warp Nausea", "Intensity 2. -4 to all stats. Growing pain.")
-    menu:add_w_desc(4, "Stage 4: Warp Debilitation", "Intensity 3. -6 to all stats. Severely impaired.")
-    menu:add_w_desc(5, "Stage 5: Warp Necrosis", "Intensity 4. -8 to all stats. Body failing.")
-    menu:add_w_desc(6, "Stage 6: Warp Disintegration!", "Intensity 5+. -10+ to stats. Constant damage. DEATH IMMINENT.")
-    menu:add(0, "Close")
+    menu:add_w_desc(1, locale.gettext("Stage 1: Warp Stability"), locale.gettext("Grace period. No effects. You feel fine."))
+    menu:add_w_desc(2, locale.gettext("Stage 2: Warp Sickness"), locale.gettext("Intensity 1. -2 to all stats. Mild discomfort."))
+    menu:add_w_desc(3, locale.gettext("Stage 3: Warp Nausea"), locale.gettext("Intensity 2. -4 to all stats. Growing pain."))
+    menu:add_w_desc(4, locale.gettext("Stage 4: Warp Debilitation"), locale.gettext("Intensity 3. -6 to all stats. Severely impaired."))
+    menu:add_w_desc(5, locale.gettext("Stage 5: Warp Necrosis"), locale.gettext("Intensity 4. -8 to all stats. Body failing."))
+    menu:add_w_desc(6, locale.gettext("Stage 6: Warp Disintegration!"), locale.gettext("Intensity 5+. -10+ to stats. Constant damage. DEATH IMMINENT."))
+    menu:add(0, locale.gettext("Close"))
   end
 
   menu:query()
@@ -350,21 +350,21 @@ mod.use_animal_teleporter = function(who, item, pos)
 
   -- Check if home location is set
   if not storage.home_location then
-    gapi.add_msg("You need to set your home location first by using the warp obelisk.")
+    gapi.add_msg(locale.gettext("You need to set your home location first by using the warp obelisk."))
     return 0
   end
 
   -- Prompt player to choose adjacent tile
-  local target_pos = gapi.choose_adjacent("Select a creature to warp home:")
+  local target_pos = gapi.choose_adjacent(locale.gettext("Select a creature to warp home:"))
   if not target_pos then
-    gapi.add_msg("Cancelled.")
+    gapi.add_msg(locale.gettext("Cancelled."))
     return 0
   end
 
   -- Check for monster at target position
   local monster = gapi.get_monster_at(target_pos)
   if not monster then
-    gapi.add_msg("There's no creature there.")
+    gapi.add_msg(locale.gettext("There's no creature there."))
     return 0
   end
 
@@ -381,7 +381,7 @@ mod.use_animal_teleporter = function(who, item, pos)
 
     if roll ~= 1 then
       local monster_name = monster:get_name()
-      gapi.add_msg(string.format("The %s avoids your attempt to warp it!", monster_name))
+      gapi.add_msg(string.format(locale.gettext("The %s avoids your attempt to warp it!"), monster_name))
       return 0
     end
   end
@@ -412,8 +412,8 @@ mod.use_animal_teleporter = function(who, item, pos)
   local far_away = Tripoint.new(dest_x, dest_y, monster_pos.z)
   monster:spawn(far_away)
 
-  gapi.add_msg(string.format("The %s vanishes in a shimmer of light, warped to your island!", monster_name))
-  gapi.add_msg(string.format("Animals queued for arrival: %d", #storage.warped_animals))
+  gapi.add_msg(string.format(locale.gettext("The %s vanishes in a shimmer of light, warped to your island!"), monster_name))
+  gapi.add_msg(string.format(locale.gettext("Animals queued for arrival: %d"), #storage.warped_animals))
   util.debug_log(string.format("Warped animal: %s (HP: %d) - total queued: %d",
     tostring(monster_type), monster_hp, #storage.warped_animals))
 
@@ -460,7 +460,7 @@ mod.on_game_started = function()
   warp_sickness.register_global_hook(storage)
 
   util.debug_log("Sky Islands: New game started")
-  gapi.add_msg("Sky Islands PoC loaded! Use warp remote to start.")
+  gapi.add_msg(locale.gettext("Sky Islands PoC loaded! Use warp remote to start."))
 end
 
 -- Game load hook - restore state (storage auto-loaded)
@@ -473,7 +473,7 @@ mod.on_game_load = function()
   warp_sickness.register_global_hook(storage)
 
   if storage.is_away_from_home then
-    gapi.add_msg("Resuming expedition...")
+    gapi.add_msg(locale.gettext("Resuming expedition..."))
   end
 end
 
@@ -551,8 +551,8 @@ mod.on_character_death = function(params)
     if mote_item then
       player:remove_item(mote_item)
     end
-    gapi.add_msg("The homeward mote flares brilliantly, yanking you from death's grasp!")
-    gapi.add_msg("You arrive home alive, with all your belongings intact.")
+    gapi.add_msg(locale.gettext("The homeward mote flares brilliantly, yanking you from death's grasp!"))
+    gapi.add_msg(locale.gettext("You arrive home alive, with all your belongings intact."))
 
     -- Teleport home WITH items (use the success path)
     teleport.return_home_success(storage, missions, warp_sickness)

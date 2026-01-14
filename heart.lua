@@ -67,7 +67,7 @@ local UPGRADE_INFO = {
   },
   raidlength = {
     { level = 1, name = locale.gettext("Large Expeditions"), effect = locale.gettext("2x grace period, 125 token reward"), item = locale.gettext("Warped Hourglass") },
-    { level = 2, name = "Extended Expeditions", effect = "3x grace period, 200 token reward (MAX)", item = "Warped Sundial" }
+    { level = 2, name = locale.gettext("Extended Expeditions"), effect = locale.gettext("3x grace period, 200 token reward (MAX)"), item = locale.gettext("Warped Sundial") }
   },
   bonusmissions = {
     { level = 1, name = locale.gettext("Expedition Missions"), effect = locale.gettext("1 bonus mission per expedition"), item = locale.gettext("Warped Contract") },

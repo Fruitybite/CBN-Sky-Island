@@ -397,9 +397,9 @@ local function show_rankup_menu(player, storage)
 
   if choice == 1 then
     gapi.add_msg(
-      locale.gettext("Beyond automatic rank progression, you can prove your mastery by completing rank-up challenges.") ..
-      locale.gettext("These require crafting special items near the Heart that demonstrate you have gathered the tools and skills needed to survive.") ..
-      locale.gettext("Completing these challenges unlocks new recipes and capabilities.")
+      locale.gettext("Beyond automatic rank progression, you can prove your mastery by completing rank-up challenges. ") ..
+      locale.gettext("These require crafting special items near the Heart that demonstrate you have gathered the tools and skills needed to survive. ") ..
+      locale.gettext("Completing these challenges unlocks new recipes and capabilities. ")
     )
     return "rankup"
   elseif choice == 2 then
@@ -451,26 +451,26 @@ local function show_information_menu(player, storage)
 
   if choice == 1 then
     gapi.add_msg(
-      locale.gettext("This floating island is your sanctuary.") ..
-	  locale.gettext("Use the Warp Obelisk to teleport to the surface and begin expeditions.") ..
-      locale.gettext("Gather resources, complete missions, and return before warp sickness kills you.") ..
+      locale.gettext("This floating island is your sanctuary. ") ..
+	  locale.gettext("Use the Warp Obelisk to teleport to the surface and begin expeditions. ") ..
+      locale.gettext("Gather resources, complete missions, and return before warp sickness kills you. ") ..
       locale.gettext("If you die, you'll respawn here but lose everything you were carrying.")
     )
     return "information"
   elseif choice == 2 then
     gapi.add_msg(
-      locale.gettext("Use the Warp Obelisk to begin an expedition.") ..
-	  locale.gettext("You'll teleport to a random location with three missions: find the exit, kill enemies, and find warp shards.") ..
-      locale.gettext("Every 5 minutes, warp sickness advances.") ..
-      locale.gettext("After 12 stages, you'll start taking damage.") ..
+      locale.gettext("Use the Warp Obelisk to begin an expedition. ") ..
+	  locale.gettext("You'll teleport to a random location with three missions: find the exit, kill enemies, and find warp shards. ") ..
+      locale.gettext("Every 5 minutes, warp sickness advances. ") ..
+      locale.gettext("After 12 stages, you'll start taking damage. ") ..
       locale.gettext("Find the exit (marked with a return obelisk) and return home before it's too late!")
     )
     return "information"
   elseif choice == 3 then
     gapi.add_msg(
-      locale.gettext("Warp shards are earned by completing missions and searching for treasure.") ..
-	  locale.gettext("They're used for healing and upgrades.") ..
-      locale.gettext("Material tokens (50 per successful expedition) can be converted into raw resources at infinity nodes.") ..
+      locale.gettext("Warp shards are earned by completing missions and searching for treasure. ") ..
+	  locale.gettext("They're used for healing and upgrades. ") ..
+      locale.gettext("Material tokens (50 per successful expedition) can be converted into raw resources at infinity nodes. ") ..
       locale.gettext("Craft the infinity nodes first, deploy them on your island, then use them to craft resources from tokens.")
     )
     return "information"

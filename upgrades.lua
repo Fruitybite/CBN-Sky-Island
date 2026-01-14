@@ -180,7 +180,7 @@ local function activate_upgrade(who, item, pos, storage, upgrade_key)
     storage[def.field] = true
     gapi.add_msg(locale.gettext("=== UPGRADE UNLOCKED ==="))
     gapi.add_msg(def.message)
-    util.debug_log(string.format(locale.gettext("Upgrade %s activated: %s = true"), upgrade_key, def.field))
+    util.debug_log(string.format("Upgrade %s activated: %s = true", upgrade_key, def.field))
     return 1
   end
 
@@ -199,7 +199,7 @@ local function activate_upgrade(who, item, pos, storage, upgrade_key)
   storage[def.field] = def.new_level
   gapi.add_msg(locale.gettext("=== UPGRADE UNLOCKED ==="))
   gapi.add_msg(def.message)
-  util.debug_log(string.format(locale.gettext("Upgrade %s activated: %s = %d"), upgrade_key, def.field, def.new_level))
+  util.debug_log(string.format("Upgrade %s activated: %s = %d", upgrade_key, def.field, def.new_level))
   return 1
 end
 

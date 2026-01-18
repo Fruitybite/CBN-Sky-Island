@@ -11,30 +11,76 @@ local util = require("util")
 -- mission:get_type() but can't access .id on it. Using names works but is fragile if
 -- mission names change. Ideally BN should expose mission_type.id or add a method like
 -- mission:get_type_id_str() to make this cleaner.
-local MISSION_REWARDS = {
-  -- MGOAL_KILL_MONSTER_SPEC missions
-  ["RAID: Kill 10 Zombies"] = 1,
-  ["RAID: Kill 50 Zombies"] = 3,
-  ["RAID: Kill 100 Zombies"] = 10,
-  ["RAID: Kill a Mi-Go"] = 8,
-  ["RAID: Kill 3 Nether Creatures"] = 10,
-  ["RAID: Kill 5 Birds"] = 1,
-  ["RAID: Kill 5 Mammals"] = 2,
 
-  -- MGOAL_KILL_MONSTERS (combat) missions
-  ["RAID: Clear zombie cluster"] = 3,
-  ["RAID: Clear zombie horde"] = 6,
-  ["RAID: Clear evolved zombies"] = 8,
-  ["RAID: Clear evolved horde"] = 10,
-  ["RAID: Clear fearsome zombies"] = 12,
-  ["RAID: Clear elite zombies"] = 12,
-  ["RAID: Kill zombie lord"] = 15,
-  ["RAID: Kill zombie superteam"] = 15,
-  ["RAID: Kill zombie leader + swarm"] = 20,
-  ["RAID: Kill horde lord"] = 30,
-  ["RAID: Clear mi-go threat"] = 20,
-  ["RAID: Kill mi-go overlord"] = 30,
-}
+local MISSION_REWARDS = {}
+
+local function add_mission_reward(name_en, count)
+  -- Original English Name
+  MISSION_REWARDS[name_en] = count
+
+  -- Add Translated Name as Key(Only if there is locale.gettext)
+  if locale and locale.gettext then
+    local name_loc = locale.gettext(name_en)
+    if name_loc ~= name_en then
+      MISSION_REWARDS[name_loc] = count
+    end
+  end
+end
+
+-- MGOAL_KILL_MONSTER_SPEC missions
+add_mission_reward("RAID: Kill 10 Zombies", 1)
+add_mission_reward("RAID: Kill 50 Zombies", 3)
+add_mission_reward("RAID: Kill 100 Zombies", 10)
+add_mission_reward("RAID: Kill a Mi-Go", 8)
+add_mission_reward("RAID: Kill 3 Nether Creatures", 10)
+add_mission_reward("RAID: Kill 5 Birds", 1)
+add_mission_reward("RAID: Kill 5 Mammals", 2)
+
+-- MGOAL_KILL_MONSTERS (combat) missions
+add_mission_reward("RAID: Clear zombie cluster", 3)
+add_mission_reward("RAID: Clear zombie horde", 6)
+add_mission_reward("RAID: Clear evolved zombies", 8)
+add_mission_reward("RAID: Clear evolved horde", 10)
+add_mission_reward("RAID: Clear fearsome zombies", 12)
+add_mission_reward("RAID: Clear elite zombies", 12)
+add_mission_reward("RAID: Kill zombie lord", 15)
+add_mission_reward("RAID: Kill zombie superteam", 15)
+add_mission_reward("RAID: Kill zombie leader + swarm", 20)
+add_mission_reward("RAID: Kill horde lord", 30)
+add_mission_reward("RAID: Clear mi-go threat", 20)
+add_mission_reward("RAID: Kill mi-go overlord", 30)
+
+-- Names of GO_TO style raid missions (survival success)
+local RAID_GO_TO_MISSIONS = {}
+
+local function add_go_to_mission(name_en)
+  RAID_GO_TO_MISSIONS[name_en] = true
+
+  if locale and locale.gettext then
+    local name_loc = locale.gettext(name_en)
+    if name_loc ~= name_en then
+      RAID_GO_TO_MISSIONS[name_loc] = true
+    end
+  end
+end
+
+add_go_to_mission("RAID: Reach the exit portal!")
+add_go_to_mission("RAID: Find the warp shards!")
+
+local function is_raid_mission_name(name)
+  if RAID_GO_TO_MISSIONS[name] then
+    return true
+  end
+  if MISSION_REWARDS[name] then
+    return true
+  end
+  return false
+end
+
+local function is_raid_goto_mission(name)
+  return RAID_GO_TO_MISSIONS[name] == true
+end
+
 
 -- Give mission reward
 local function give_mission_reward(player, mission_name, count)
@@ -109,7 +155,7 @@ function missions.create_extraction_mission(center_omt, storage)
         storage.exit_location = { x = target.x, y = target.y, z = target.z }
       end
     else
-      gdebug.log_error(string.format(locale.gettext("Failed to create extraction mission %d!"), i))
+      gdebug.log_error(string.format("Failed to create extraction mission %d!", i))
     end
   end
 end
@@ -189,7 +235,7 @@ function missions.create_bonus_mission(center_omt, storage)
       util.debug_log(string.format("Created bonus mission at: %d, %d, %d", target.x, target.y, target.z))
     end
   else
-    gdebug.log_error(string.format(locale.gettext("Failed to create bonus mission: %s"), selected.id))
+    gdebug.log_error(string.format("Failed to create bonus mission: %s", selected.id))
   end
 end
 
@@ -258,14 +304,17 @@ function missions.complete_or_fail_missions(player, storage)
     if mission:in_progress() and not mission:has_failed() then
       local mission_name = mission:name()
 
-      -- Only process raid missions (prefixed with "RAID: ")
-      if mission_name:sub(1, 6) == "RAID: " then
-        -- Check mission type and handle appropriately
-        if mission_name == "RAID: Reach the exit portal!" or mission_name == "RAID: Find the warp shards!" then
+      -- Only process raid missions that we know about (name list based)
+      if is_raid_mission_name(mission_name) then
+        if is_raid_goto_mission(mission_name) then
           -- GO_TO missions: Always complete (survival = success)
           mission:wrap_up()
           util.debug_log(string.format("Completed mission: %s (GO_TO mission)", mission_name))
-          gapi.add_msg(string.format("Mission completed: %s", mission_name))
+          if locale and locale.gettext then
+            gapi.add_msg(string.format(locale.gettext("Mission completed: %s"), mission_name))
+          else
+            gapi.add_msg(string.format("Mission completed: %s", mission_name))
+          end
         else
           -- KILL missions: Check if goal was actually met
           local is_complete = mission:is_complete()
@@ -279,11 +328,19 @@ function missions.complete_or_fail_missions(player, storage)
 
             mission:wrap_up()
             util.debug_log(string.format("Completed mission: %s", mission_name))
-            gapi.add_msg(string.format("Mission completed: %s", mission_name))
+            if locale and locale.gettext then
+              gapi.add_msg(string.format(locale.gettext("Mission completed: %s"), mission_name))
+            else
+              gapi.add_msg(string.format("Mission completed: %s", mission_name))
+            end
           else
             mission:fail()
             util.debug_log(string.format("Failed mission: %s", mission_name))
-            gapi.add_msg(string.format("Mission failed: %s", mission_name))
+            if locale and locale.gettext then
+              gapi.add_msg(string.format(locale.gettext("Mission failed: %s"), mission_name))
+            else
+              gapi.add_msg(string.format("Mission failed: %s", mission_name))
+            end
           end
         end
       end
@@ -297,8 +354,8 @@ function missions.fail_all_raid_missions(player)
   for _, mission in ipairs(missions_list) do
     if mission:in_progress() and not mission:has_failed() then
       local mission_name = mission:name()
-      -- Only fail raid missions (prefixed with "RAID: ")
-      if mission_name:sub(1, 6) == "RAID: " then
+      -- Only fail raid missions that we know about
+      if is_raid_mission_name(mission_name) then
         mission:fail()
         util.debug_log(string.format("Failed raid mission on death: %s", mission_name))
       end

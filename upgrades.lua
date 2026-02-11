@@ -144,6 +144,18 @@ local UPGRADE_DEFS = {
     required = nil,
     new_level = true,
     message = locale.gettext("Landing Flight unlocked. While under the warpcloak effect on landing, you gain the power of flight for 60 seconds.")
+  },
+  proof_determination = {
+    field = "proof_determination_complete",
+    required = nil,
+    new_level = true,
+    message = locale.gettext("Your determination is proven! You have achieved the rank of Adept. Rank challenge complete!")
+  },
+  proof_mastery = {
+    field = "proof_mastery_complete",
+    required = nil,
+    new_level = true,
+    message = locale.gettext("Your mastery is proven! You have achieved the highest rank. Rank challenge complete!")
   }
 }
 
@@ -290,6 +302,24 @@ end
 
 function upgrades.use_landing_flight(who, item, pos, storage)
   return activate_upgrade(who, item, pos, storage, "landing_flight")
+end
+
+function upgrades.use_proof_determination(who, item, pos, storage)
+  local raids_won = storage.raids_won or 0
+  if raids_won < 10 then
+    gapi.add_msg(locale.gettext("You need at least 10 successful expeditions to use this."))
+    return 0
+  end
+  return activate_upgrade(who, item, pos, storage, "proof_determination")
+end
+
+function upgrades.use_proof_mastery(who, item, pos, storage)
+  local raids_won = storage.raids_won or 0
+  if raids_won < 20 then
+    gapi.add_msg(locale.gettext("You need at least 20 successful expeditions to use this."))
+    return 0
+  end
+  return activate_upgrade(who, item, pos, storage, "proof_mastery")
 end
 
 return upgrades

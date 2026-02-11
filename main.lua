@@ -134,6 +134,14 @@ mod.use_upgrade_landing_flight = function(who, item, pos)
   return upgrades.use_landing_flight(who, item, pos, storage)
 end
 
+mod.use_proof_determination = function(who, item, pos)
+  return upgrades.use_proof_determination(who, item, pos, storage)
+end
+
+mod.use_proof_mastery = function(who, item, pos)
+  return upgrades.use_proof_mastery(who, item, pos, storage)
+end
+
 -- Utility item activations
 mod.use_quickheal = function(who, item, pos)
   local player = gapi.get_avatar()

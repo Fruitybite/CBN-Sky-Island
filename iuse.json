@@ -183,5 +183,15 @@
     "type": "item_action",
     "id": "SKYISLAND_IMPRINT_CVD_PANEL",
     "name": { "str": "Imprint on CVD Control Panel" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_PROOF_DETERMINATION",
+    "name": { "str": "Activate Proof of Determination" }
+  },
+  {
+    "type": "item_action",
+    "id": "SKYISLAND_PROOF_Mastery",
+    "name": { "str": "Activate Proof of Mastery" }
   }
 ]
